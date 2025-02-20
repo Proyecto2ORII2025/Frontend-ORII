@@ -4,12 +4,12 @@ export default function Footer() {
     return (
         <div className="flex flex-col gap-20 md:gap-0 justify-between h-full md:h-80 bg-security text-[#73737e] p-8">
             <div className="flex justify-between flex-col md:flex-row gap-20">
-                <div className="flex flex-col gap-3 font-bold">
-                    <span className="text-2xl">Universidad del Cauca</span>
+                <div className="flex flex-col gap-3 font-bold text-md md:text-2xl">
+                    <span>Universidad del Cauca</span>
                     <span>NIT. 891500319-2</span>
                 </div>
 
-                <div className="flex gap-5 h-16 items-center text-sm">
+                <div className="flex gap-5 h-16 items-center text-[12px] md:text-sm">
                     <div className="flex flex-col gap-2 items-start md:items-end">
                         <p>Oficina de Relaciones Interinstitucionales e Internacionales</p>
                         <p>Vicerrectoría</p>
@@ -17,7 +17,7 @@ export default function Footer() {
                     </div>
                     <div className="border border-[#73737e] h-full"></div>
                     
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 text-[12px] md:text-sm">
                         <span>División de Tecnologías de la Información y las Comunicaciones - TIC</span>
                         <span>Version 1.0</span>
                         <span>2025</span>
