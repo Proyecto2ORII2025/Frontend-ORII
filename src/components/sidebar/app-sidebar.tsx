@@ -31,39 +31,43 @@ const data = {
     navMain: [
         {
             title: "Inicio",
-            url: "#",
+            url: "/home",
             icon: Home,
             isActive: true,
             items: [
                 {
                     title: "Acerca de ORII",
-                    url: "#",
+                    url: "/home",
                 },
             ],
         },
         {
             title: "Convenios",
-            url: "#",
+            url: "/agreements",
             icon: Globe,
             items: [
                 {
+                    title: "Listar convenios",
+                    url: "/agreements",
+                },
+                {
                     title: "Crear convenio",
-                    url: "#",
+                    url: "/agreements/create",
                 },
             ],
         },
         {
             title: "Movilidad",
-            url: "#",
+            url: "/movility",
             icon: PlaneTakeoff,
             items: [
                 {
-                    title: "Solicitudes",
-                    url: "#",
+                    title: "Listar movilidades",
+                    url: "/movility",
                 },
                 {
-                    title: "Estudiantes",
-                    url: "#",
+                    title: "Crear movilidad",
+                    url: "/movility/create",
                 },
             ],
         },
@@ -74,10 +78,6 @@ const data = {
             items: [
                 {
                     title: "Reportes",
-                    url: "#",
-                },
-                {
-                    title: "Estadisticas",
                     url: "#",
                 },
                 {
@@ -92,7 +92,7 @@ const data = {
             icon: UserRoundPlus,
             items: [
                 {
-                    title: "Estudiantes",
+                    title: "Crear usuario",
                     url: "#",
                 },
             ],
@@ -108,13 +108,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <Image
                         src={"/ORII.webp"}
                         alt="Logo"
-                        width={180}
-                        height={180}
+                        width={150}
+                        height={150}
                         className="group-data-[collapsible=icon]:w-0"
                     />
                 </Link>
             </SidebarHeader>
-            <SidebarContent className="bg-blueDark text-white pt-10">
+            <SidebarContent className="bg-blueDark text-white pt-8">
                 <NavMain items={data.navMain} />
             </SidebarContent>
             <SidebarFooter className="bg-blueDark text-white">

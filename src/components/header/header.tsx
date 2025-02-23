@@ -1,15 +1,13 @@
-import { Label } from "@/components/ui/label"
+import DynamicBreadCrumb from "@/components/dynamicBreadCrumb/dynamicBreadCrumb";
+import { Label } from "@/components/ui/label";
 import {
     Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
     BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import Link from "next/link"
+} from "@/components/ui/breadcrumb";
 
 export default function Header() {
+
+
     return (
         <>
             <header className="border-b-2 border-tertiary/15 w-full">
@@ -19,23 +17,9 @@ export default function Header() {
             </header>
             <Breadcrumb className="py-4">
                 <BreadcrumbList>
-                    <BreadcrumbItem>
-                        <BreadcrumbLink asChild>
-                            <Link href="/">Inicio</Link>
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbLink asChild>
-                            <Link href="/convenio">Convenio</Link>
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbPage>Crear convenio</BreadcrumbPage>
-                    </BreadcrumbItem>
+                    <DynamicBreadCrumb />
                 </BreadcrumbList>
             </Breadcrumb>
         </>
-    )
+    );
 }
