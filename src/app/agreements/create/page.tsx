@@ -1,11 +1,10 @@
 import MainLayout from "@/components/mainLayout/mainLayout";
+import Title from "@/components/ui/title";
 
 export default function CreateAgreement () {
     return (
         <MainLayout>
-            <h1>
-                Crear convenio
-            </h1>
+            <Title title="Crear convenio" />
         </MainLayout>
     )
 }

@@ -1,11 +1,10 @@
 import MainLayout from "@/components/mainLayout/mainLayout";
+import Title from "@/components/ui/title";
 
 export default function CreateMovility() {
     return (
         <MainLayout>
-            <h1>
-                Crear movilidad
-            </h1>
+            <Title title="Crear movilidad" />
         </MainLayout>
 
     )

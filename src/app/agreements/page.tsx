@@ -1,11 +1,10 @@
 import MainLayout from "@/components/mainLayout/mainLayout";
+import Title from "@/components/ui/title";
 
 export default function Agreements() {
     return (
         <MainLayout>
-            <h1>
-                Listar convenios
-            </h1>
+            <Title title="Lista de convenios" />
         </MainLayout>
     );
 }
