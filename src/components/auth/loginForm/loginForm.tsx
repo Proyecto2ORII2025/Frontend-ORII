@@ -6,7 +6,6 @@ import LabeledInput from "@/components/ui/labeledInput";
 import LoginHeader from "./header/header";
 
 export default function LoginForm() {
-
     return (
         <div className="flex flex-col items-center gap-3 w-full md:w-1/2">
             <div className="w-full p-2">
@@ -22,6 +21,7 @@ export default function LoginForm() {
                     <LabeledInput
                         label="Correo institucional"
                         id="email"
+                        type="email"
                         placeholder="Correo institucional"
                         required
                     />
