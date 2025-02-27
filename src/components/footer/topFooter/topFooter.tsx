@@ -5,8 +5,8 @@ export default function Footer() {
         <div className="flex flex-col gap-20 md:gap-0 justify-between h-full md:h-80 bg-security text-[#73737e] p-8">
             <div className="flex justify-between flex-col md:flex-row gap-20">
                 <div className="flex flex-col gap-3 font-bold text-md md:text-2xl">
-                    <span>Universidad del Cauca</span>
-                    <span>NIT. 891500319-2</span>
+                    <span className="text-xl md:text-2xl">Universidad del Cauca</span>
+                    <span className="text-sm md:text-base">NIT. 891500319-2</span>
                 </div>
 
                 <div className="flex gap-5 h-16 items-center text-[12px] md:text-sm">
