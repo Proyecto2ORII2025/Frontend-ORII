@@ -1,23 +1,27 @@
 "use client"
 
 import * as React from "react";
-import { CheckCircle, XCircle } from "lucide-react";
-
+import { CircleCheck, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const EmailInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-    ({ className, ...props }, ref) => {
-        const [value, setValue] = React.useState("");
+    ({ className, onChange, ...props }, ref) => {
         const [isValidEmail, setIsValidEmail] = React.useState<null | boolean>(null);
 
+        // Handler que combina la validación interna con el onChange de React Hook Form
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const newValue = e.target.value;
-            setValue(newValue);
-
+            
+            // Validación del dominio de correo institucional
             if (newValue.includes("@")) {
                 setIsValidEmail(/@unicauca\.edu\.co$/.test(newValue));
             } else {
                 setIsValidEmail(null);
+            }
+            
+            // El onChange original también se ejecuta
+            if (onChange) {
+                onChange(e);
             }
         };
 
@@ -31,7 +35,6 @@ const EmailInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"inpu
                         className
                     )}
                     ref={ref}
-                    value={value}
                     onChange={handleChange}
                     {...props}
                 />
@@ -39,7 +42,7 @@ const EmailInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"inpu
                 {isValidEmail !== null && (
                     <div className="absolute right-3">
                         {isValidEmail ? (
-                            <CheckCircle className="h-5 w-5 text-accesibility/70" />
+                            <CircleCheck className="h-5 w-5 text-accesibility/70" />
                         ) : (
                             <XCircle className="h-5 w-5 text-error/70" />
                         )}
