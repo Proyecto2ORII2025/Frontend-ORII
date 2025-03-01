@@ -42,7 +42,7 @@ export default function LoginForm() {
         // Validación de credenciales jeje
         if (data.email === validCredentials.email && data.password === validCredentials.password) {
             toast.success("¡Inicio de sesión exitoso!");
-            router.push("/home");
+            router.push("/dashboard/home");
         } else {
             setAuthError("El correo o la contraseña son incorrectos.");
         }
@@ -102,7 +102,7 @@ export default function LoginForm() {
                     
                     <span className="text-gray-700 text-center">ó</span>
                     
-                    {/* <Link href="/home" className="w-full"> */}
+                    {/* <Link href="/dashboard/home" className="w-full"> */}
                     <Button variant="secondary" type="submit" className="w-full">
                         <Image src="/google.svg" alt="Google" height={20} width={20} className="block group-hover:hidden" />
                         <Image src="/googlewhite.svg" alt="Google" height={20} width={20} className="hidden group-hover:block" />

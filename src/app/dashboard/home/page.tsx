@@ -1,11 +1,10 @@
-import MainLayout from "@/components/mainLayout/mainLayout";
 import Title from "@/components/ui/title";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Globe2 } from "lucide-react";
 
 export default function Home() {
     return (
-        <MainLayout>
+        <>
             <Title title="Inicio" />
             <div className="py-6">
                 <Card>
@@ -44,6 +43,6 @@ export default function Home() {
                     </CardContent>
                 </Card>
             </div>
-        </MainLayout>
+        </>
     );
 }

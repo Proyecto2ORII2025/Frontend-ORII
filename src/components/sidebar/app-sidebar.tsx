@@ -31,43 +31,43 @@ const data = {
     navMain: [
         {
             title: "Inicio",
-            url: "/home",
+            url: "/dashboard/home",
             icon: Home,
             isActive: true,
             items: [
                 {
                     title: "Acerca de ORII",
-                    url: "/home",
+                    url: "/dashboard/home",
                 },
             ],
         },
         {
             title: "Convenios",
-            url: "/agreements",
+            url: "/dashboard/agreements",
             icon: Globe,
             items: [
                 {
                     title: "Listar convenios",
-                    url: "/agreements",
+                    url: "/dashboard/agreements",
                 },
                 {
                     title: "Crear convenio",
-                    url: "/agreements/create",
+                    url: "/dashboard/agreements/create",
                 },
             ],
         },
         {
             title: "Movilidad",
-            url: "/movility",
+            url: "/dashboard/movility",
             icon: PlaneTakeoff,
             items: [
                 {
                     title: "Listar movilidades",
-                    url: "/movility",
+                    url: "/dashboard/movility",
                 },
                 {
                     title: "Crear movilidad",
-                    url: "/movility/create",
+                    url: "/dashboard/movility/create",
                 },
             ],
         },
@@ -100,7 +100,7 @@ const data = {
     ]
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export const AppSidebar = React.memo(function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader className="bg-blueDark text-white p-4 items-start">
@@ -123,4 +123,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarRail />
         </Sidebar>
     )
-}
+});
