@@ -8,50 +8,51 @@ import LoginHeader from "./header/header";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "@/validations/userSchema";
-import { useContext, useEffect } from "react";
+import { toast } from "sonner";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { AuthContext } from "@/context/authContext";
+import { loadCredentials, saveCredentials, clearCredentials } from "@/lib/rememberMe";
 
 export default function LoginForm() {
     const router = useRouter();
+    const [rememberMe, setRememberMe] = useState(false);
     
-    // Usar el contexto de autenticación
-    const { singin, user, loginError } = useContext(AuthContext);
-    
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
         resolver: zodResolver(userSchema),
         defaultValues: {
             email: "",
             password: ""
         },
-        mode: "onSubmit"
+        mode: "onChange"
     });
 
-    // Redireccionar según el rol del usuario
+    // Cargar credenciales guardadas al iniciar
     useEffect(() => {
-        if (!user) return;
-
-        if (user.role === "ADMIN") {
-            router.push("/admin");
-            return;
+        const savedCredentials = loadCredentials();
+        if (savedCredentials) {
+            setValue("email", savedCredentials.email);
+            setValue("password", savedCredentials.password);
+            setRememberMe(true);
         }
+    }, [setValue]);
 
-        if (user.role === "USER") {
-            router.push("/dashboard/home");
-            return;
-        }
-    }, [user, router]);
-
-    type FormData = {
+    interface FormData {
         email: string;
         password: string;
     }
 
-    const onSubmit = async (data: FormData) => {
+    const onSubmit = (data: FormData) => {
         console.log("Datos enviados:", data);
         
-        // Usar la función de autenticación del contexto
-        await singin(data);
+        // Manejar la opción de recordar credenciales
+        if (rememberMe) {
+            saveCredentials(data.email, data.password);
+        } else {
+            clearCredentials();
+        }
+        
+        toast.success("¡Inicio de sesión exitoso!");
+        router.push("/dashboard/home");
     };
 
     return (
@@ -72,6 +73,7 @@ export default function LoginForm() {
                         type="email"
                         placeholder="Correo institucional"
                         required={true}
+                        className={errors.email ? "border-error" : ""}
                         {...register("email")}
                     />
                     {errors.email && <span className="text-error text-[12px] md:text-sm">{errors.email.message}</span>}
@@ -82,18 +84,17 @@ export default function LoginForm() {
                         placeholder="Contraseña"
                         type="password"
                         required={true}
+                        className={errors.password ? "border-error" : ""}
                         {...register("password")}
                     />
                     {errors.password && <span className="text-error text-[12px] md:text-sm">{errors.password.message}</span>}
                     
-                    {loginError && (
-                        <span className="text-error text-[12px] md:text-sm">
-                            Usuario o contraseña incorrectos
-                        </span>
-                    )}
-                    
                     <div className="flex items-center space-x-2 pb-2">
-                        <Checkbox id="terms"/>
+                        <Checkbox
+                            id="terms"
+                            checked={rememberMe}
+                            onCheckedChange={(checked) => setRememberMe(checked === true)}
+                        />
                         <label
                             htmlFor="terms"
                             className="text-[12px] md:text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -102,13 +103,13 @@ export default function LoginForm() {
                         </label>
                     </div>
                     
-                    <Button type="submit" className="w-full">
+                    <Button variant="default" type="submit" className="w-full">
                         Iniciar sesión
                     </Button>
                     
                     <span className="text-gray-700 text-center">ó</span>
                     
-                    <Button variant="secondary" type="button" className="w-full">
+                    <Button variant="secondary" type="submit" className="w-full">
                         <Image src="/google.svg" alt="Google" height={20} width={20} className="block group-hover:hidden" />
                         <Image src="/googlewhite.svg" alt="Google" height={20} width={20} className="hidden group-hover:block" />
                         <span className="text-[12px] md:text-sm">Iniciar sesión con Google</span>
