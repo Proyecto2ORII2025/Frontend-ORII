@@ -33,7 +33,7 @@ const Label = React.forwardRef<
     {required && <span className="font-semibold text-error">
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger>*</TooltipTrigger>
+          <TooltipTrigger type="button">*</TooltipTrigger>
           <TooltipContent>
             <p>Este campo es obligatorio</p>
           </TooltipContent>

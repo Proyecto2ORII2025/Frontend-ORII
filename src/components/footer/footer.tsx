@@ -4,7 +4,7 @@ export default function Footer() {
             <div className="flex justify-center w-full">
                 <header className="border-b-2 border-neutral-500 w-5/6 md:w-2/3" />
             </div>
-            <div className="flex flex-col items-center justify-center text-gray-500 text-sm pt-6 text-center">
+            <div className="flex flex-col items-center justify-center text-gray-500 text-[10px] md:text-sm pt-3 md:pt-6 text-center">
                 <span>
                     2025 | Sistema de gestión de movilidad ORII | Vicerrectoría
                 </span>

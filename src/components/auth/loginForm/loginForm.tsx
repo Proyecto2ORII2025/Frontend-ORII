@@ -61,12 +61,12 @@ export default function LoginForm() {
                 <LoginHeader />
             </div>
             <div className="flex flex-col justify-center items-center w-full h-full py-10 md:py-0">
-                <div className="flex flex-col items-start w-1/2">
+                <div className="flex flex-col items-start w-[70%] md:w-[50%]">
                     <h1 className="text-2xl md:text-3xl text-blue font-bold">
                         Inicio de sesión
                     </h1>
                 </div>
-                <form className="flex flex-col gap-3 w-1/2 py-10" onSubmit={handleSubmit(onSubmit)}>
+                <form className="flex flex-col gap-3 w-[70%] md:w-[50%] py-10" onSubmit={handleSubmit(onSubmit)}>
                     <LabeledInput
                         label="Correo institucional"
                         id="email"
