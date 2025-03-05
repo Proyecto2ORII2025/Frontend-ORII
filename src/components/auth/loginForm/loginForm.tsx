@@ -8,13 +8,15 @@ import LoginHeader from "./header/header";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "@/validations/userSchema";
-import { toast } from "sonner";
-import { useState } from "react";
+import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { AuthContext } from "@/context/authContext";
 
 export default function LoginForm() {
-    const [authError, setAuthError] = useState("");
     const router = useRouter();
+    
+    // Usar el contexto de autenticación
+    const { singin, user, loginError } = useContext(AuthContext);
     
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(userSchema),
@@ -25,27 +27,31 @@ export default function LoginForm() {
         mode: "onSubmit"
     });
 
-    interface FormData {
+    // Redireccionar según el rol del usuario
+    useEffect(() => {
+        if (!user) return;
+
+        if (user.role === "ADMIN") {
+            router.push("/admin");
+            return;
+        }
+
+        if (user.role === "USER") {
+            router.push("/dashboard/home");
+            return;
+        }
+    }, [user, router]);
+
+    type FormData = {
         email: string;
         password: string;
     }
 
-    // Credenciales de prueba jeje
-    const validCredentials = {
-        email: "cmperdomo@unicauca.edu.co",
-        password: "aguapanela"
-    };
-
-    const onSubmit = (data: FormData) => {
+    const onSubmit = async (data: FormData) => {
         console.log("Datos enviados:", data);
         
-        // Validación de credenciales jeje
-        if (data.email === validCredentials.email && data.password === validCredentials.password) {
-            toast.success("¡Inicio de sesión exitoso!");
-            router.push("/dashboard/home");
-        } else {
-            setAuthError("El correo o la contraseña son incorrectos.");
-        }
+        // Usar la función de autenticación del contexto
+        await singin(data);
     };
 
     return (
@@ -80,9 +86,9 @@ export default function LoginForm() {
                     />
                     {errors.password && <span className="text-error text-[12px] md:text-sm">{errors.password.message}</span>}
                     
-                    {authError && (
-                        <span className="text-error text-sm">
-                            {authError}
+                    {loginError && (
+                        <span className="text-error text-[12px] md:text-sm">
+                            Usuario o contraseña incorrectos
                         </span>
                     )}
                     
@@ -96,14 +102,13 @@ export default function LoginForm() {
                         </label>
                     </div>
                     
-                    <Button variant="default" type="submit" className="w-full">
+                    <Button type="submit" className="w-full">
                         Iniciar sesión
                     </Button>
                     
                     <span className="text-gray-700 text-center">ó</span>
                     
-                    {/* <Link href="/dashboard/home" className="w-full"> */}
-                    <Button variant="secondary" type="submit" className="w-full">
+                    <Button variant="secondary" type="button" className="w-full">
                         <Image src="/google.svg" alt="Google" height={20} width={20} className="block group-hover:hidden" />
                         <Image src="/googlewhite.svg" alt="Google" height={20} width={20} className="hidden group-hover:block" />
                         <span className="text-[12px] md:text-sm">Iniciar sesión con Google</span>

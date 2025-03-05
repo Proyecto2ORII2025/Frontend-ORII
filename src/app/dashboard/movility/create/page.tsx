@@ -5,6 +5,5 @@ export default function CreateMovility() {
         <>
             <Title title="Crear movilidad" />
         </>
-
     )
 }

@@ -1,6 +1,6 @@
 import MainFooter from "../mainFooter/mainFooter";
 
-export default function Footer() {
+export default function TopFooter() {
     return (
         <div className="flex flex-col gap-20 md:gap-0 justify-between h-full md:h-80 bg-security text-[#73737e] p-8">
             <div className="flex justify-between flex-col md:flex-row gap-20">

@@ -1,7 +1,7 @@
 import LoginForm from "@/components/auth/loginForm/loginForm";
 import InfoSection from "@/components/auth/infoSection/infoSection";
 import MultiColorBar from "@/components/ui/multiColorBar";
-import Footer from "@/components/footer/topFooter/topFooter";
+import TopFooter from "@/components/footer/topFooter/topFooter";
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
         <InfoSection />
       </div>
       <MultiColorBar />
-      <Footer />
+      <TopFooter />
     </>
   );
 }
