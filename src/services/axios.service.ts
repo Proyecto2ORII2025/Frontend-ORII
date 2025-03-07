@@ -2,7 +2,8 @@ import axios from "axios";
 
 import { apiUrl } from "./env.service";
 
-const tokenUser = localStorage.getItem('user') || "";
+// const tokenUser = localStorage.getItem('user') || "";
+const tokenUser = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDAsInN1YiI6Imp1bGlhbnJ1YW5vQHVuaWNhdWNhLmVkdS5jbyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc0MTM2Nzc2MiwiZXhwIjoxNzQxNDAzNzYyfQ.RLzDXes_W2BS-FQbikRtetlnE_zoyPrp-1-Z00qQelE";
 
 /**
  * Axios instance configured with default settings.
