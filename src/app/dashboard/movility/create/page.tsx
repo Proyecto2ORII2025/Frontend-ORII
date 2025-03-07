@@ -46,58 +46,74 @@ export default function CreateMovility() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                <Input
-                    type="date"
-                    placeholder="Fecha de inicio"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                />
-                <Input
-                    type="date"
-                    placeholder="Fecha de fin"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                />
-                <Select
-                    value={faculty}
-                    onChange={handleFacultyChange}
-                    options={[
-                        { label: "Facultad de Artes", value: "artes" },
-                        { label: "Facultad de Ciencias Agrarias", value: "ciencias_agrarias" },
-                        { label: "Facultad de Ciencias de la Salud", value: "ciencias_salud" },
-                        { label: "Facultad de Ciencias Contables, Económicas y Administrativas", value: "contables_economicas" },
-                        { label: "Facultad de Ciencias Humanas y Sociales", value: "humanas_sociales" },
-                        { label: "Facultad de Ciencias Naturales, Exactas y de la Educación", value: "naturales_exactas" },
-                        { label: "Facultad de Derecho, Ciencias Políticas y Sociales", value: "derecho_politicas" },
-                        { label: "Facultad de Ingeniería Civil", value: "ingenieria_civil" },
-                        { label: "Facultad de Ingeniería Electrónica y Telecomunicaciones", value: "ingenieria_telecomunicaciones" },
-                    ]}
-                    placeholder="Seleccione una facultad"
-                />
-                <Select
-                    value={program}
-                    onChange={(e) => setProgram(e.target.value)}
-                    options={faculty ? programsByFaculty[faculty] || [] : []}
-                    placeholder="Seleccione un programa"
-                />
-                <Select
-                    value={mobilityType}
-                    onChange={(e) => setMobilityType(e.target.value)}
-                    options={[
-                        { label: "Entrada", value: "entrada" },
-                        { label: "Salida", value: "salida" },
-                    ]}
-                    placeholder="Tipo de movilidad"
-                />
-                <Select
-                    value={mobilityScope}
-                    onChange={(e) => setMobilityScope(e.target.value)}
-                    options={[
-                        { label: "Nacional", value: "nacional" },
-                        { label: "Internacional", value: "internacional" },
-                    ]}
-                    placeholder="Ámbito de movilidad"
-                />
+            <div>
+                    <label className="block text-sm font-medium text-gray-700">Fecha de inicio</label>
+                    <Input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Fecha de fin</label>
+                    <Input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Facultad</label>
+                    <Select
+                        value={faculty}
+                        onChange={handleFacultyChange}
+                        options={[
+                            { label: "Facultad de Artes", value: "artes" },
+                            { label: "Facultad de Ciencias Agrarias", value: "ciencias_agrarias" },
+                            { label: "Facultad de Ciencias de la Salud", value: "ciencias_salud" },
+                            { label: "Facultad de Ciencias Contables, Económicas y Administrativas", value: "contables_economicas" },
+                            { label: "Facultad de Ciencias Humanas y Sociales", value: "humanas_sociales" },
+                            { label: "Facultad de Ciencias Naturales, Exactas y de la Educación", value: "naturales_exactas" },
+                            { label: "Facultad de Derecho, Ciencias Políticas y Sociales", value: "derecho_politicas" },
+                            { label: "Facultad de Ingeniería Civil", value: "ingenieria_civil" },
+                            { label: "Facultad de Ingeniería Electrónica y Telecomunicaciones", value: "ingenieria_telecomunicaciones" },
+                        ]}
+                        placeholder="Seleccione una facultad"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Programa</label>
+                    <Select
+                        value={program}
+                        onChange={(e) => setProgram(e.target.value)}
+                        options={faculty ? programsByFaculty[faculty] || [] : []}
+                        placeholder="Seleccione un programa"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Tipo de movilidad</label>
+                    <Select
+                        value={mobilityType}
+                        onChange={(e) => setMobilityType(e.target.value)}
+                        options={[
+                            { label: "Entrada", value: "entrada" },
+                            { label: "Salida", value: "salida" },
+                        ]}
+                        placeholder="Tipo de movilidad"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Ámbito de movilidad</label>
+                    <Select
+                        value={mobilityScope}
+                        onChange={(e) => setMobilityScope(e.target.value)}
+                        options={[
+                            { label: "Nacional", value: "nacional" },
+                            { label: "Internacional", value: "internacional" },
+                        ]}
+                        placeholder="Ámbito de movilidad"
+                    />
+                </div>
             </div>
 
             <div className="flex gap-4 mt-6">
