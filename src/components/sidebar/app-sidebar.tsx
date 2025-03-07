@@ -110,7 +110,7 @@ export const AppSidebar = React.memo(function AppSidebar({ ...props }: React.Com
                         alt="Logo"
                         width={150}
                         height={150}
-                        className="group-data-[collapsible=icon]:w-0"
+                        className="group-data-[collapsible=icon]:w-0 orii-logo"
                     />
                 </Link>
             </SidebarHeader>

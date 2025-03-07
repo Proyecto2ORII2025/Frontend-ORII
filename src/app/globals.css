@@ -11,6 +11,14 @@ body {
   @apply text-xs md:text-sm;
 }
 
+.orii-logo {
+  @apply w-auto h-auto;
+}
+
+.u-blue-logo {
+  @apply w-[30px] md:w-[50px] h-auto;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
