@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import { Select } from "@/components/ui/basic-select";
 import Title from "@/components/ui/title";
 
-const programsByFaculty = {
+/**const programsByFaculty = {
     artes: [{ label: "Música", value: "musica" }],
     ciencias_agrarias: [{ label: "Agronomía", value: "agronomia" }],
     ciencias_salud: [{ label: "Enfermería", value: "enfermeria" }],
@@ -16,7 +16,14 @@ const programsByFaculty = {
     derecho_politicas: [{ label: "Derecho", value: "derecho" }],
     ingenieria_civil: [{ label: "Ingeniería Civil", value: "ingenieria_civil" }],
     ingenieria_telecomunicaciones: [{ label: "Ingeniería de Sistemas", value: "sistemas" }],
+};*/
+
+const programsByFaculty: Record<string, { label: string; value: string }[]> = {
+    artes: [{ label: "Música", value: "musica" }],
+    ciencias_agrarias: [{ label: "Agronomía", value: "agronomia" }],
+    // Agregar más facultades...
 };
+
 
 export default function CreateMovility() {
     const [startDate, setStartDate] = useState("");
@@ -26,10 +33,10 @@ export default function CreateMovility() {
     const [mobilityType, setMobilityType] = useState("");
     const [mobilityScope, setMobilityScope] = useState("");
 
-    const handleFacultyChange = (e) => {
+    const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setFaculty(e.target.value);
-        setProgram(""); // Reiniciar el programa cuando cambia la facultad
-    };
+        setProgram(""); 
+    };    
 
     return (
         <div className="p-6">
