@@ -64,7 +64,7 @@ export default function StatisticsPage() {
                         <PieChartMobilityByEvent />
                     </div>
                 </div>
-            </div>
+            </div> 
         </>
     );
 }

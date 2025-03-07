@@ -2,8 +2,11 @@ import axios from "axios";
 
 import { apiUrl } from "./env.service";
 
-//const tokenUser = localStorage.getItem('user') || "";
-const tokenUser = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDAsInN1YiI6Imp1bGlhbnJ1YW5vQHVuaWNhdWNhLmVkdS5jbyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc0MTI5NjkyMCwiZXhwIjoxNzQxMzMyOTIwfQ.CDq5KQkM9HhTSMDzpU9avccvYSRDfQDmc_zn1QV2-ik";
+let tokenUser: string = "";
+if (typeof window !== "undefined") {
+    tokenUser = localStorage.getItem('user') || "";
+}
+tokenUser = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDAsInN1YiI6Imp1bGlhbnJ1YW5vQHVuaWNhdWNhLmVkdS5jbyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc0MTM2NTc2NSwiZXhwIjoxNzQxNDAxNzY1fQ.VmPU7SgXYnVryTr8sAJGCF3MxeOm5i-6q9ErS7ch528";
 
 /**
  * Axios instance configured with default settings.
