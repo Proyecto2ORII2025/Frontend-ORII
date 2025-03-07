@@ -1,6 +1,6 @@
 import MainFooter from "../mainFooter/mainFooter";
 
-export default function Footer() {
+export default function TopFooter() {
     return (
         <div className="flex flex-col gap-20 md:gap-0 justify-between h-full md:h-80 bg-security text-[#73737e] p-8">
             <div className="flex justify-between flex-col md:flex-row gap-20">
@@ -9,7 +9,7 @@ export default function Footer() {
                     <span className="text-sm md:text-base">NIT. 891500319-2</span>
                 </div>
 
-                <div className="flex gap-5 h-16 items-center text-[12px] md:text-sm">
+                <div className="flex gap-5 h-16 items-center">
                     <div className="flex flex-col gap-2 items-start md:items-end">
                         <p>Oficina de Relaciones Interinstitucionales e Internacionales</p>
                         <p>Vicerrectoría</p>
