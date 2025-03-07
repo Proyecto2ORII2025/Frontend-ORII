@@ -48,7 +48,6 @@ export default function CreateAgreement() {
                                 </div>
                                 <Input id="pais" placeholder="Ingrese el país" />
                             </div>
-
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2">
                                     <Label htmlFor="codigo">Código</Label>
