@@ -26,7 +26,7 @@ const createOptions = (labels: string[]): ChartOptions<'bar'> => ({
       ticks: {
         callback: function (tickValue: string | number, index: number): string {
           const label = labels[index];
-          return label.length > 20 ? label.substring(0, 23) + "..." : label;
+          return label.length > 20 ? label.substring(0, 20) + "..." : label;
         },
       },
     },
