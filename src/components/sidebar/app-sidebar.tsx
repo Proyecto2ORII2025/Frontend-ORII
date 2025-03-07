@@ -72,16 +72,16 @@ const data = {
             ],
         },
         {
-            title: "Estadisticas",
-            url: "#",
+            title: "Estadísticas",
+            url: "/dashboard/statistics",
             icon: ChartColumnIncreasing,
             items: [
                 {
-                    title: "Reportes",
-                    url: "#",
+                    title: "Gráficos",
+                    url: "/dashboard/statistics",
                 },
                 {
-                    title: "Gráficos",
+                    title: "Reportes",
                     url: "#",
                 },
             ],
