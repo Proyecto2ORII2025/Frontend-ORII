@@ -2,10 +2,10 @@
 
 import Title from "@/components/ui/title";
 import Chart from "@/components/statistics/chart";
-import BarChartMobilityByFaculty from "@/components/statistics/barChart/barChartMobilityByFaculty";
-import BarChartMobilityByCountry from "@/components/statistics/barChart/barChartMobilityByCountry";
-//import BarChartMobilitiesPerYear from "@/components/statistics/barChart/barChartMobilityPerYear";
-import BarChartMobilityByEvent from "@/components/statistics/barChart/barChartMobilityByEvent";
+import BarChartMobilityByFaculty from "@/components/statistics/barChart/BarChartMobilityByFaculty";
+import BarChartMobilityByCountry from "@/components/statistics/barChart/BarChartMobilityByCountry";
+import BarChartMobilitiesPerYear from "@/components/statistics/barChart/BarChartMobilityPerYear";
+import BarChartMobilityByEvent from "@/components/statistics/barChart/BarChartMobilityByEvent";
 import LineChartMobilityTrend from "@/components/statistics/lineChart/LineChartMobilityTrend";
 import PieChartMobilityByEvent from "@/components/statistics/pieChart/PieChartMobilityByEvent";
 
@@ -22,9 +22,9 @@ export default function StatisticsPage() {
                 <Chart title="Movilidad por paises">
                     <BarChartMobilityByCountry />
                 </Chart>
-                {/*<Chart title="Movilidades por año">
+                <Chart title="Movilidades por año">
                     <BarChartMobilitiesPerYear />
-                </Chart>*/}
+                </Chart>
                 <Chart title="Movilidades por Evento">
                     <BarChartMobilityByEvent />
                 </Chart>

@@ -56,7 +56,6 @@ export default function BarChartMobilityByCountry() {
         const fetchData = async () => {
         try {
             const response = await getStatistics.getMobilityByCountry();
-
             const data = {
             labels: response.data.country,
             datasets: [
