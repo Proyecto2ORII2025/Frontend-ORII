@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Plus, Download, Filter, Eye } from "lucide-react";
+import { Search, Plus, Download, Filter, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,30 +11,28 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Title from "@/components/ui/title";
 import Link from "next/link";
-import { getFilteredAgreements } from "@/services/agreement.service";
-import { AgreementWithoutScope } from "./types/requestApiTypes";
+import { useAgreementsData } from "./hooks/agreemetsHooks";
+import { useRouter } from "next/navigation";
+import { deleteAgrement } from "@/services/agreement.service";
 
 export default function Agreements() {
-  const [nationalAgreements, setNationalAgreements] = useState<
-    AgreementWithoutScope[]
-  >([]);
-  const [internationalAgreements, setInternationalAgreements] = useState<
-    AgreementWithoutScope[]
-  >([]);
+  const router = useRouter();
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
-  useEffect(() => {
-    async function fetchAgreements() {
-      const { national, international } = await getFilteredAgreements();;
+  const { nationalAgreements, internationalAgreements } =
+    useAgreementsData(refreshFlag);
 
-      setNationalAgreements(national);
-      setInternationalAgreements(international);
-    }
+  const handleEdit = (agreementId: number) => {
+    router.push(`/dashboard/agreements/${agreementId}/edit`);
+  };
 
-    fetchAgreements();
-  }, []);
+  async function handleRemoveAgreement(agreementId: number) {
+    await deleteAgrement(agreementId);
+    setRefreshFlag((prev) => !prev);
+  }
 
   const [, setActiveTab] = useState("nacional");
 
@@ -149,7 +147,10 @@ export default function Agreements() {
                 </thead>
                 <tbody className="divide-y">
                   {nationalAgreements.map((convenio) => (
-                    <tr key={convenio.agreementId} className="hover:bg-muted/50">
+                    <tr
+                      key={convenio.agreementId}
+                      className="hover:bg-muted/50"
+                    >
                       <td className="px-4 py-3">{convenio.country}</td>
                       <td className="px-4 py-3">{convenio.institution}</td>
                       <td className="px-4 py-3">{convenio.agreementNumber}</td>
@@ -169,17 +170,21 @@ export default function Agreements() {
                             variant="outline"
                             size="sm"
                             className="bg-tertiary/30 hover:bg-tertiary/40 text-tertiary/80 border-tertiary/50"
+                            onClick={() => handleEdit(convenio.agreementId)}
                           >
-                            <Eye className="h-4 w-4" />
-                            <span className="sr-only">Ver</span>
+                            <Pencil className="h-4 w-4" />
+                            <span className="sr-only">Editar</span>
                           </Button>
                           <Button
+                            onClick={() =>
+                              handleRemoveAgreement(convenio.agreementId)
+                            }
                             variant="outline"
                             size="sm"
-                            className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300"
+                            className="bg-rose-100 hover:bg-rose-200 text-rose-700 border-rose-300"
                           >
-                            <Download className="h-4 w-4" />
-                            <span className="sr-only">Descargar</span>
+                            <Trash2 className="h-4 w-4" />
+                            <span className="sr-only">Eliminar</span>
                           </Button>
                         </div>
                       </td>
@@ -220,7 +225,10 @@ export default function Agreements() {
                 </thead>
                 <tbody className="divide-y">
                   {internationalAgreements.map((convenio) => (
-                    <tr key={convenio.agreementId} className="hover:bg-muted/50">
+                    <tr
+                      key={convenio.agreementId}
+                      className="hover:bg-muted/50"
+                    >
                       <td className="px-4 py-3">{convenio.country}</td>
                       <td className="px-4 py-3">{convenio.institution}</td>
                       <td className="px-4 py-3">{convenio.agreementNumber}</td>
@@ -240,17 +248,21 @@ export default function Agreements() {
                             variant="outline"
                             size="sm"
                             className="bg-tertiary/30 hover:bg-tertiary/40 text-tertiary/80 border-tertiary/50"
+                            onClick={() => handleEdit(convenio.agreementId)}
                           >
-                            <Eye className="h-4 w-4" />
-                            <span className="sr-only">Ver</span>
+                            <Pencil className="h-4 w-4" />
+                            <span className="sr-only">Editar</span>
                           </Button>
                           <Button
+                            onClick={() =>
+                              handleRemoveAgreement(convenio.agreementId)
+                            }
                             variant="outline"
                             size="sm"
-                            className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300"
+                            className="bg-rose-100 hover:bg-rose-200 text-rose-700 border-rose-300"
                           >
-                            <Download className="h-4 w-4" />
-                            <span className="sr-only">Descargar</span>
+                            <Trash2 className="h-4 w-4" />
+                            <span className="sr-only">Eliminar</span>
                           </Button>
                         </div>
                       </td>

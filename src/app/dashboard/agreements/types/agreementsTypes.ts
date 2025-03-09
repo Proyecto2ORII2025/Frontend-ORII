@@ -1,4 +1,4 @@
-export interface Agreement {
+export type Agreement = {
     agreementId: number;
     institution: string;
     agreementNumber: string;
@@ -9,4 +9,10 @@ export interface Agreement {
     status: "ACTIVE" | "INACTIVE";
 }
 
-export type AgreementWithoutScope = Omit<Agreement, "scope">;
+export type AgreementForPost = Omit<Agreement, "agreementId" | "status">;
+
+export type FilteredAgreements = {
+    national: Agreement[];
+    international: Agreement[];
+}
+
