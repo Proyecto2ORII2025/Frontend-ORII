@@ -1,55 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-  ChartOptions,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
 import { getStatistics } from "@/services/statistics.service";
-
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-
-const createOptions = (labels: string[]): ChartOptions<'bar'> => ({
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      title: {
-        display: true,
-        text: "Facultades",
-        color: "#333",
-      },
-      ticks: {
-        callback: function (tickValue: string | number, index: number): string {
-          const label = labels[index];
-          return label.length > 20 ? label.substring(0, 20) + "..." : label;
-        },
-      },
-    },
-    y: {
-      title: {
-        display: true,
-        text: "Número de estudiantes/docentes en movilidad",
-        color: "#333",
-      },
-    },
-  },
-});
-
-interface ChartData {
-  labels: string[];
-  datasets: {
-    label: string;
-    data: number[];
-    backgroundColor: string;
-    borderColor: string;
-    borderWidth: number;
-  }[];
-}
+import GenericBarChart from "./BarChartGeneric";
+import { ChartData } from "../../../validations/ChartTypes";
 
 export default function BarChartMobilityByFaculty() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -60,8 +12,7 @@ export default function BarChartMobilityByFaculty() {
     const fetchData = async () => {
       try {
         const response = await getStatistics.getMovilityByFaculty();
-        console.log(response.data.faculty);
-        const data: ChartData = {
+        const data = {
           labels: response.data.faculty,
           datasets: [
             {
@@ -80,7 +31,6 @@ export default function BarChartMobilityByFaculty() {
             },
           ],
         };
-
         setChartData(data);
       } catch (err) {
         setError("Error al cargar los datos");
@@ -89,7 +39,6 @@ export default function BarChartMobilityByFaculty() {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -97,9 +46,5 @@ export default function BarChartMobilityByFaculty() {
   if (error) return <div>{error}</div>;
   if (!chartData) return <div>No hay datos disponibles</div>;
 
-  return (
-    <div className="w mx-5 h-4/5">
-      <Bar data={chartData} options={createOptions(chartData.labels)} />
-    </div>
-  );
+  return <GenericBarChart data={chartData} titleX="Facultades" titleY="Número de estudiantes/docentes en movilidad" />;
 }

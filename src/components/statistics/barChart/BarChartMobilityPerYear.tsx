@@ -1,54 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+import GenericBarChart from "./BarChartGeneric";
 import { getStatistics } from "@/services/statistics.service";
-
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-  scales: {
-    x: {
-      title: {
-        display: true,
-        text: "Años",
-        color: "#333",
-      },
-    },
-    y: {
-      //max: 25,
-      title: {
-        display: true,
-        text: "Número de movilidades",
-        color: "#666",
-      },
-    },
-  },
-};
-
-interface ChartData {
-  labels: string[];
-  datasets: {
-    label: string;
-    data: number[];
-    backgroundColor: string;
-    borderWidth: number;
-    barPercentage: number;
-  }[];
-}
+import { ChartData } from "../../../validations/ChartTypes";
 
 export default function BarChartMobilityPerYear() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -64,7 +17,7 @@ export default function BarChartMobilityPerYear() {
           labels: response.data.years.reverse(),
           datasets: [
             {
-              label: 'Movilidades',
+              label: "Movilidades",
               data: response.data.amountMobility.reverse(),
               backgroundColor: "#8CBB22",
               borderWidth: 1,
@@ -89,10 +42,11 @@ export default function BarChartMobilityPerYear() {
   if (error) return <div>{error}</div>;
   if (!chartData) return <div>No hay datos disponibles</div>;
 
-
   return (
-    <div className="w mx-5 h-4/5">
-      <Bar data={chartData} options={options} />
-    </div>
+    <GenericBarChart
+      data={chartData}
+      titleX="Años"
+      titleY="Número de movilidades"
+    />
   );
 }
