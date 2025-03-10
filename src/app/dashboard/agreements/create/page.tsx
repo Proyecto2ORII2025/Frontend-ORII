@@ -20,11 +20,10 @@ export default async function CreateAgreement({ params }: Props) {
 
   return (
     <>
-      <div className="mb-8">
+      <div className="mb-4">
         <Title title={(await params)?.agreementId ? "Editar convenio": "Crear convenio"} />
         <p className="text-muted-foreground mt-2">
-          A continuación podrá crear un convenio. Por favor verifique que la
-          información ingresada es correcta e ingrese todos los campos.
+          { (await params)?.agreementId ? "A continuación podrá editar el convenio seleccionado. Por favor verifique que al información ingresada es correcta e ingrese todos los campos.": "A continuación podrá crear un convenio. Por favor verifique que la información ingresada es correcta e ingrese todos los campos." }
         </p>
       </div>
       <AgreementForm agreement={data}/>

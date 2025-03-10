@@ -85,7 +85,9 @@ export function AgreementForm({ agreement }: { agreement?: Agreement }) {
         <CardHeader>
           <CardTitle>Información del Convenio</CardTitle>
           <CardDescription>
-            Complete todos los campos requeridos para crear el convenio.
+            {agreement
+              ? "Cambie los campos que desea editar."
+              : "Complete todos los campos requeridos para crear el convenio."}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -105,6 +107,7 @@ export function AgreementForm({ agreement }: { agreement?: Agreement }) {
                 </TooltipProvider>
               </div>
               <Input
+                required
                 id="pais"
                 placeholder="Ingrese el país"
                 {...register("country")}
@@ -125,6 +128,7 @@ export function AgreementForm({ agreement }: { agreement?: Agreement }) {
                 </TooltipProvider>
               </div>
               <Input
+                required
                 id="codigo"
                 placeholder="Ingrese el código"
                 {...register("agreementNumber")}
@@ -147,6 +151,7 @@ export function AgreementForm({ agreement }: { agreement?: Agreement }) {
               </TooltipProvider>
             </div>
             <Input
+              required
               id="institucion"
               placeholder="Ingrese el nombre de la institución"
               {...register("institution")}
@@ -168,7 +173,12 @@ export function AgreementForm({ agreement }: { agreement?: Agreement }) {
                   </Tooltip>
                 </TooltipProvider>
               </div>
-              <Input id="fecha" type="date" {...register("startDate")} />
+              <Input
+                required
+                id="fecha"
+                type="date"
+                {...register("startDate")}
+              />
             </div>
 
             <div className="space-y-2">
@@ -186,6 +196,7 @@ export function AgreementForm({ agreement }: { agreement?: Agreement }) {
                 </TooltipProvider>
               </div>
               <Select
+                required
                 defaultValue={agreement?.scope}
                 onValueChange={handleChange}
               >
@@ -215,6 +226,7 @@ export function AgreementForm({ agreement }: { agreement?: Agreement }) {
               </TooltipProvider>
             </div>
             <Textarea
+              required
               id="descripcion"
               placeholder="Ingrese una descripción del convenio"
               className="min-h-[100px]"

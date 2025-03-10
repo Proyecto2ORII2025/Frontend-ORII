@@ -8,13 +8,19 @@ export const useAgreementsData = (refleshFlag: boolean) => {
         Agreement[]
     >([]);
 
-    useEffect(() => {
-        const loadAgreements = async () => {
-            const { national, international } = await getFilteredAgreements();
-            setNationalAgreements(national);
-            setInternationalAgreements(international);
-        }
+    const loadAgreements = async () => {
+        try {
+            const response = await getFilteredAgreements();
+            setNationalAgreements(response?.national || []);
+            setInternationalAgreements(response?.international || []);
+          } catch (err) {
+            console.error("Error al cargar los convenios:", err);
+            setNationalAgreements([]);
+            setInternationalAgreements([]);
+          }
+    }
 
+    useEffect(() => {
         loadAgreements();
     }, [refleshFlag]);
 
