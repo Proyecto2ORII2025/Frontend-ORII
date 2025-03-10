@@ -1,68 +1,7 @@
-import React, { useEffect, useState } from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  scales,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
+import React, { useState, useEffect } from "react";
 import { getStatistics } from "@/services/statistics.service";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  scales
-);
-
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false, 
-    },
-  },
-  scales: {
-    x: {
-      title: {
-        display: true,
-        text: "Año",
-        color: "#333",
-      },
-    },
-    y: {
-      //max: 10,
-      beginAtZero: true,
-      title: {
-        display: true,
-        text: "Número de movilidades",
-        color: "#333",
-      },
-    },
-  },
-};
-
-interface ChartData {
-    labels: string[];
-    datasets: {
-      data: number[];
-      borderColor: string;
-      pointBackgroundColor: string;
-      pointBorderColor: string;
-      pointBorderWidth: number;
-      pointRadius: number;
-    }[];
-}
+import LineChart from "./LineChart";
+import { ChartData } from "@/validations/ChartTypes";
 
 export default function LineChartMobilityTrend() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -73,29 +12,20 @@ export default function LineChartMobilityTrend() {
     const fetchData = async () => {
       try {
         const response = await getStatistics.getMobilityPerYear();
-
-        const data = {
+        setChartData({
             labels: response.data.years.reverse(),
             datasets: [
               {
-                label: '',
-                data: response.data.amountMobility.reverse(),
-                borderColor: "#9D0311",
-                pointBackgroundColor: "#ffffff",
-                pointBorderColor: "#9D0311",
-                pointBorderWidth: 2,
-                pointRadius: 2.5,
+                data: response.data.amountMobility.reverse()
               },
             ],
-          };
-
-        setChartData(data);
-      } catch (error) {
-        setError("Ocurrió un error al cargar los datos");
-        console.error("Error:", error);
-      } finally {
-        setLoading(false);
-      }
+          });
+        } catch (err) {
+          setError("Error al cargar los datos");
+          console.error("Error:", err);
+        } finally {
+          setLoading(false);
+        }
     };
 
     fetchData();
@@ -105,9 +35,5 @@ export default function LineChartMobilityTrend() {
   if (error) return <div>{error}</div>;
   if (!chartData) return <div>No hay datos disponibles</div>;
 
-  return (
-    <div className="w mx-5 h-4/5">
-      <Line data={chartData} options={options} />
-    </div>
-  );
+  return <LineChart xLabel="Año" yLabel="Número de movilidades" data={chartData} />;
 }

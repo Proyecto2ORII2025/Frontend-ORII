@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getStatistics } from "@/services/statistics.service";
-import GenericBarChart from "./BarChartGeneric";
-import { ChartData } from "../../../validations/ChartTypes";
+import BarChart from "./BarChart";
+import { ChartData } from "@/validations/ChartTypes";
 
 export default function BarChartMobilityByEvent() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -12,20 +12,17 @@ export default function BarChartMobilityByEvent() {
     const fetchData = async () => {
       try {
         const response = await getStatistics.getMobilityByEvent();
-        const data = {
+        setChartData({
           labels: response.data.agreementType,
           datasets: [
             {
               data: response.data.totalMobilityByAgreementsType,
-              backgroundColor: "#3182CE",
-              borderWidth: 1,
-            },
+            }
           ],
-        };
-        setChartData(data);
-      } catch (error) {
-        setError("Ocurrió un error al cargar los datos");
-        console.error("Error:", error);
+        });
+      } catch (err) {
+        setError("Error al cargar los datos");
+        console.error("Error:", err);
       } finally {
         setLoading(false);
       }
@@ -37,5 +34,5 @@ export default function BarChartMobilityByEvent() {
   if (error) return <div>{error}</div>;
   if (!chartData) return <div>No hay datos disponibles</div>;
 
-  return <GenericBarChart data={chartData} titleX="Evento" titleY="Número de movilidades" />;
+  return <BarChart xLabel="Evento" yLabel="Número de movilidades" data={chartData} />;
 }

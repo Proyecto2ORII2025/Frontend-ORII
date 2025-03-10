@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import GenericBarChart from "./BarChartGeneric";
+import React, { useState, useEffect } from "react";
 import { getStatistics } from "@/services/statistics.service";
-import { ChartData } from "../../../validations/ChartTypes";
+import BarChart from "./BarChart";
+import { ChartData } from "@/validations/ChartTypes";
 
 export default function BarChartMobilityPerYear() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -12,29 +12,21 @@ export default function BarChartMobilityPerYear() {
     const fetchData = async () => {
       try {
         const response = await getStatistics.getMobilityPerYear();
-
-        const data = {
+        setChartData({
           labels: response.data.years.reverse(),
           datasets: [
             {
-              label: "Movilidades",
-              data: response.data.amountMobility.reverse(),
-              backgroundColor: "#8CBB22",
-              borderWidth: 1,
-              barPercentage: 0.5,
+              data: response.data.amountMobility.reverse()
             },
           ],
-        };
-
-        setChartData(data);
-      } catch (error) {
+        });
+      } catch (err) {
         setError("Error al cargar los datos");
-        console.error("Error:", error);
+        console.error("Error:", err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -42,11 +34,5 @@ export default function BarChartMobilityPerYear() {
   if (error) return <div>{error}</div>;
   if (!chartData) return <div>No hay datos disponibles</div>;
 
-  return (
-    <GenericBarChart
-      data={chartData}
-      titleX="Años"
-      titleY="Número de movilidades"
-    />
-  );
+  return <BarChart xLabel="Años" yLabel="Número de movilidades" data={chartData} />;
 }

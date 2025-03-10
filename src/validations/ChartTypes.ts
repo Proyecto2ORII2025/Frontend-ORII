@@ -1,11 +1,13 @@
 export interface ChartData {
     labels: string[];
-    datasets: {
-        label?: string;
-        data: number[];
-        backgroundColor: string;
-        borderColor?: string;
-        borderWidth?: number;
-        barPercentage?: number;
+    datasets: { 
+        label?: string; 
+        data: number[] 
     }[];
+}
+
+export interface ChartProps {
+    xLabel?: string;
+    yLabel?: string;
+    data: ChartData;
 }
