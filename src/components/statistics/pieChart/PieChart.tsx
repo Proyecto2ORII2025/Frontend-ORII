@@ -9,10 +9,9 @@ import {
 } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { ChartProps } from "@/validations/ChartTypes";
+import { COLORS } from "../chartColors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
-const COLORS = ["#000066", "#9D0311"]; // Agregar mas colores
 
 const PieChart: React.FC<ChartProps> = ({ data }) => {
 
@@ -26,7 +25,7 @@ const PieChart: React.FC<ChartProps> = ({ data }) => {
         maintainAspectRatio: false,
         plugins: {
             legend: {
-                position: "right" as const,
+                position: "right" as const
             }
         },
         layout: {
@@ -39,7 +38,7 @@ const PieChart: React.FC<ChartProps> = ({ data }) => {
         datasets: data.datasets.map((dataset, i) => ({
             ...dataset,
             backgroundColor: data.datasets.length > 1 ? backgroundColors[i] : backgroundColors,
-            hoverOffset: 20,
+            hoverOffset: 17,
         })),
     };
 

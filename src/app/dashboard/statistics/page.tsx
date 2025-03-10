@@ -22,17 +22,17 @@ export default function StatisticsPage() {
                 <Chart title="Movilidad por paises">
                     <BarChartMobilityByCountry />
                 </Chart>
-                <Chart title="Movilidades por año">
-                    <BarChartMobilitiesPerYear />
+                <Chart title="Distribución por tipos de evento">
+                    <PieChartMobilityByEvent />
                 </Chart>
                 <Chart title="Movilidades por Evento">
                     <BarChartMobilityByEvent />
                 </Chart>
+                <Chart title="Movilidades por año">
+                    <BarChartMobilitiesPerYear />
+                </Chart>
                 <Chart title="Tendencia de movilidad anual">
                     <LineChartMobilityTrend />
-                </Chart>
-                <Chart title="Distribución por tipos de evento">
-                    <PieChartMobilityByEvent />
                 </Chart>
             </div> 
         </>

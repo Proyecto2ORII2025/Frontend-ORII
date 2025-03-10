@@ -11,10 +11,9 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { ChartProps } from "@/validations/ChartTypes";
+import { COLORS } from "../chartColors";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-
-const COLORS = ["#000066", "#9D0311"]; // Agregar mas colores
 
 const BarChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
 
@@ -38,15 +37,19 @@ const BarChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
                      text: xLabel,
                      color: "#333",
                     }, 
-                    type: "category" 
-                },
-                //TODO: Implementar truncado de etiquetas
-                /*ticks: {
-                    callback: function (value, index, ticks) {
-                      const label = this.getLabelForValue(value);
-                      return label.length > 15 ? label.substring(12, 24) + "..." : label;
+                    type: "category",
+                    ticks: {
+                        callback: function (value, index, ticks) {
+                            const label = this.getLabelForValue(Number(value));
+                            const chartWidth = this.chart.width;
+                            const maxLabelLength = Math.floor(chartWidth / data.labels.length / 10);
+                            if (label.length > maxLabelLength) {
+                                return label.substring(0, maxLabelLength) + "...";
+                            }
+                            return label;
+                        },
                     },
-                },*/
+                },
             y: { 
                 title: {
                      display: !!yLabel,
