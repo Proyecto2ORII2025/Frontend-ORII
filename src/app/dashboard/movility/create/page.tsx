@@ -46,7 +46,7 @@ export default function CreateMovility() {
     const [valorFinanciacion, setValorFinanciacion] = useState("");
     const [fuenteFinanciacion, setFuenteFinanciacion] = useState("");
     const [stayDays, setStayDays] = useState(0);
-    const [mobilityYear, setMobilityYear] = useState(new Date().getFullYear());
+    const [mobilityYear, setMobilityYear] = useState("");
     const [eventType, setEventType] = useState("");
     const [eventDescription, setEventDescription] = useState("");
 
@@ -341,7 +341,7 @@ export default function CreateMovility() {
                             type="text" 
                             value={mobilityYear} 
                             disabled 
-                            onChange={(e) => setMobilityYear(Number(e.target.value) || 0)}
+                            onChange={(e) => setMobilityYear(e.target.value)}
                             />
 
                     </div>
