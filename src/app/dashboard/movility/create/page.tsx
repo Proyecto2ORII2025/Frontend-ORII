@@ -46,9 +46,10 @@ export default function CreateMovility() {
     const [valorFinanciacion, setValorFinanciacion] = useState("");
     const [fuenteFinanciacion, setFuenteFinanciacion] = useState("");
     const [stayDays, setStayDays] = useState(0);
-    const [mobilityYear, setMobilityYear] = useState(new Date().getFullYear());
+    const [mobilityYear, setMobilityYear] = useState("");
     const [eventType, setEventType] = useState("");
     const [eventDescription, setEventDescription] = useState("");
+    const [mobilityScope, setMobilityScope] = useState("");
 
     const handleFacultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setFaculty(e.target.value);
@@ -199,6 +200,18 @@ export default function CreateMovility() {
                             placeholder="Ingrese la descripción del evento"
                         />
                     </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Ámbito</label>
+                        <Select
+                            value={mobilityScope}
+                            onChange={(e) => setMobilityScope(e.target.value)}
+                            options={[
+                                { label: "Nacional", value: "ambito_nacional" },
+                                { label: "Internacional", value: "ambito_internacional" },
+                            ]}
+                            placeholder="Seleccione el ámbito"
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -341,7 +354,7 @@ export default function CreateMovility() {
                             type="text" 
                             value={mobilityYear} 
                             disabled 
-                            onChange={(e) => setMobilityYear(Number(e.target.value) || 0)}
+                            onChange={(e) => setMobilityYear(e.target.value)}
                             />
 
                     </div>
