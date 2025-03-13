@@ -1,11 +1,10 @@
 "use client"
 import Title from "@/components/ui/title";
-import { Search, Plus, Download, Filter} from "lucide-react"
+import { Search, Plus, Download, Filter } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Tabs, TabsContent} from "@/components/ui/tabs2"
 
 export default function Movility() {
 
@@ -16,7 +15,6 @@ export default function Movility() {
             fechaFin: "2023-12-15",
             facultad: "Facultad de Ingeniería",
             programa: "Ingeniería de Sistemas",
-            tipoMovilidad: "Intercambio",
             ambitoMovilidad: "Nacional",
             tipo: "Entrada",
         },
@@ -26,7 +24,6 @@ export default function Movility() {
             fechaFin: "2024-01-30",
             facultad: "Facultad de Ciencias",
             programa: "Biología",
-            tipoMovilidad: "Prácticas",
             ambitoMovilidad: "Nacional",
             tipo: "Salida",
         },
@@ -36,7 +33,6 @@ export default function Movility() {
             fechaFin: "2024-02-28",
             facultad: "Facultad de Ciencias Económicas",
             programa: "Economía",
-            tipoMovilidad: "Intercambio",
             ambitoMovilidad: "Nacional",
             tipo: "Entrada",
         },
@@ -46,7 +42,6 @@ export default function Movility() {
             fechaFin: "2024-03-31",
             facultad: "Facultad de Ciencias Sociales",
             programa: "Psicología",
-            tipoMovilidad: "Prácticas",
             ambitoMovilidad: "Nacional",
             tipo: "Salida",
         },
@@ -56,7 +51,6 @@ export default function Movility() {
             fechaFin: "2023-12-20",
             facultad: "Facultad de Artes",
             programa: "Música",
-            tipoMovilidad: "Intercambio",
             ambitoMovilidad: "Internacional",
             tipo: "Entrada",
         },
@@ -66,7 +60,6 @@ export default function Movility() {
             fechaFin: "2024-01-15",
             facultad: "Facultad de Ciencias de la Salud",
             programa: "Medicina",
-            tipoMovilidad: "Prácticas",
             ambitoMovilidad: "Internacional",
             tipo: "Salida",
         },
@@ -76,7 +69,6 @@ export default function Movility() {
             fechaFin: "2024-02-25",
             facultad: "Facultad de Derecho",
             programa: "Derecho",
-            tipoMovilidad: "Intercambio",
             ambitoMovilidad: "Internacional",
             tipo: "Entrada",
         },
@@ -86,7 +78,6 @@ export default function Movility() {
             fechaFin: "2024-03-20",
             facultad: "Facultad de Ingeniería",
             programa: "Ingeniería Civil",
-            tipoMovilidad: "Intercambio",
             ambitoMovilidad: "Internacional",
             tipo: "Salida",
         },
@@ -137,91 +128,47 @@ export default function Movility() {
                         Exportar
                     </Button>
                 </div>
-                <Tabs defaultValue="nacional" className="w-full">
-                    <TabsContent value="nacional" className="space-y-4">
-                        <div className="overflow-hidden rounded-lg border">
-                            <table className="w-full text-sm">
-                                <thead className="bg-muted">
-                                    <tr>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Fecha de inicio</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Fecha fin</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Facultad</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Programa</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Tipo de movilidad</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Ámbito de movilidad</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Tipo</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y">
-                                    {movilidades.map((movilidad) => (
-                                        <tr key={movilidad.id} className="hover:bg-muted/50">
-                                            <td className="px-4 py-3">{movilidad.fechaInicio}</td>
-                                            <td className="px-4 py-3">{movilidad.fechaFin}</td>
-                                            <td className="px-4 py-3">{movilidad.facultad}</td>
-                                            <td className="px-4 py-3">{movilidad.programa}</td>
-                                            <td className="px-4 py-3">{movilidad.tipoMovilidad}</td>
-                                            <td className="px-4 py-3">{movilidad.ambitoMovilidad}</td>
-                                            <td className="px-4 py-3">{movilidad.tipo}</td>
-                                            <td className="px-4 py-3">
-                                                <div className="flex space-x-2">
-                                                    <button className="bg-tertiary/30 hover:bg-tertiary/40 text-tertiary/80 border-tertiary/50 px-2 py-1 rounded-md">
-                                                        Ver
-                                                    </button>
-                                                    <button className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300 px-2 py-1 rounded-md">
-                                                        Descargar
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </TabsContent>
 
-                    <TabsContent value="internacional" className="space-y-4">
-                        <div className="overflow-hidden rounded-lg border">
-                            <table className="w-full text-sm">
-                                <thead className="bg-muted">
-                                    <tr>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Fecha de inicio</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Fecha fin</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Facultad</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Programa</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Tipo de movilidad</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Ámbito de movilidad</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Tipo</th>
-                                        <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y">
-                                    {movilidades.map((movilidad) => (
-                                        <tr key={movilidad.id} className="hover:bg-muted/50">
-                                            <td className="px-4 py-3">{movilidad.fechaInicio}</td>
-                                            <td className="px-4 py-3">{movilidad.fechaFin}</td>
-                                            <td className="px-4 py-3">{movilidad.facultad}</td>
-                                            <td className="px-4 py-3">{movilidad.programa}</td>
-                                            <td className="px-4 py-3">{movilidad.tipoMovilidad}</td>
-                                            <td className="px-4 py-3">{movilidad.ambitoMovilidad}</td>
-                                            <td className="px-4 py-3">{movilidad.tipo}</td>
-                                            <td className="px-4 py-3">
-                                                <div className="flex space-x-2">
-                                                    <button className="bg-tertiary/30 hover:bg-tertiary/40 text-tertiary/80 border-tertiary/50 px-2 py-1 rounded-md">
-                                                        Ver
-                                                    </button>
-                                                    <button className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300 px-2 py-1 rounded-md">
-                                                        Descargar
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </TabsContent>
-                </Tabs>
+                <div className="overflow-hidden rounded-lg border">
+                    <table className="w-full text-sm">
+                        <thead className="bg-muted">
+                            <tr>
+                                <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Fecha de inicio</th>
+                                <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Fecha fin</th>
+                                <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Facultad</th>
+                                <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Programa</th>
+                                <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Ámbito de movilidad</th>
+                                <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Tipo</th>
+                                <th className="whitespace-nowrap px-4 py-3 text-left font-bold text-blue">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y">
+                            {movilidades.map((movilidad) => (
+                                <tr key={movilidad.id} className="hover:bg-muted/50">
+                                    <td className="px-4 py-3">{movilidad.fechaInicio}</td>
+                                    <td className="px-4 py-3">{movilidad.fechaFin}</td>
+                                    <td className="px-4 py-3">{movilidad.facultad}</td>
+                                    <td className="px-4 py-3">{movilidad.programa}</td>
+                                    <td className="px-4 py-3">{movilidad.ambitoMovilidad}</td>
+                                    <td className="px-4 py-3">{movilidad.tipo}</td>
+                                    <td className="px-4 py-3">
+                                        <div className="flex space-x-2">
+                                            <button className="bg-tertiary/30 hover:bg-tertiary/40 text-tertiary/80 border-tertiary/50 px-2 py-1 rounded-md">
+                                                Ver
+                                            </button>
+                                            <button className="bg-tertiary/30 hover:bg-tertiary/40 text-tertiary/80 border-tertiary/50 px-2 py-1 rounded-md">
+                                                Editar
+                                            </button>
+                                            <button className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300 px-2 py-1 rounded-md">
+                                                Descargar
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>
     )
