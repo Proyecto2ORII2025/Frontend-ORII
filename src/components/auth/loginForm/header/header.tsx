@@ -5,7 +5,7 @@ export default function LoginHeader() {
     return (
         <div className="flex items-center gap-2">
             <Image
-                src="/u blue.png"
+                src="/logos/u blue.png"
                 alt="Logo"
                 width={50}
                 height={50}
