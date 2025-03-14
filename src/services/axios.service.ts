@@ -6,7 +6,7 @@ let tokenUser: string = "";
 if (typeof window !== "undefined") {
     tokenUser = localStorage.getItem('user') || "";
 }
-tokenUser = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDAsInN1YiI6Imp1bGlhbnJ1YW5vQHVuaWNhdWNhLmVkdS5jbyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc0MTkxMzIzMCwiZXhwIjoxNzQxOTQ5MjMwfQ.9zXOymUreLVzsJx6mMGlm_vikyEQspTzsCTMH3M9F0Q";
+tokenUser = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDAsInN1YiI6Imp1bGlhbnJ1YW5vQHVuaWNhdWNhLmVkdS5jbyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc0MTkyODQyNiwiZXhwIjoxNzQxOTY0NDI2fQ.En5sUGYRa0RQRq6dh0BnAt1NHS1r45ZMdqy_f0YVuEs";
 
 /**
  * Axios instance configured with default settings.
