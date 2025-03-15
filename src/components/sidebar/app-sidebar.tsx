@@ -26,7 +26,7 @@ const data = {
     user: {
         name: "Mario Perdomo",
         email: "cmperdomo@unicauca.edu.co",
-        avatar: "/user.png",
+        avatar: "/img/user.png",
     },
     navMain: [
         {

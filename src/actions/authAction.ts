@@ -1,4 +1,4 @@
-'use server'; // server action
+'use client'; // server action
 
 import axios, { AxiosError } from 'axios';
 import { ErrorResponse, LoginResponse } from './responseType';

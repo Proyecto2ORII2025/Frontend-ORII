@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import { AgreementsData, Agreement } from "@/types/agreementType";
 import { obtainAgreements, createAgreement, updateAgreement, deleteAgreement } from "@/services/agreement.service";
@@ -12,7 +12,6 @@ interface PromiseSuccess {
 export async function fetchAgreements(): Promise<AgreementsData> {
     try {
         console.log("Obteniendo los convenios...");
-
         return await obtainAgreements();
     } catch (error) {
         console.error("Error al obtener los convenios:", error);

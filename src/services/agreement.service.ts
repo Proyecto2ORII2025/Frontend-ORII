@@ -1,7 +1,6 @@
 import axios from "./axios.service";
 import { apiUrl } from "./env.service";
 import { Agreement, AgreementsData } from "@/types/agreementType";
-
 const url = `${apiUrl}/agreement`;
 
 export const getAgreements = async (): Promise<{ data: Agreement[] }> => {
@@ -59,4 +58,4 @@ export const obtainAgreements = async (): Promise<AgreementsData> => {
     });
 
     return agreementsData;
-};
+}
