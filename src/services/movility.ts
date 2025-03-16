@@ -1,6 +1,6 @@
 import axios from "./axios.service";
 import { apiUrl } from "./env.service";
-import { Movility } from "../types/movilityType"; 
+import { Movility, MovilityCrear } from "../types/movilityType"; 
 
 const url = `${apiUrl}/form`; 
 
@@ -8,7 +8,7 @@ export const getMovilities = async () => {
     return await axios.get(`${url}/allForms`);
 }
 
-export const createMovility = async (movility: Movility) => {
+export const createMovility = async (movility: MovilityCrear) => {
     return await axios.post(`${url}/create`, movility);
 }
 

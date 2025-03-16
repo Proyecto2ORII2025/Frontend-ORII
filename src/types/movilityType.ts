@@ -15,7 +15,7 @@ export interface Person {
     firstName: string;
     lastName: string;
     identification: string;
-    email: string;
+    email?: string;
 }
 
 export interface Movility {
@@ -38,5 +38,31 @@ export interface Movility {
     origin: string;
     agreement: string | null;
     event: Event;
+    person: Person;
+}
+
+
+export interface MovilityCrear {
+    orii: boolean;
+    direction: string;
+    gender: string;
+    cta: number;
+    entryDate: string; 
+    exitDate: string;
+    originProgram: string;
+    destinationProgram: string;
+    city: string;
+    country: string;
+    teacher: string;
+    faculty: string;
+    funding: number;
+    fundingSource: string;
+    destination: string;
+    origin: string;
+    agreement: string | null;
+    event: {
+        description: string;
+        eventTypeId: number;
+    };
     person: Person;
 }
