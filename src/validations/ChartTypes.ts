@@ -7,7 +7,15 @@ export interface ChartData {
 }
 
 export interface ChartProps {
+    title: string;
     xLabel?: string;
     yLabel?: string;
     data: ChartData;
+}
+
+export enum LoadingState {
+    LOADING,
+    ERROR,
+    NO_DATA,
+    SUCCESS,
 }

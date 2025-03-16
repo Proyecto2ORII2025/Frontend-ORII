@@ -13,7 +13,7 @@ import { getDistinctColors } from "../chartColors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const PieChart: React.FC<ChartProps> = ({ data }) => {
+const PieChart: React.FC<ChartProps> = ({ title, data }) => {
 
     const backgroundColors =
         data.datasets.length > 1
@@ -25,8 +25,27 @@ const PieChart: React.FC<ChartProps> = ({ data }) => {
         maintainAspectRatio: false,
         plugins: {
             legend: {
-                position: "right" as const
-            }
+                position: "right" as const,
+                fullSize: false,
+                labels: {
+                    boxWidth: 14, 
+                    font: {
+                        size: 8, 
+                    }
+                }
+            },
+            title: {
+                display: true,
+                text: title,
+                font: {
+                    size: 18,
+                    weight: "bold"
+                },
+                color: "#000066",
+                padding: {
+                    bottom: 10 // Aumenta el espacio entre el título y la leyenda
+                }
+            },
         },
         layout: {
             padding: 25,
@@ -43,12 +62,10 @@ const PieChart: React.FC<ChartProps> = ({ data }) => {
     };
 
     return (
-        <div className="w-full h-full px-12">
-          <div className="h-4/5">
+        <div className="h-full mx-5 -mt-4">
             <Pie data={chartData} options={options} />
-          </div>
         </div>
-      );
+    );
 }
 
 export default PieChart;

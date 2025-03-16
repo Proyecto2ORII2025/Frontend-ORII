@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@heroui/progress": "^2.2.12",
     "@heroui/system": "^2.4.12",
     "@heroui/theme": "^2.4.12",

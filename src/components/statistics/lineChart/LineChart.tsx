@@ -17,7 +17,7 @@ import { ChartProps } from "@/validations/ChartTypes";
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend, scales );
 
-const LineChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
+const LineChart: React.FC<ChartProps> = ({ title, xLabel, yLabel, data }) => {
 
     const options: ChartOptions<"line"> = {
       responsive: true,
@@ -26,6 +26,15 @@ const LineChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
         legend: {
           display: false, 
         },
+        title: {
+          display: true,
+          text: title,
+          font: {
+              size: 18,
+              weight: "bold"
+          },
+          color: "#000066"
+      },
       },
       scales: {
         x: {
@@ -34,6 +43,14 @@ const LineChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
             text: xLabel,
             color: "#333",
           },
+          ticks: {
+            callback: function (value) {
+                const label = this.getLabelForValue(Number(value));
+                const chartWidth = this.chart.width;
+                const maxLabelLength = Math.floor(chartWidth / data.labels.length / 10);
+                return label.length > maxLabelLength ? label.substring(0, maxLabelLength) + "..." : label;
+            },
+        },
         },
         y: {
           beginAtZero: true,
@@ -48,11 +65,11 @@ const LineChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
 
     const chartData: ChartData<"line"> = {
         labels: data.labels,
-        datasets: data.datasets.map((dataset, _) => ({
+        datasets: data.datasets.map((dataset) => ({
             ...dataset,
-            borderColor: "#9D0311",
+            borderColor: "#4C19AF",
             pointBackgroundColor: "#ffffff",
-            pointBorderColor: "#9D0311",
+            pointBorderColor: "#4C19AF",
             pointBorderWidth: 2,
             pointRadius: 2.5,
         })),

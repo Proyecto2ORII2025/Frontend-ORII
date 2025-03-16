@@ -1,41 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { getStatistics } from "@/services/statistics.service";
 import BarChart from "./BarChart";
-import { ChartData } from "@/validations/ChartTypes";
-import SkeletonBarChart from "@/components/ui/skeletonBarChart";
-import ChartError from "@/components/ui/chartError";
-import ChartNoFound from "@/components/ui/chartNoFound";
+import { ChartData, LoadingState } from "@/validations/ChartTypes";
+import ChartWrapper from "../chartWrapper";
 
 export default function BarChartMobilityByCountry() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [state, setState] = useState<LoadingState>(LoadingState.LOADING);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getStatistics.getMobilityByCountry();
-        setChartData({
-          labels: response.data.country,
-          datasets: [
-            {
-              data: response.data.mobilities,
-            }
-          ],
-        });
+        if (response.data.country.length === 0 || response.data.mobilities.length === 0) {
+          setState(LoadingState.NO_DATA);
+        } else {
+          setChartData({
+            labels: response.data.country,
+            datasets: [
+              {
+                data: response.data.mobilities,
+              }
+            ],
+          });
+          setState(LoadingState.SUCCESS);
+        }
       } catch (err) {
-        setError("Error al cargar los datos");
+        setState(LoadingState.ERROR);
         console.error("Error:", err);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
   }, []);
 
-  if (loading) return <SkeletonBarChart />;
-  if (error) return <ChartError />;
-  if (!chartData) return <ChartNoFound />;
-
-  return <BarChart xLabel="Países" yLabel="Número de movilidades" data={chartData} />;
+  return (
+    <ChartWrapper state={state} chartType="bar">
+      {chartData && <BarChart title="Movilidad por paises" xLabel="Países" yLabel="Número de movilidades" data={chartData} />}
+    </ChartWrapper>
+  );
 }

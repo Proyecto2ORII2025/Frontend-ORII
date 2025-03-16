@@ -15,7 +15,7 @@ import { getDistinctColors } from "../chartColors";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const BarChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
+const BarChart: React.FC<ChartProps> = ({ title, xLabel, yLabel, data }) => {
     const backgroundColors =
         data.datasets.length > 1
             ? getDistinctColors(data.datasets.length)
@@ -25,6 +25,15 @@ const BarChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
+            title: {
+                display: true,
+                text: title,
+                font: {
+                    size: 18,
+                    weight: "bold"
+                },
+                color: "#000066"
+            },
             legend: {
                 display: data.datasets.length > 1, // Mostrar leyenda solo si hay varias series
             },
@@ -38,7 +47,7 @@ const BarChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
                 },
                 type: "category",
                 ticks: {
-                    callback: function (value, index, ticks) {
+                    callback: function (value) {
                         const label = this.getLabelForValue(Number(value));
                         const chartWidth = this.chart.width;
                         const maxLabelLength = Math.floor(chartWidth / data.labels.length / 10);

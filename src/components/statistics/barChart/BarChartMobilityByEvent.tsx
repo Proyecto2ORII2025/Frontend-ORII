@@ -1,41 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { getStatistics } from "@/services/statistics.service";
 import BarChart from "./BarChart";
-import { ChartData } from "@/validations/ChartTypes";
-import SkeletonBarChart from "@/components/ui/skeletonBarChart";
-import ChartError from "@/components/ui/chartError";
-import ChartNoFound from "@/components/ui/chartNoFound";
+import { ChartData, LoadingState } from "@/validations/ChartTypes";
+import ChartWrapper from "../chartWrapper";
 
 export default function BarChartMobilityByEvent() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [state, setState] = useState<LoadingState>(LoadingState.LOADING);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getStatistics.getMobilityByEvent();
-        setChartData({
-          labels: response.data.agreementType,
-          datasets: [
-            {
-              data: response.data.totalMobilityByAgreementsType,
-            }
-          ],
-        });
+        if (response.data.agreementType.length === 0 || response.data.totalMobilityByAgreementsType.length === 0) {
+          setState(LoadingState.NO_DATA);
+        } else {
+          setChartData({
+            labels: response.data.agreementType,
+            datasets: [
+              {
+                data: response.data.totalMobilityByAgreementsType,
+              }
+            ],
+          });
+          setState(LoadingState.SUCCESS);
+        }
+
       } catch (err) {
-        setError("Error al cargar los datos");
+        setState(LoadingState.ERROR);
         console.error("Error:", err);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
   }, []);
 
-  if (loading) return <SkeletonBarChart />;
-  if (error) return <ChartError />;
-  if (!chartData) return <ChartNoFound />;
-
-  return <BarChart xLabel="Evento" yLabel="Número de movilidades" data={chartData} />;
+  return (
+    <ChartWrapper state={state} chartType="bar">
+      {chartData && <BarChart title="Movilidades por Evento" xLabel="Evento" yLabel="Número de movilidades" data={chartData} />}
+    </ChartWrapper>
+  );
 }

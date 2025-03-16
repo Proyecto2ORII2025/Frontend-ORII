@@ -1,32 +1,43 @@
 export const COLORS: string[] = [
-    "#4C19AF", "#002A9E", "#0051C6",
-    "#16A8E1", "#04B2B5", "#249337",
-    "#8CBB22", "#E52724", "#EC6C1F",
-    "#F8AE15",
+    "#4C19AF", "#04B2B5", "#002A9E",
+    "#16A8E1", "#0051C6", "#249337",
+    "#EC6C1F", "#8CBB22", "#E52724",
+    "#F8AE15"
 ];
 
-/**
- * Calcula la diferencia entre dos colores en HSL
- */
-const colorDistance = (hsl1: [number, number, number], hsl2: [number, number, number]): number => {
-    const [h1, s1, l1] = hsl1;
-    const [h2, s2, l2] = hsl2;
-    return Math.sqrt((h1 - h2) ** 2 + (s1 - s2) ** 2 + (l1 - l2) ** 2);
+export const getDistinctColors = (numColors: number): string[] => {
+    const colors = [...COLORS];
+
+    while (colors.length < numColors) {
+        const baseColor = COLORS[colors.length % COLORS.length];
+        const variation = Math.floor(colors.length / COLORS.length) * 20;
+        const newColor = varyColor(baseColor, variation);
+        colors.push(newColor);
+    }
+
+    return colors.slice(0, numColors);
 };
 
-/**
- * Convierte un color HEX a HSL
- */
-const hexToHSL = (hex: string): [number, number, number] => {
-    let r = parseInt(hex.substring(1, 3), 16) / 255;
-    let g = parseInt(hex.substring(3, 5), 16) / 255;
-    let b = parseInt(hex.substring(5, 7), 16) / 255;
+const varyColor = (color: string, variation: number): string => {
+    let [h, s, l] = rgbToHsl(color);
+    h = (h + variation) % 360;
+    s = Math.min(100, s + variation / 2);
+    l = Math.min(100, l + variation / 2);
+    return hslToHex(h, s, l);
+};
 
-    let max = Math.max(r, g, b), min = Math.min(r, g, b);
-    let h = 0, s = 0, l = (max + min) / 2;
+const rgbToHsl = (color: string): [number, number, number] => {
+    const r = parseInt(color.slice(1, 3), 16) / 255;
+    const g = parseInt(color.slice(3, 5), 16) / 255;
+    const b = parseInt(color.slice(5, 7), 16) / 255;
+
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h = 0, s = 0;
+    const l = (max + min) / 2;
 
     if (max !== min) {
-        let d = max - min;
+        const d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
         switch (max) {
             case r: h = (g - b) / d + (g < b ? 6 : 0); break;
@@ -36,32 +47,20 @@ const hexToHSL = (hex: string): [number, number, number] => {
         h *= 60;
     }
 
-    return [Math.round(h), Math.round(s * 100), Math.round(l * 100)];
+    return [h, s * 100, l * 100];
 };
 
-/**
- * Obtiene colores aleatorios asegurando que no sean muy similares
- */
-export const getDistinctColors = (numColors: number): string[] => {
-    let selectedColors: string[] = [];
-    
-    // Mezclamos los colores originales
-    let shuffledColors = [...COLORS].sort(() => 0.5 - Math.random());
+const hslToHex = (h: number, s: number, l: number): string => {
+    s /= 100;
+    l /= 100;
 
-    for (let color of shuffledColors) {
-        if (selectedColors.length >= numColors) break;
+    const k = (n: number) => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = (n: number) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
 
-        let colorHSL = hexToHSL(color);
-        
-        // Verifica que no sea similar a los ya seleccionados
-        let isTooSimilar = selectedColors.some(selected => 
-            colorDistance(hexToHSL(selected), colorHSL) < 40 // Umbral de diferencia
-        );
+    const r = Math.round(f(0) * 255);
+    const g = Math.round(f(8) * 255);
+    const b = Math.round(f(4) * 255);
 
-        if (!isTooSimilar) {
-            selectedColors.push(color);
-        }
-    }
-
-    return selectedColors;
+    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
 };
