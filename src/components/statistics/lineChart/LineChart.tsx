@@ -43,6 +43,7 @@ const LineChart: React.FC<ChartProps> = ({ title, xLabel, yLabel, data }) => {
             text: xLabel,
             color: "#333",
           },
+          type: "category",
           ticks: {
             callback: function (value) {
                 const label = this.getLabelForValue(Number(value));
