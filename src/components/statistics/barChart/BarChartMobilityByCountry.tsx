@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { getStatistics } from "@/services/statistics.service";
 import BarChart from "./BarChart";
 import { ChartData } from "@/validations/ChartTypes";
-import Progress from "@/components/ui/progress";
+import SkeletonBarChart from "@/components/ui/skeletonBarChart";
+import ChartError from "@/components/ui/chartError";
+import ChartNoFound from "@/components/ui/chartNoFound";
 
 export default function BarChartMobilityByCountry() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
@@ -31,9 +33,9 @@ export default function BarChartMobilityByCountry() {
     fetchData();
   }, []);
 
-  if (loading) return <Progress />;
-  if (error) return <div>{error}</div>;
-  if (!chartData) return <div>No hay datos disponibles</div>;
+  if (loading) return <SkeletonBarChart />;
+  if (error) return <ChartError />;
+  if (!chartData) return <ChartNoFound />;
 
   return <BarChart xLabel="Países" yLabel="Número de movilidades" data={chartData} />;
 }

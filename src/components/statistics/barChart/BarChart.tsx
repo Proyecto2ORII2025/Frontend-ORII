@@ -11,16 +11,15 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { ChartProps } from "@/validations/ChartTypes";
-import { COLORS } from "../chartColors";
+import { getDistinctColors } from "../chartColors";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const BarChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
-
     const backgroundColors =
-    data.datasets.length > 1
-            ? data.datasets.map((_, i) => COLORS[i % COLORS.length])
-            : data.labels.map((_, i) => COLORS[i % COLORS.length]);
+        data.datasets.length > 1
+            ? getDistinctColors(data.datasets.length)
+            : getDistinctColors(data.labels.length);
 
     const options: ChartOptions<"bar"> = {
         responsive: true,
@@ -31,33 +30,30 @@ const BarChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
             },
         },
         scales: {
-            x: { 
+            x: {
                 title: {
-                     display: !!xLabel, 
-                     text: xLabel,
-                     color: "#333",
-                    }, 
-                    type: "category",
-                    ticks: {
-                        callback: function (value, index, ticks) {
-                            const label = this.getLabelForValue(Number(value));
-                            const chartWidth = this.chart.width;
-                            const maxLabelLength = Math.floor(chartWidth / data.labels.length / 10);
-                            if (label.length > maxLabelLength) {
-                                return label.substring(0, maxLabelLength) + "...";
-                            }
-                            return label;
-                        },
+                    display: !!xLabel,
+                    text: xLabel,
+                    color: "#333",
+                },
+                type: "category",
+                ticks: {
+                    callback: function (value, index, ticks) {
+                        const label = this.getLabelForValue(Number(value));
+                        const chartWidth = this.chart.width;
+                        const maxLabelLength = Math.floor(chartWidth / data.labels.length / 10);
+                        return label.length > maxLabelLength ? label.substring(0, maxLabelLength) + "..." : label;
                     },
                 },
-            y: { 
+            },
+            y: {
                 title: {
-                     display: !!yLabel,
-                     text: yLabel,
-                     color: "#333",
-                    }, 
-                    beginAtZero: true 
+                    display: !!yLabel,
+                    text: yLabel,
+                    color: "#333",
                 },
+                beginAtZero: true,
+            },
         },
     };
 
@@ -72,7 +68,7 @@ const BarChart: React.FC<ChartProps> = ({ xLabel, yLabel, data }) => {
     };
 
     return (
-        <div className="w mx-5 h-4/5"> 
+        <div className="w mx-5 h-4/5">
             <Bar data={chartData} options={options} />
         </div>
     );

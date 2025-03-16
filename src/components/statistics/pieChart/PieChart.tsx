@@ -9,16 +9,16 @@ import {
 } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { ChartProps } from "@/validations/ChartTypes";
-import { COLORS } from "../chartColors";
+import { getDistinctColors } from "../chartColors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart: React.FC<ChartProps> = ({ data }) => {
 
     const backgroundColors =
-    data.datasets.length > 1
-            ? data.datasets.map((_, i) => COLORS[i % COLORS.length])
-            : data.labels.map((_, i) => COLORS[i % COLORS.length]);
+        data.datasets.length > 1
+            ? getDistinctColors(data.datasets.length)
+            : getDistinctColors(data.labels.length);
 
     const options: ChartOptions<'pie'> = {
         responsive: true,

@@ -8,15 +8,18 @@ import BarChartMobilitiesPerYear from "@/components/statistics/barChart/BarChart
 import BarChartMobilityByEvent from "@/components/statistics/barChart/BarChartMobilityByEvent";
 import LineChartMobilityTrend from "@/components/statistics/lineChart/LineChartMobilityTrend";
 import PieChartMobilityByEvent from "@/components/statistics/pieChart/PieChartMobilityByEvent";
+import ChartError from "@/components/ui/chartError";
+import ChartNoFound from "@/components/ui/chartNoFound";
 
 export default function StatisticsPage() {
 
     return (
         <>
             <Title title="Estadísticas" />
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mx-10 my-10">
                 <Chart title="Movilidad por facultad">
+                    {/* <SkeletonPieChart /> */}
                     <BarChartMobilityByFaculty />
                 </Chart>
                 <Chart title="Movilidad por paises">
@@ -29,12 +32,14 @@ export default function StatisticsPage() {
                     <BarChartMobilityByEvent />
                 </Chart>
                 <Chart title="Movilidades por año">
-                    <BarChartMobilitiesPerYear />
+                    <ChartError />
+                    {/* <BarChartMobilitiesPerYear /> */}
                 </Chart>
                 <Chart title="Tendencia de movilidad anual">
-                    <LineChartMobilityTrend />
+                    <ChartNoFound />
+                    {/* <LineChartMobilityTrend /> */}
                 </Chart>
-            </div> 
+            </div>
         </>
     );
 }
