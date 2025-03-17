@@ -1,7 +1,6 @@
 'use server';
 
-import { cookies } from 'next/headers';
-import { obtainAgreementsServer, createAgreementServer, deleteAgreementServer } from '@/services/agreement.service';
+import { obtainAgreements, createAgreement, deleteAgreement } from '@/services/agreement.service';
 import { AgreementsData, Agreement } from "@/types/agreementType";
 
 interface PromiseSuccess {
@@ -12,11 +11,7 @@ interface PromiseSuccess {
 
 export async function fetchAgreements(): Promise<AgreementsData> {
     try {
-        const token = (await cookies()).get('auth-token')?.value;
-        if (!token) {
-            throw new Error("Token es requerido pero no se encontró.");
-        }
-        return await obtainAgreementsServer(token);
+        return await obtainAgreements();
     } catch (error) {
         console.error("Error al obtener los convenios:", error);
         return {
@@ -29,11 +24,7 @@ export async function fetchAgreements(): Promise<AgreementsData> {
 
 export async function createAgreementAction(data: Agreement): Promise<PromiseSuccess> {
     try {
-        const token = (await cookies()).get('auth-token')?.value;
-        if (!token) {
-            throw new Error("Token es requerido pero no se encontró.");
-        }
-        await createAgreementServer(data, token);
+        await createAgreement(data);
         return {
             success: true,
         };
@@ -47,11 +38,7 @@ export async function createAgreementAction(data: Agreement): Promise<PromiseSuc
 
 export async function deleteAgreementAction(id: string): Promise<PromiseSuccess> {
     try {
-        const token = (await cookies()).get('auth-token')?.value;
-        if (!token) {
-            throw new Error("Token es requerido pero no se encontró.");
-        }
-        await deleteAgreementServer(id, token);
+        await deleteAgreement(id);
         return {
             success: true
         };
