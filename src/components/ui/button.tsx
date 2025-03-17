@@ -10,13 +10,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-blue text-white shadow hover:bg-blueLight transition-all duration-500 px-5 py-2 rounded-2xl w-full",
+          "bg-blue text-white shadow hover:bg-blueLight transition-all duration-500 px-5 py-2 rounded-2xl w-full cursor-pointer",
         secondary:
-          "bg-white text-blue border border-blue hover:bg-blue hover:text-white transition-all duration-500 flex gap-2 px-5 py-2 rounded-2xl w-full group",
+          "bg-white text-blue border border-blue hover:bg-blue hover:text-white transition-all duration-500 flex gap-2 px-5 py-2 rounded-2xl w-full group cursor-pointer",
         secondaryWithoutHover:
-          "bg-white hover:bg-neutral-300 text-blue border border-blue flex gap-2 px-5 py-2 rounded-2xl w-full group",
+          "bg-white hover:bg-neutral-300 text-blue border border-blue flex gap-2 px-5 py-2 rounded-2xl w-full group cursor-pointer",
         delete:
-          "bg-redLight text-white shadow hover:bg-red transition-all duration-500 px-5 py-2 rounded-2xl w-full",
+          "bg-redLight text-white shadow hover:bg-red transition-all duration-500 px-5 py-2 rounded-2xl w-full cursor-pointer",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:

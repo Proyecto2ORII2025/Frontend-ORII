@@ -1,7 +1,8 @@
-"use client";
+'use server';
 
+import { cookies } from 'next/headers';
+import { obtainAgreementsServer, createAgreementServer, deleteAgreementServer } from '@/services/agreement.service';
 import { AgreementsData, Agreement } from "@/types/agreementType";
-import { obtainAgreements, createAgreement, updateAgreement, deleteAgreement } from "@/services/agreement.service";
 
 interface PromiseSuccess {
     success: boolean;
@@ -11,8 +12,11 @@ interface PromiseSuccess {
 
 export async function fetchAgreements(): Promise<AgreementsData> {
     try {
-        console.log("Obteniendo los convenios...");
-        return await obtainAgreements();
+        const token = (await cookies()).get('auth-token')?.value;
+        if (!token) {
+            throw new Error("Token es requerido pero no se encontró.");
+        }
+        return await obtainAgreementsServer(token);
     } catch (error) {
         console.error("Error al obtener los convenios:", error);
         return {
@@ -25,52 +29,34 @@ export async function fetchAgreements(): Promise<AgreementsData> {
 
 export async function createAgreementAction(data: Agreement): Promise<PromiseSuccess> {
     try {
-        console.log("Datos recibidos en createAgreementAction:", data);
-
-        const response = await createAgreement(data);
-        console.log("Respuesta del servicio:", response);
-
+        const token = (await cookies()).get('auth-token')?.value;
+        if (!token) {
+            throw new Error("Token es requerido pero no se encontró.");
+        }
+        await createAgreementServer(data, token);
         return {
             success: true,
         };
     } catch (error) {
-        console.error("Error detallado en createAgreementAction:", error);
+        console.error("Error:", error);
         return {
             success: false
         };
     }
 }
 
-export async function editAgreementAction(data: Agreement, argumentId: string): Promise<PromiseSuccess> {
+export async function deleteAgreementAction(id: string): Promise<PromiseSuccess> {
     try {
-        console.log("Datos recibidos en editAgreementAction:", data);
-
-        const response = await updateAgreement(data, argumentId);
-        console.log("Respuesta del servicio:", response);
-
+        const token = (await cookies()).get('auth-token')?.value;
+        if (!token) {
+            throw new Error("Token es requerido pero no se encontró.");
+        }
+        await deleteAgreementServer(id, token);
         return {
-            success: true,
+            success: true
         };
     } catch (error) {
-        console.error("Error detallado en editAgreementAction:", error);
-        return {
-            success: false
-        };
-    }
-
-}
-
-export async function deleteAgreementAction(agreementId: string): Promise<PromiseSuccess> {
-    try {
-        console.log("Eliminando convenio con id", agreementId);
-        const response = await deleteAgreement(agreementId);
-        console.log("Respuesta del servicio:", response);
-
-        return {
-            success: true,
-        };
-    } catch (error) {
-        console.error("Error al eliminar convenio:", error);
+        console.error("Error:", error);
         return {
             success: false
         };

@@ -1,9 +1,5 @@
 import axios from "axios";
-
 import { apiUrl } from "./env.service";
-
-// const tokenUser = localStorage.getItem('user') || "";
-const tokenUser = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInN1YiI6ImNtcGVyZG9tb0B1bmljYXVjYS5lZHUuY28iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NDE5MDUyNzYsImV4cCI6MTc0MTk0MTI3Nn0.c_7KvyNXWTu2BIN2iZyuIeuXNHAujjL672S6iSZtkqM";
 
 /**
  * Axios instance configured with default settings.
@@ -11,15 +7,43 @@ const tokenUser = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInN1YiI6ImNtcGVyZG9tb0B1
  * @constant {AxiosInstance} instance - The Axios instance.
  * @property {boolean} withCredentials - Indicates whether or not cross-site Access-Control requests should be made using credentials.
  * @property {string} baseURL - The base URL for the Axios instance.
- * @property {Object} headers - The headers to be sent with the request.
- * @property {string} headers.Authorization - The Authorization header containing the Bearer token.
  */
 const instance = axios.create({
     withCredentials: true,
-    baseURL: apiUrl,
-    headers: {
-        'Authorization': `Bearer ${tokenUser}`,
+    baseURL: apiUrl
+});
+
+// Función para obtener el valor de una cookie por su nombre
+function getCookie(name: string): string | null {
+    if (typeof document === 'undefined') {
+        return null; // Estamos en el servidor
     }
-})
+    
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+        return parts.pop()?.split(';').shift() || null;
+    }
+    return null;
+}
+
+// Interceptor para añadir el token automáticamente a cada petición
+instance.interceptors.request.use(
+    (config) => {
+        // Solo ejecutar en el navegador
+        if (typeof window !== 'undefined') {
+            // Intenta obtener el token de la cookie primero
+            const cookieToken = getCookie('auth-token');
+            
+            if (cookieToken) {
+                config.headers.Authorization = `Bearer ${cookieToken}`;
+            }
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 export default instance;

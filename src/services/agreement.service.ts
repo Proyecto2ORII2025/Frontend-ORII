@@ -1,37 +1,50 @@
 import axios from "./axios.service";
+import axiosPlain from "axios"; // Axios sin configuración para peticiones desde el servidor
 import { apiUrl } from "./env.service";
 import { Agreement, AgreementsData } from "@/types/agreementType";
 const url = `${apiUrl}/agreement`;
 
+// Versión que funciona en el cliente (usando axios con interceptor)
 export const getAgreements = async (): Promise<{ data: Agreement[] }> => {
     return await axios.get(`${url}/all`);
 };
 
-export const createAgreement = async (agreement: Agreement): Promise<{ data: Agreement }> => {
-    return await axios.post(`${url}/create`, agreement);
+// Versión para usar desde Server Actions (con token explícito)
+export const getAgreementsServer = async (token: string): Promise<{ data: Agreement[] }> => {
+    return await axiosPlain.get(`${url}/all`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
 };
 
-export const updateAgreement = async (agreement: Agreement, agreementId: string): Promise<{ data: Agreement }> => {
-    return await axios.put(`${url}/update/${agreementId}`, agreement);
-};
+export const createAgreementServer = async (agreement: Agreement, token: string): Promise<{ data: Agreement }> => {
+    return await axiosPlain.post(`${url}/create`, agreement, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
 
-export const deleteAgreement = async (agreementId: string): Promise<{ data: { success: boolean } }> => {
-    return await axios.delete(`${url}/delete/${agreementId}`);
-};
+export const updateAgreement = async (agreement: Agreement, agreementId: string, token: string): Promise<{ data: Agreement }> => {
+    return await axiosPlain.put(`${url}/update/${agreementId}`, agreement, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
 
-export const getAgreement = async (agreementId: string): Promise<{ data: Agreement }> => {
-    return await axios.get(`${url}/${agreementId}`);
-};
+export const deleteAgreementServer = async (agreementId: string, token: string): Promise<{ data: Agreement }> => {
+    return await axiosPlain.delete(`${url}/delete/${agreementId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+}
 
 /**
  * Obtains agreements and categorizes them into national and international.
- *
- * @async
- * @function obtainAgreements
- * @returns {Promise<AgreementsData>} An object containing categorized agreements:
- * - NATIONAL: Array of national agreements.
- * - INTERNATIONAL: Array of international agreements.
- * - ALL: Array of all agreements.
+ * Works in client-side.
  */
 export const obtainAgreements = async (): Promise<AgreementsData> => {
     const agreements: Agreement[] = await getAgreements()
@@ -39,14 +52,47 @@ export const obtainAgreements = async (): Promise<AgreementsData> => {
             return response.data;
         })
         .catch((error) => {
-            console.error(error);
+            console.error("Error cliente:", error);
             return [];
         });
 
+    return categorizeAgreements(agreements);
+};
+
+/**
+ * Obtains agreements from server side.
+ * To be used in Server Actions.
+ */
+export const obtainAgreementsServer = async (token: string): Promise<AgreementsData> => {
+    if (!token) {
+        console.error("No se proporcionó token para obtainAgreementsServer");
+        return {
+            NATIONAL: [],
+            INTERNATIONAL: [],
+            ALL: []
+        };
+    }
+
+    try {
+        const response = await getAgreementsServer(token);
+        const agreements = response.data;
+        return categorizeAgreements(agreements);
+    } catch (error) {
+        console.error("Error servidor:", error);
+        return {
+            NATIONAL: [],
+            INTERNATIONAL: [],
+            ALL: []
+        };
+    }
+};
+
+// Función auxiliar para categorizar acuerdos
+function categorizeAgreements(agreements: Agreement[]): AgreementsData {
     const agreementsData: AgreementsData = {
         NATIONAL: [],
         INTERNATIONAL: [],
-        ALL: agreements.map((agreement) => agreement)
+        ALL: [...agreements]
     };
 
     agreements.forEach((agreement) => {

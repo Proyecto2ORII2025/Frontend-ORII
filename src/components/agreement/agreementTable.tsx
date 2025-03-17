@@ -4,7 +4,6 @@ import { Loader2, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AgreementProps, AgreementTableProps } from "@/types/agreementType";
-// import Link from "next/link";
 import {
     Modal,
     ModalContent,
@@ -14,7 +13,7 @@ import {
     useDisclosure,
 } from "@heroui/modal";
 import React from "react";
-import { deleteAgreement } from "@/services/agreement.service";
+import { deleteAgreementAction } from "@/actions/agreementAction";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -37,9 +36,9 @@ export default function AgreementTable({
         if (!selectedAgreement) return;
         
         try {
-            const result = await deleteAgreement(selectedAgreement.agreementId.toString());
+            const result = await deleteAgreementAction(selectedAgreement.agreementId.toString());
 
-            if (result.data.success) {
+            if (result.success) {
                 toast.success("Convenio eliminado exitosamente");
                 onClose(); // Cierra el modal después de eliminar
                 router.refresh();
@@ -130,7 +129,6 @@ export default function AgreementTable({
                 </tbody>
             </table>
 
-            {/* Modal único fuera del bucle */}
             <Modal backdrop="opaque" isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {() => (
