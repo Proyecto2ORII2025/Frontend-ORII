@@ -1,5 +1,7 @@
 // Definición de interfaces
 
+import { FilterState } from "./filterAgreementType";
+
 export interface Agreement {
     id?: string;
     scope: 'NATIONAL' | 'INTERNATIONAL';
@@ -28,7 +30,9 @@ export interface AgreementHeaderProps {
     title: string;
     description?: string;
     onSearch?: (value: string) => void;
+    onFilter?: (filterType: string, value?: string) => void;
     searchTerm?: string;
+    activeFilters?: FilterState;
 }
 
 export interface AgreementTableProps {

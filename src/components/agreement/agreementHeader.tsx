@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Plus, Download, Filter } from "lucide-react";
+import { Search, Plus, Download, Filter, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -12,7 +12,9 @@ export default function AgreementHeader({
     title,
     description,
     onSearch,
-    searchTerm
+    onFilter,
+    searchTerm,
+    activeFilters
 }: AgreementHeaderProps) {
     return (
         <>
@@ -51,15 +53,54 @@ export default function AgreementHeader({
                     <div className="flex gap-2">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="outline" className="w-full md:w-auto bg-purple-100 hover:bg-purple-200 text-purple-700 border-purple-300">
+                                <Button
+                                    variant="outline"
+                                    className={`w-full md:w-auto ${Object.values(activeFilters || {}).some(v => v)
+                                        ? 'bg-purple-500 hover:bg-purple-600 text-white'
+                                        : 'bg-purple-100 hover:bg-purple-200 text-purple-700'} border-purple-300`}
+                                >
                                     <Filter className="mr-2 h-4 w-4" />
                                     Filtrar
+                                    {Object.values(activeFilters || {}).some(v => v) && (
+                                        <span className="ml-2 text-xs bg-white text-purple-700 rounded-full w-5 h-5 flex items-center justify-center">
+                                            {Object.values(activeFilters || {}).filter(Boolean).length}
+                                        </span>
+                                    )}
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="w-[200px]">
-                                <DropdownMenuItem>Por fecha</DropdownMenuItem>
-                                <DropdownMenuItem>Por estado</DropdownMenuItem>
-                                <DropdownMenuItem>Por tipo</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => onFilter?.('date', 'lastMonth')}>
+                                    {activeFilters?.date === 'lastMonth' &&
+                                        <Check className="text-accesibility"/>
+                                    }
+                                    Último mes
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => onFilter?.('date', 'lastYear')}>
+                                    {activeFilters?.date === 'lastYear' &&
+                                        <Check className="text-accesibility"/>
+                                    }
+                                    Último año
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="border-t-2 border-blue" onClick={() => onFilter?.('status', 'ACTIVE')}>
+                                    {activeFilters?.status === 'ACTIVE' &&
+                                        <Check className="text-accesibility"/>
+                                    }
+                                    Activos
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => onFilter?.('status', 'INACTIVE')}>
+                                    {activeFilters?.status === 'INACTIVE' &&
+                                        <Check className="text-accesibility"/>
+                                    }
+                                    Inactivos
+                                </DropdownMenuItem>
+                                {Object.values(activeFilters || {}).some(v => v) && (
+                                    <DropdownMenuItem
+                                        className="border-t-2 border-blue font-bold text-error focus:bg-error focus:text-white"
+                                        onClick={() => onFilter?.('reset')}
+                                    >
+                                        Limpiar filtros
+                                    </DropdownMenuItem>
+                                )}
                             </DropdownMenuContent>
                         </DropdownMenu>
 
