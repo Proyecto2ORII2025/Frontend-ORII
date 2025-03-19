@@ -12,7 +12,7 @@ import {
     ModalFooter,
     useDisclosure,
 } from "@heroui/modal";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { deleteAgreementAction } from "@/actions/agreementAction";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -24,8 +24,14 @@ export default function AgreementTable({
     columns
 }: AgreementTableProps) {
     const router = useRouter();
+    const [localAgreements, setLocalAgreements] = useState<AgreementProps[]>(agreements);
     const [selectedAgreement, setSelectedAgreement] = React.useState<AgreementProps | null>(null);
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+    const [deleteLoading, setDeleteLoading] = useState(false);
+
+    useEffect(() => {
+        setLocalAgreements(agreements);
+    }, [agreements]);
 
     const handleOpenDeleteModal = (agreement: AgreementProps) => {
         setSelectedAgreement(agreement);
@@ -34,18 +40,26 @@ export default function AgreementTable({
 
     const handleDelete = async () => {
         if (!selectedAgreement) return;
-        
+
         try {
+            setDeleteLoading(true);
             const result = await deleteAgreementAction(selectedAgreement.agreementId.toString());
 
             if (result.success) {
+                setLocalAgreements(prevAgreements =>
+                    prevAgreements.filter(a => a.agreementId !== selectedAgreement.agreementId)
+                );
                 toast.success("Convenio eliminado exitosamente");
                 onClose(); // Cierra el modal después de eliminar
                 router.refresh();
+            } else {
+                toast.error(result.error || "No se pudo eliminar el convenio");
             }
         } catch (error) {
             console.error("Error al eliminar el convenio:", error);
             toast.error("Ocurrió un error al eliminar el convenio");
+        } finally {
+            setDeleteLoading(false);
         }
     }
 
@@ -85,8 +99,8 @@ export default function AgreementTable({
                     </tr>
                 </thead>
                 <tbody className="divide-y">
-                    {agreements.length > 0 ? (
-                        agreements.map((agreement) => (
+                    {localAgreements.length > 0 ? (
+                        localAgreements.map((agreement) => (
                             <tr key={agreement.agreementId} className="hover:bg-muted/50">
                                 {columns.map((column) => (
                                     <td
@@ -101,16 +115,14 @@ export default function AgreementTable({
                                 ))}
                                 <td className="px-4 py-3">
                                     <div className="flex space-x-2">
-                                        {/* <Link href={`/dashboard/agreements/edit/${agreement.agreementId}`}> */}
                                         <Button variant="outline" size="sm" className="bg-accesibility/40 text-accesibility hover:text-white hover:bg-accesibility border-none">
                                             <Pencil className="h-4 w-4" />
                                         </Button>
-                                        {/* </Link> */}
 
-                                        <Button 
-                                            onClick={() => handleOpenDeleteModal(agreement)} 
-                                            variant="outline" 
-                                            size="sm" 
+                                        <Button
+                                            onClick={() => handleOpenDeleteModal(agreement)}
+                                            variant="outline"
+                                            size="sm"
                                             className="bg-redLight/40 text-redLight hover:text-white hover:bg-redLight border-none"
                                         >
                                             <Trash2 className="h-4 w-4" />
@@ -145,11 +157,26 @@ export default function AgreementTable({
                                 )}
                             </ModalBody>
                             <ModalFooter>
-                                <Button variant="secondaryWithoutHover" onClick={onClose}>
+                                <Button
+                                    variant="secondaryWithoutHover"
+                                    onClick={onClose}
+                                    disabled={deleteLoading}
+                                >
                                     Cancelar
                                 </Button>
-                                <Button variant="delete" onClick={handleDelete}>
-                                    Eliminar
+                                <Button
+                                    variant="delete"
+                                    onClick={handleDelete}
+                                    disabled={deleteLoading}
+                                >
+                                    {deleteLoading ? (
+                                        <>
+                                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                                            Eliminando...
+                                        </>
+                                    ) : (
+                                        'Eliminar'
+                                    )}
                                 </Button>
                             </ModalFooter>
                         </>
