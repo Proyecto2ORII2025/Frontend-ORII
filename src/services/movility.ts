@@ -1,6 +1,6 @@
 import axios from "./axios.service";
 import { apiUrl } from "./env.service";
-import { Movility, MovilityCrear } from "../types/movilityType"; 
+import { MovilityCrear } from "../types/movilityType"; 
 
 const url = `${apiUrl}/form`; 
 
@@ -12,7 +12,7 @@ export const createMovility = async (movility: MovilityCrear) => {
     return await axios.post(`${url}/create`, movility);
 }
 
-export const updateMovility = async (movility: Movility, movilityId: number) => {
+export const updateMovility = async (movility: MovilityCrear, movilityId: number) => {
     return await axios.put(`${url}/update/${movilityId}`, movility);
 }
 

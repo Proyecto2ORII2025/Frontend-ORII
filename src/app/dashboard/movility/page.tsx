@@ -10,17 +10,43 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Tabs, TabsContent } from "@/components/ui/tabs2";
 import { fetchMovilities } from "@/actions/movilityAction";
 import { Movility } from "@/types/movilityType";
+import ModalEdit from "@/components/ui/modalEdit"; 
+import ModalVer from "@/components/ui/modalView"; 
 
+const formatDate = (date: string) => {
+    if (!date) return "Fecha no disponible";
+
+    // Reparar el año si tiene formato incorrecto
+    const parts = date.split("-");
+    if (parts.length === 3) {
+        const year = parseInt(parts[0], 10);
+        if (year < 100) {
+            parts[0] = (year + 2000).toString();
+        }
+    }
+    const fixedDate = parts.join("-");
+    const parsedDate = new Date(fixedDate);
+
+    if (isNaN(parsedDate.getTime())) return "Fecha inválida";
+
+    return parsedDate.toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+    });
+};
 
 export default function MovilityList() {
     const [movilities, setMovilities] = useState<Movility[]>([]);
+    const [selectedMovility, setSelectedMovility] = useState<Movility | null>(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false); 
 
     useEffect(() => {
         async function fetchData() {
             try {
                 const response = await fetchMovilities();
                 setMovilities(response);
-                console.log("Llega ", response)
             } catch (error) {
                 console.error("Error al obtener las movilidades:", error);
             }
@@ -28,11 +54,43 @@ export default function MovilityList() {
         fetchData();
     }, []);
 
+    const openEditModal = (movility: Movility) => {
+        setSelectedMovility(movility);
+        setIsEditModalOpen(true);
+    };
+
+    const closeEditModal = () => {
+        setSelectedMovility(null);
+        setIsEditModalOpen(false);
+    };
+
+    const openViewModal = (movility: Movility) => {
+        setSelectedMovility(movility);
+        setIsViewModalOpen(true);
+    };
+
+    const closeViewModal = () => {
+        setSelectedMovility(null);
+        setIsViewModalOpen(false);
+    };
+
+    const updateMovilityList = (updatedMovility: Movility) => {
+        setMovilities((prev) => prev.map((mob) => (mob.id === updatedMovility.id ? updatedMovility : mob)));
+    };
+
+    const documentTypeDict: Record<string, string> = {
+        "V": "Visa",
+        "CC": "Cédula de Ciudadanía",
+        "TI": "Tarjeta de Identidad",
+        "PP": "Pasaporte"
+    };
+    
+
     return (
         <div className="flex flex-col space-y-6 pb-10">
             <div className="flex flex-col w-full md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <Title title="Lista de movilidades" /><br />
+                    <Title title="Lista de movilidades" />
                     <p className="text-gray-600">Movilidades registradas nacionales e internacionales</p>
                 </div>
             </div>
@@ -74,41 +132,33 @@ export default function MovilityList() {
                         <table className="w-full text-sm">
                             <thead className="bg-muted">
                                 <tr>
-                                    <th className="px-4 py-3 text-left font-bold text-blue">Código de convenio</th>
-                                    <th className="px-4 py-3 text-left font-bold text-blue">Tipo de documento</th>
-                                    <th className="px-4 py-3 text-left font-bold text-blue">Documento usuario</th>
-                                    <th className="px-4 py-3 text-left font-bold text-blue">Fecha de inicio</th>
-                                    <th className="px-4 py-3 text-left font-bold text-blue">Fecha fin</th>
-                                    <th className="px-4 py-3 text-left font-bold text-blue">Facultad</th>
-                                    <th className="px-4 py-3 text-left font-bold text-blue">Programa</th>
-                                    <th className="px-4 py-3 text-left font-bold text-blue">Tipo</th>
-                                    <th className="px-4 py-3 text-left font-bold text-blue">Acciones</th>
+                                    <th className="px-4 py-3">Nombre</th>
+                                    <th className="px-4 py-3">Tipo de documento</th>
+                                    <th className="px-4 py-3">Evento</th>
+                                    <th className="px-4 py-3">Fecha de inicio</th>
+                                    <th className="px-4 py-3">Fecha fin</th>
+                                    <th className="px-4 py-3">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y">
                                 {movilities.map((mob) => (
                                     <tr key={mob.id} className="hover:bg-muted/50">
-                                        <td className="px-4 py-3">{mob.agreement}</td>
-                                        <td className="px-4 py-3">{mob.person.identificationType}</td>
-                                        <td className="px-4 py-3">{mob.person.identification}</td>
-                                        <td className="px-4 py-3">{mob.direction}</td>
-                                        <td className="px-4 py-3">{mob.exitDate}</td>
-                                        <td className="px-4 py-3">{mob.faculty}</td>
-                                        <td className="px-4 py-3">{mob.originProgram}</td>
-                                        <td className="px-4 py-3">{mob.event.eventType.name}</td>
+                                        <td className="px-4 py-3">{mob.person.firstName}</td>
                                         <td className="px-4 py-3">
-                                        <div className="flex space-x-2">
-                                            <button className="bg-tertiary/30 hover:bg-tertiary/40 text-tertiary/80 border-tertiary/50 px-2 py-1 rounded-md">
-                                                Ver
-                                            </button>
-                                            <button className="bg-tertiary/30 hover:bg-tertiary/40 text-tertiary/80 border-tertiary/50 px-2 py-1 rounded-md">
-                                                Editar
-                                            </button>
-                                            <button className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300 px-2 py-1 rounded-md">
-                                                Descargar
-                                            </button>
-                                        </div>
-                                    </td>
+                                            {documentTypeDict[mob.person.identificationType.trim().toUpperCase()] || mob.person.identificationType}
+                                        </td>
+                                        <td className="px-4 py-3">{mob.event.description}</td>
+                                        <td className="px-4 py-3">{formatDate(mob.entryDate)}</td>
+                                        <td className="px-4 py-3">{formatDate(mob.exitDate)}</td>
+                                        <td className="px-4 py-3">
+                                            <div className="flex space-x-2">
+                                                {/* Botón Ver (abre ModalVer) */}
+                                                <Button onClick={() => openViewModal(mob)}>Ver</Button>
+
+                                                {/* Botón Editar (abre ModalEdit) */}
+                                                <Button onClick={() => openEditModal(mob)}>Editar</Button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -116,6 +166,23 @@ export default function MovilityList() {
                     </div>
                 </TabsContent>
             </Tabs>
+
+            {/* Modal de Edición */}
+            <ModalEdit 
+                movility={selectedMovility} 
+                open={isEditModalOpen} 
+                onClose={closeEditModal} 
+                onUpdate={updateMovilityList} 
+            />
+
+            {/* Modal de Ver */}
+            {selectedMovility && (
+                <ModalVer 
+                    movility={selectedMovility} 
+                    open={isViewModalOpen}
+                    onClose={closeViewModal}
+                    />
+            )}
         </div>
     );
 }

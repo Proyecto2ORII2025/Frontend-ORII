@@ -33,9 +33,9 @@ export async function createMovilityAction(data: MovilityCrear): Promise<Promise
     }
 }
 
-export async function editMovilityAction(data: Movility, movilityId: number): Promise<PromiseSuccess> {
+export async function editMovilityAction(data: MovilityCrear, movilityId: number): Promise<PromiseSuccess> {
     try {
-        console.log("Datos recibidos en editMovilityAction:", data);
+        console.log("Datos recibidos en editMovilityAction:", movilityId);
 
         await updateMovility(data, movilityId);
 
