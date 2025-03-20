@@ -104,7 +104,7 @@ export const AppSidebar = React.memo(function AppSidebar({ ...props }: React.Com
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader className="bg-blueDark text-white p-4 items-start">
                 <Image
-                    src={"/ORII.webp"}
+                    src={"/logos/ORII.webp"}
                     alt="Logo"
                     width={150}
                     height={150}
