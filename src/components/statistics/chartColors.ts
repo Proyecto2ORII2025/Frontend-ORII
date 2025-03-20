@@ -2,7 +2,9 @@ export const COLORS: string[] = [
     "#4C19AF", "#04B2B5", "#002A9E",
     "#16A8E1", "#0051C6", "#249337",
     "#EC6C1F", "#8CBB22", "#E52724",
-    "#F8AE15"
+    "#A9C8FF", "#F8AE15", "#5E5D67",
+    "#6970C7", "#9D0311", "#E0E0FF",
+    "#C85200"
 ];
 
 export const getDistinctColors = (numColors: number): string[] => {
@@ -20,7 +22,7 @@ export const getDistinctColors = (numColors: number): string[] => {
 
 const varyColor = (color: string, variation: number): string => {
     let [h, s, l] = rgbToHsl(color);
-    h = (h + variation) % 360;
+    h = (h + variation) % 350;
     s = Math.min(100, s + variation / 2);
     l = Math.min(100, l + variation / 2);
     return hslToHex(h, s, l);
