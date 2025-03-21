@@ -76,12 +76,8 @@ const data = {
             icon: ChartColumnIncreasing,
             items: [
                 {
-                    title: "Reportes",
-                    url: "#",
-                },
-                {
                     title: "Gráficos",
-                    url: "#",
+                    url: "/dashboard/statistics",
                 },
             ],
         },

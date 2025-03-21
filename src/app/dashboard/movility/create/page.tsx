@@ -51,6 +51,18 @@ export default function CreateMovility() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const formatDate = (dateString: string) => {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
+        };
+
+        const formattedEntryDate = formatDate(entryDate);
+        const formattedExitDate = formatDate(exitDate);
+
         const fields = {
             firstName,
             lastName,
@@ -75,27 +87,26 @@ export default function CreateMovility() {
             numberAgreement: agreementId,
             valorFinanciacion,
             fundingSource,
-            entryDate,
-            exitDate,
+            entryDate: formattedEntryDate,
+            exitDate: formattedExitDate,
             stayDays,
             movilityYear,
         };
 
-        const newErrors = validateFields(fields); 
+        const newErrors = validateFields(fields);
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             alert("Por favor, complete todos los campos obligatorios.");
             return;
         }
-        console.log("Convenio 1: ",agreement);
-        console.log("Numero convenio 1: ",agreementId);
+
         const data = {
             orii: true,
             direction: movilityType,
             gender,
             cta: 1, // Preguntar
-            entryDate,
-            exitDate,
+            entryDate: formattedEntryDate,
+            exitDate: formattedExitDate,
             originProgram,
             destinationProgram,
             city,
@@ -121,11 +132,11 @@ export default function CreateMovility() {
             },
         };
 
-        console.log("Convenio 22: ",data.agreementId);
-        console.log("Numero convenio 22: ",agreementId);
+        console.log("Convenio 22: ", data.agreementId);
+        console.log("Numero convenio 22: ", agreementId);
 
         try {
-            const result = await createMovilityAction(data); 
+            const result = await createMovilityAction(data);
             if (result.success) {
                 alert("Movilidad creada exitosamente.");
                 resetForm();
@@ -137,7 +148,6 @@ export default function CreateMovility() {
             alert("Hubo un problema al guardar los datos.");
         }
     };
-
     const resetForm = () => {
         setFirstName("");
         setLastName("");
