@@ -69,33 +69,47 @@ export default function AgreementHeader({
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end" className="w-[200px]">
-                                <DropdownMenuItem onClick={() => onFilter?.('date', 'lastMonth')}>
-                                    {activeFilters?.date === 'lastMonth' &&
-                                        <Check className="text-accesibility"/>
+
+                                <DropdownMenuItem onClick={() => onFilter?.('date', 'today')}>
+                                    Hoy
+                                    {activeFilters?.date === 'today' &&
+                                        <Check className="ml-auto text-accesibility" />
                                     }
+                                </DropdownMenuItem>
+
+                                <DropdownMenuItem onClick={() => onFilter?.('date', 'lastMonth')}>
                                     Último mes
+                                    {activeFilters?.date === 'lastMonth' &&
+                                        <Check className="ml-auto text-accesibility" />
+                                    }
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => onFilter?.('date', 'lastYear')}>
-                                    {activeFilters?.date === 'lastYear' &&
-                                        <Check className="text-accesibility"/>
-                                    }
                                     Último año
-                                </DropdownMenuItem>
-                                <DropdownMenuItem className="border-t-2 border-blue" onClick={() => onFilter?.('status', 'ACTIVE')}>
-                                    {activeFilters?.status === 'ACTIVE' &&
-                                        <Check className="text-accesibility"/>
+                                    {activeFilters?.date === 'lastYear' &&
+                                        <Check className="ml-auto text-accesibility" />
                                     }
+                                </DropdownMenuItem>
+
+                                <DropdownMenuItem className="border-t border-blue/30" disabled>
+                                    Estado
+                                </DropdownMenuItem>
+
+                                <DropdownMenuItem onClick={() => onFilter?.('status', 'ACTIVE')}>
                                     Activos
+                                    {activeFilters?.status === 'ACTIVE' &&
+                                        <Check className="ml-auto text-accesibility" />
+                                    }
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => onFilter?.('status', 'INACTIVE')}>
-                                    {activeFilters?.status === 'INACTIVE' &&
-                                        <Check className="text-accesibility"/>
-                                    }
                                     Inactivos
+                                    {activeFilters?.status === 'INACTIVE' &&
+                                        <Check className="ml-auto text-accesibility" />
+                                    }
                                 </DropdownMenuItem>
+
                                 {Object.values(activeFilters || {}).some(v => v) && (
                                     <DropdownMenuItem
-                                        className="border-t-2 border-blue font-bold text-error focus:bg-error focus:text-white"
+                                        className="border-t border-blue/30 font-semibold text-error focus:bg-error focus:text-white"
                                         onClick={() => onFilter?.('reset')}
                                     >
                                         Limpiar filtros
