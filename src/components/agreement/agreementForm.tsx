@@ -20,6 +20,7 @@ import { FormActions } from "./formActions";
 import { AgreementProps } from "@/types/agreementType";
 import { useAgreementHandlers } from "@/app/dashboard/agreements/handlers/agreementHandlers";
 import { useRouter } from "next/navigation";
+import { changeDateFormat } from "@/utils/formatChanger";
 
 interface AgreementFormProps {
   initialValues?: AgreementFormValues;
@@ -53,7 +54,7 @@ export default function AgreementForm({
       country: agreement ? agreement.country : "",
       agreementNumber: agreement ? agreement.agreementNumber : "",
       institution: agreement ? agreement.institution : "",
-      startDate: agreement ? agreement.startDate : "",
+      startDate: agreement ? changeDateFormat(agreement.startDate, false) : "",
       scope: agreement ? agreement.scope : undefined,
       description: agreement ? agreement.description : "",
     },

@@ -61,16 +61,18 @@ export const SelectField = ({
       </div>
 
       <RadioGroup
+        color="primary"
+        size="sm"
         className={
-          `border rounded-xl p-2 ${
-            error ? "border-error" : ""
+          `border rounded-xl p-2 ${error ? "border-error" : ""
           }`
         }
         defaultValue={defaultValue}
         onValueChange={onValueChange}
       >
         {options.map((option) => (
-          <Radio key={option.value} value={option.value}>
+          <Radio
+            key={option.value} value={option.value}>
             {option.label}
           </Radio>
         ))}
