@@ -36,7 +36,7 @@ export interface Movility {
     fundingSource: string;
     destination: string;
     origin: string;
-    agreement: string | null;
+    agreement: Agreement | null;
     event: Event;
     person: Person;
 }
@@ -59,10 +59,21 @@ export interface MovilityCrear {
     fundingSource: string;
     destination: string;
     origin: string;
-    agreement: string | null;
+    agreementId: number | null;
     event: {
         description: string;
         eventTypeId: number;
     };
     person: Person;
 }
+
+export interface Agreement {
+    agreementId: number;
+    institution: string;
+    agreementNumber: string;
+    country: string;
+    description: string;
+    scope: string;
+    startDate: string;
+    status: string;
+  }

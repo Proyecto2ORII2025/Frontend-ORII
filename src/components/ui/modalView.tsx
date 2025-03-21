@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Movility } from "@/types/movilityType";
+import { Movility} from "@/types/movilityType";
 
 interface ModalVerProps {
   movility: Movility | null;
@@ -77,12 +77,12 @@ const handleExitDateChangeView = (entryDate: string, exitDate: string) => {
 
   const start = new Date(entryDate);
   const end = new Date(exitDate);
-  
+
   if (isNaN(start.getTime()) || isNaN(end.getTime())) return "Fechas inválidas";
 
   const diffTime = Math.abs(end.getTime() - start.getTime());
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  
+
   return diffDays;
 };
 
@@ -93,7 +93,7 @@ const fixYear = (dateString: string) => {
   if (parts.length === 3) {
     const year = parseInt(parts[0], 10);
     if (year < 100) {
-      parts[0] = (year + 2000).toString(); 
+      parts[0] = (year + 2000).toString();
     }
   }
   return parts.join("-");
@@ -114,11 +114,9 @@ const formatDate = (date: string) => {
   });
 };
 
-
-
 export default function ModalVer({ movility, open, onClose }: ModalVerProps) {
   if (!movility) return null;
-  
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
@@ -128,7 +126,7 @@ export default function ModalVer({ movility, open, onClose }: ModalVerProps) {
           <Card>
             <CardContent>
               <div className="space-y-4">
-                
+
                 {/* Información General */}
                 <h3 className="font-bold">Información General</h3>
                 <p><strong>Tipo de movilidad:</strong> {mobilityTypeDict[movility.direction] || movility.direction}</p>
@@ -153,7 +151,23 @@ export default function ModalVer({ movility, open, onClose }: ModalVerProps) {
 
                 {/* Financiación */}
                 <h3 className="font-bold">Financiación</h3>
-                <p><strong>Convenio:</strong> {movility.agreement}</p> 
+                <div>
+                  <strong>Convenio</strong>
+                  {movility.agreement ? (
+                    <>
+                      <p><strong>Institución:</strong> {movility.agreement.institution}</p>
+                      <p><strong>Número de convenio:</strong> {movility.agreement.agreementNumber}</p>
+                      <p><strong>País:</strong> {movility.agreement.country}</p>
+                      <p><strong>Descripción:</strong> {movility.agreement.description}</p>
+                      <p><strong>Ámbito:</strong> {movility.agreement.scope}</p>
+                      <p><strong>Fecha de inicio:</strong> {formatDate(movility.agreement.startDate)}</p>
+                      <p><strong>Estado:</strong> {movility.agreement.status}</p>
+                    </>
+                  ) : (
+                    ": No tiene convenio asociado"
+                  )}
+                </div>
+
                 <p><strong>Monto de Financiación en pesos:</strong> ${movility.funding}</p>
                 <p><strong>Fuente de Financiación:</strong> {movility.fundingSource}</p>
 

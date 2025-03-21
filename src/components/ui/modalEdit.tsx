@@ -88,10 +88,10 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-  
+
     setFormData((prev) => {
       if (!prev) return null;
-  
+
       if (["firstName", "lastName", "identification", "email", "identificationType"].includes(name)) {
         return {
           ...prev,
@@ -101,7 +101,7 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
           },
         };
       }
-  
+
       return {
         ...prev,
         [name]: value,
@@ -119,7 +119,7 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
       orii: true,
       direction: formData.direction,
       gender: formData.gender,
-      cta: 1, 
+      cta: 1,
       entryDate: formData.entryDate,
       exitDate: formData.exitDate,
       originProgram: formData.originProgram,
@@ -132,10 +132,10 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
       fundingSource: formData.fundingSource,
       destination: formData.destination,
       origin: formData.origin,
-      agreement: formData.agreement === "Y" ? formData.agreement : null,
+      agreementId: formData.agreement?.agreementId ?? null,
       event: {
         description: formData.event.description || "",
-        eventTypeId: formData.event.eventType?.eventTypeId || 0, 
+        eventTypeId: formData.event.eventType?.eventTypeId || 0,
       },
       person: {
         identificationType: formData.person.identificationType || "",
@@ -150,7 +150,7 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
     console.log("Datos enviados a editMovilityAction:", formattedData);
 
     const response = await editMovilityAction(formattedData, formData.id);
-    
+
     setLoading(false);
 
     if (response.success) {
@@ -180,7 +180,7 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
                 <label className="block text-sm font-medium">Nombres</label>
                 <Input type="text" name="firstName" value={formData.person.firstName || ""} onChange={handleChange} />
 
-                <label className="block text-sm font-medium">Aoellidos</label>
+                <label className="block text-sm font-medium">Apellidos</label>
                 <Input type="text" name="lastName" value={formData.person.lastName || ""} onChange={handleChange} />
 
                 <label className="block text-sm font-medium">Género</label>
@@ -259,9 +259,9 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
                 <Input type="email" name="email" value={formData.person?.email || ""} onChange={handleChange} />
 
                 <label className="block text-sm font-medium">Tipo de Movilidad</label>
-                <Select 
+                <Select
                   name="direction"
-                  value={formData.direction} 
+                  value={formData.direction}
                   onValueChange={(value) => setFormData((prev) => prev ? { ...prev, direction: value } : null)}
                 >
                   <SelectTrigger>
@@ -306,15 +306,15 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
                     setFormData((prev) =>
                       prev
                         ? {
-                            ...prev,
-                            event: {
-                              ...prev.event,
-                              eventType: {
-                                ...prev.event?.eventType,
-                                eventTypeId: Number(value),
-                              },
+                          ...prev,
+                          event: {
+                            ...prev.event,
+                            eventType: {
+                              ...prev.event?.eventType,
+                              eventTypeId: Number(value),
                             },
-                          }
+                          },
+                        }
                         : null
                     )
                   }
@@ -366,6 +366,54 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
 
                 <label className="block text-sm font-medium">Fecha de Salida</label>
                 <Input type="date" name="exitDate" value={formData.exitDate || ""} onChange={handleChange} />
+
+                {/* Campo para agreementId */}
+                {formData.agreement?.agreementId !== null ? (
+                  // Si ya existe un convenio, mostrar un campo para editar el agreementId
+                  <>
+                    <label className="block text-sm font-medium">ID del Convenio</label>
+                    <Input
+                      type="number"
+                      name="agreementId"
+                      value={formData.agreement?.agreementId || ""}
+                      onChange={handleChange}
+                    />
+                  </>
+                ) : (
+                  // Si no existe un convenio, preguntar si se desea añadir uno
+                  <>
+                    <label className="block text-sm font-medium">¿Desea añadir un convenio?</label>
+                    <Select
+                      value={formData.agreement?.agreementId !== null ? "Y" : "N"} // "Y" para sí, "N" para no
+                      onValueChange={(value) =>
+                        setFormData((prev) =>
+                          prev ? { ...prev, agreementId: value === "Y" ? 0 : null } : null
+                        )
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue>{formData.agreement?.agreementId !== null ? "Sí" : "No"}</SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Y">Sí</SelectItem>
+                        <SelectItem value="N">No</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    {/* Mostrar el campo para agreementId si el usuario selecciona "Sí" */}
+                    {formData.agreement?.agreementId !== null && (
+                      <>
+                        <label className="block text-sm font-medium">ID del Convenio</label>
+                        <Input
+                          type="number"
+                          name="agreementId"
+                          value={formData.agreement?.agreementId || ""}
+                          onChange={handleChange}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
 
 
                 <Button type="submit" className="w-full" disabled={loading}>
