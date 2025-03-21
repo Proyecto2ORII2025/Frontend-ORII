@@ -72,7 +72,7 @@ const data = {
         },
         {
             title: "Estadisticas",
-            url: "#",
+            url: "/dashboard/statistics",
             icon: ChartColumnIncreasing,
             items: [
                 {
@@ -104,11 +104,12 @@ export const AppSidebar = React.memo(function AppSidebar({ ...props }: React.Com
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader className="bg-blueDark text-white p-4 items-start">
                 <Image
-                    src={"/ORII.webp"}
+                    src={"/logos/ORII.webp"}
                     alt="Logo"
                     width={150}
                     height={150}
                     className="group-data-[collapsible=icon]:w-0 orii-logo"
+                    priority
                 />
             </SidebarHeader>
             <SidebarContent className="bg-blueDark text-white pt-8">

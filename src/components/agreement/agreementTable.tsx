@@ -12,7 +12,7 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@heroui/modal";
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { deleteAgreementAction } from "@/actions/agreementAction";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -25,6 +25,7 @@ export default function AgreementTable({
   emptyMessage,
   columns,
 }: AgreementTableProps) {
+  
   const router = useRouter();
 
   const [localAgreements, setLocalAgreements] =

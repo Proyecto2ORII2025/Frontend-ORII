@@ -1,4 +1,3 @@
-// src/hooks/useAgreements.ts
 import { useEffect, useState } from "react";
 import { AgreementProps, AgreementsData } from "@/types/agreementType";
 import { fetchAgreements } from "@/actions/agreementAction";
