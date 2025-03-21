@@ -7,12 +7,8 @@ export async function fetchMobilityByFaculty(): Promise<facultyData> {
     try {
         return await getMovilityByFaculty();
     } catch (error) {
-        console.log("Error al obtener las estadísticas:", error);
-        return {
-            faculty: [],
-            input: [],
-            output: []
-        }
+        console.error("Error al obtener las estadísticas por facultad:", error);
+        throw error;
     }
 }
 
@@ -21,10 +17,7 @@ export async function fetchMobilityByCountry(): Promise<countryData> {
         return await getMobilityByCountry();
     } catch (error) {
         console.log("Error al obtener las estadísticas:", error);
-        return {
-            country: [],
-            mobilities: []
-        }
+        throw error;
     }
 }
 
@@ -34,10 +27,7 @@ export async function fetchMobilityPerYear(): Promise<yearData> {
         return response;
     } catch (error) {
         console.log("Error al obtener las estadísticas:", error);
-        return {
-            years: [],
-            amountMobility: []
-        }
+        throw error;
     }
 }
 
@@ -47,9 +37,6 @@ export async function fetchMobilityByEvent(): Promise<eventData> {
         return response;
     } catch (error) {
         console.error("Error al obtener las estadísticas:", error);
-        return {
-            agreementType: [],
-            totalMobilityByAgreementsType: []
-        }
+        throw error;
     }
 }

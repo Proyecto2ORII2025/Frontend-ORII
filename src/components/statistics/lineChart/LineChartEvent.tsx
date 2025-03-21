@@ -35,7 +35,7 @@ export default function LineChartEvent() {
 
     return (
         <ChartWrapper state={state} chartType="line">
-            {chartData && <LineChart title="Tendencia de Eventos" xLabel="Evento" yLabel="Número de eventos" data={chartData} />}
+            {chartData && <LineChart title="Tendencia de eventos" xLabel="Evento" yLabel="Número de eventos" data={chartData} />}
         </ChartWrapper>
     );
 }

@@ -40,7 +40,7 @@ export default function BarChartMobilityByEvent() {
   return (
     <ChartWrapper state={state} chartType="bar">
       {chartData && <BarChart
-        title="Movilidades por Evento"
+        title="Movilidades por evento"
         xLabel="Evento"
         yLabel="Número de movilidades"
         data={chartData}
