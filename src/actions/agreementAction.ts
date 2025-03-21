@@ -1,6 +1,6 @@
 'use server';
 
-import { obtainAgreements, createAgreement, deleteAgreement } from '@/services/agreement.service';
+import { obtainAgreements, createAgreement, deleteAgreement, updateAgreement } from '@/services/agreement.service';
 import { AgreementsData, Agreement } from "@/types/agreementType";
 
 interface PromiseSuccess {
@@ -27,6 +27,27 @@ export async function createAgreementAction(data: Agreement): Promise<PromiseSuc
         await createAgreement(data);
         return {
             success: true,
+        };
+    } catch (error) {
+        console.error("Error:", error);
+        return {
+            success: false
+        };
+    }
+}
+
+export async function updateAgreementAction(data: Agreement, id: string | undefined): Promise<PromiseSuccess> {
+    try {
+        if (!id) {
+            return {
+                success: false,
+                error: "No se ha proporcionado un identificador para actualizar el convenio"
+            };
+        }
+
+        await updateAgreement(data, id);
+        return {
+            success: true
         };
     } catch (error) {
         console.error("Error:", error);
