@@ -14,7 +14,7 @@ export interface AgreementsData {
 }
 
 export interface AgreementProps {
-    agreementId: string;
+    agreementId?: string;
     institution: string;
     agreementNumber: string;
     country: string;
@@ -45,6 +45,11 @@ export interface AgreementTableProps {
 export interface Column {
     key: keyof AgreementProps;
     header: string;
+}
+
+export interface CreateAgreementProps {
+    agreement?: AgreementProps | null;
+    onCloseU?: () => void;
 }
 
 export const columns: Column[] = [

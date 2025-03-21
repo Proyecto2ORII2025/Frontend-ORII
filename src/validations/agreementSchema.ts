@@ -7,6 +7,8 @@ export const agreementSchema = z.object({
     startDate: z.string().min(1, "La fecha de inicio es requerida"),
     scope: z.enum(["NATIONAL", "INTERNATIONAL"], {
         required_error: "El ámbito es requerido"
+    }).optional().refine(value => value !== undefined, {
+        message: "El ámbito es requerido"
     }),
     description: z.string().min(10, "La descripción debe tener al menos 10 caracteres"),
     status: z.literal("ACTIVE").default("ACTIVE"),

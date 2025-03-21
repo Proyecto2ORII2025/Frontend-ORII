@@ -8,13 +8,14 @@ interface FormActionsProps {
     onCancel: () => void;
     submitButtonText?: string;
     submittingText?: string;
+    onCloseU?: () => void;
 }
 
 export const FormActions = ({
     isSubmitting,
     onCancel,
-    submitButtonText = "Crear Convenio",
-    submittingText = "Creando...",
+    submitButtonText,
+    submittingText,
 }: FormActionsProps) => {
     return (
         <div className="flex justify-start space-x-4">
@@ -27,7 +28,7 @@ export const FormActions = ({
             >
                 Cancelar
             </Button>
-            <Button
+            <Button 
                 className="w-1/3 md:w-1/4 px-4"
                 type="submit"
                 disabled={isSubmitting}
