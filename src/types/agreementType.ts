@@ -33,6 +33,7 @@ export interface AgreementHeaderProps {
     onFilter?: (filterType: string, value?: string) => void;
     searchTerm?: string;
     activeFilters?: FilterState;
+    agreements: AgreementProps[]
 }
 
 export interface AgreementTableProps {
