@@ -12,7 +12,6 @@ export default function CreateAgreement() {
           información ingresada es correcta e ingrese todos los campos.
         </p>
       </div>
-
       <AgreementForm />
     </>
   );

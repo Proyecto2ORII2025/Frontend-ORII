@@ -10,9 +10,10 @@ import { useAgreements } from "@/hooks/useAgreements";
 import { useAgreementFilters } from "@/hooks/useFilterAgreements";
 
 export default function Agreements() {
-    const [, setActiveTab] = useState("nacional");
+    const [activeTab, setActiveTab] = useState("nacional");
     const [wasDeleted,] = useState("");
     const [wasUpdated,] = useState("");
+
     
     // Hook para obtener los acuerdos desde la API
     const {
@@ -40,6 +41,7 @@ export default function Agreements() {
                 onFilter={handleFilter}
                 searchTerm={searchTerm}
                 activeFilters={activeFilters}
+                agreements={activeTab === "nacional" ? nationalAgreements : internationalAgreements}
             />
 
             <Tabs defaultValue="nacional" className="w-full" onValueChange={setActiveTab}>

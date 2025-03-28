@@ -110,7 +110,7 @@ export default function AgreementTable({
     }
 
     return (
-        <div className="overflow-hidden rounded-lg border">
+        <div className="overflow-hidden overflow-x-auto rounded-lg border">
             <table className="w-full text-sm">
                 <thead className="bg-muted">
                     <tr>
