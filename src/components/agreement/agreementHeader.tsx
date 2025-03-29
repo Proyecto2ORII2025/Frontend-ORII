@@ -12,7 +12,7 @@ import {
 import Title from "@/components/ui/title";
 import Link from "next/link";
 import { AgreementHeaderProps } from "@/types/agreementType";
-import ExportButton from "../exportButton";
+import ExportButton from "./exportButton";
 
 export default function AgreementHeader({
   title,

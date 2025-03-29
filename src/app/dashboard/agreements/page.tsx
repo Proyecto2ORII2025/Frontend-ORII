@@ -41,7 +41,7 @@ export default function Agreements() {
                 onFilter={handleFilter}
                 searchTerm={searchTerm}
                 activeFilters={activeFilters}
-                agreements={activeTab === "nacional" ? nationalAgreements : internationalAgreements}
+                agreements={activeTab === "nacional" ? filteredNational : filteredInternational}
             />
 
             <Tabs defaultValue="nacional" className="w-full" onValueChange={setActiveTab}>

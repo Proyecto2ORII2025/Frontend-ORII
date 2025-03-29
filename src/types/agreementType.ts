@@ -15,12 +15,12 @@ export interface AgreementsData {
 
 export interface AgreementProps {
     agreementId?: string;
-    institution: string;
     agreementNumber: string;
-    country: string;
+    institution: string;
     description: string;
-    scope: "NATIONAL" | "INTERNATIONAL";
+    country: string;
     startDate: string;
+    scope: "NATIONAL" | "INTERNATIONAL";
     status: "ACTIVE" | "INACTIVE";
 }
 
