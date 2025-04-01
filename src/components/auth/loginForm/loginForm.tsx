@@ -21,8 +21,8 @@ export default function LoginForm() {
     const { register, handleSubmit, formState: { errors }, setValue, setError } = useForm({
         resolver: zodResolver(userSchema),
         defaultValues: {
-            email: "",
-            password: ""
+            email: "cmperdomo@unicauca.edu.co",
+            password: "aguapanela"
         },
         mode: "onSubmit"
     });

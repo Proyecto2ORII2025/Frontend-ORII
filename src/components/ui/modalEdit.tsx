@@ -5,9 +5,10 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Movility, MovilityCrear } from "@/types/movilityType";
+import { Movility, MovilityCrear} from "@/types/movilityType";
 import { editMovilityAction } from "@/actions/movilityAction";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
+import {genderDict, roleDict, documentTypeDict, mobilityTypeDict, facultyDict, eventTypeDict, CTADict } from "@/utils/movilityUtils"
 
 interface ModalEditProps {
   movility: Movility | null;
@@ -15,66 +16,6 @@ interface ModalEditProps {
   onClose: () => void;
   onUpdate: (updatedMovility: Movility) => void;
 }
-
-const mobilityTypeDict: Record<string, string> = {
-  "INCOMING_IN_PERSON": "Entrante en persona",
-  "OUTGOING_IN_PERSON": "Saliente en persona",
-  "INCOMING_VIRTUAL": "Entrante virtual",
-  "OUTGOING_VIRTUAL": "Saliente virtual",
-};
-
-const genderDict: Record<string, string> = {
-  "M": "Masculino",
-  "F": "Femenino",
-};
-
-const roleDict = {
-  STUDENT: "Estudiante",
-  TEACHER: "Docente",
-  ADMIN: "Administrativo",
-};
-
-const documentTypeDict = {
-  "CC": "Cédula de Ciudadanía",
-  "CE": "Cédula de Extranjería",
-  "PS": "Pasaporte",
-  "DE": "Documento extranjero",
-  "V": "Visa",
-};
-
-const facultyDict = {
-  FA: "Facultad de Artes",
-  FCA: "Facultad de Ciencias Agrarias",
-  FCS: "Facultad de Ciencias de la Salud",
-  FCCEA: "Facultad de Ciencias Contables, Económicas y Administrativas",
-  FCH: "Facultad de Ciencias Humanas",
-  FACNED: "Facultad de Ciencias Naturales, Exactas y de la Educación",
-  FDCPS: "Facultad de Derecho, Ciencias Políticas y Sociales",
-  FIC: "Facultad de Ingeniería Civil",
-  FIET: "Facultad de Ingeniería Electrónica y Telecomunicaciones",
-};
-
-const eventTypeDict = {
-  "1": "Asistencia a evento",
-  "2": "Misión",
-  "3": "Curso corto",
-  "4": "Estancia de investigación",
-  "5": "Semestre académico de intercambio",
-  "6": "Doble titulación",
-  "7": "Pasantía o práctica",
-  "8": "Rotación médica",
-  "9": "Profesor visitante",
-  "10": "Profesor de programa de pregrado",
-  "11": "Profesor de programa de especialización",
-  "12": "Profesor de programa de maestría",
-  "13": "Profesor de programa de doctorado",
-  "14": "Profesor de programa de postdoctorado",
-  "15": "Estudios de maestría",
-  "16": "Estudios de doctorado",
-  "17": "Estudios de posdoctorado",
-  "18": "Internacionalización en casa",
-  "19": "Voluntariado",
-};
 
 export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEditProps) {
   const [formData, setFormData] = useState<Movility | null>(movility);
@@ -90,6 +31,8 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
     const { name, value } = e.target;
 
     setFormData((prev) => {
+      console.log("Datos enviados a editMovilityAction:", formData)
+
       if (!prev) return null;
 
       if (["firstName", "lastName", "identification", "email", "identificationType"].includes(name)) {
@@ -101,7 +44,6 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
           },
         };
       }
-
       return {
         ...prev,
         [name]: value,
@@ -119,7 +61,7 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
       orii: true,
       direction: formData.direction,
       gender: formData.gender,
-      cta: 1,
+      cta: formData.cta,
       entryDate: formData.entryDate,
       exitDate: formData.exitDate,
       originProgram: formData.originProgram,
@@ -206,6 +148,29 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
                   </SelectContent>
                 </Select>
 
+                <label className="block text-sm font-medium">Periodo</label>
+                <Select
+                  value={formData.cta?.toString() || ""}
+                  onValueChange={(value) =>
+                    setFormData((prev) =>
+                      prev ? { ...prev, cta: Number(value) } : null
+                    )
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue>
+                      {CTADict[formData.cta?.toString() as keyof typeof CTADict] || "Seleccione un periodo"}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(CTADict).map(([key, label]) => (
+                      <SelectItem key={key} value={key}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
                 <label className="block text-sm font-medium">Rol</label>
                 <Select
                   value={formData.person?.personType || ""}
@@ -258,7 +223,7 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
                 <label className="block text-sm font-medium">Correo Electrónico</label>
                 <Input type="email" name="email" value={formData.person?.email || ""} onChange={handleChange} />
 
-                <label className="block text-sm font-medium">Tipo de Movilidad</label>
+                <label className="block text-sm font-medium">Sentido de la movilidad</label>
                 <Select
                   name="direction"
                   value={formData.direction}
@@ -360,62 +325,15 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
                 <label className="block text-sm font-medium">Fuente de la finanación</label>
                 <Input type="text" name="fundingSource" value={formData.fundingSource || ""} onChange={handleChange} />
 
-
                 <label className="block text-sm font-medium">Fecha de Entrada</label>
                 <Input type="date" name="entryDate" value={formData.entryDate || ""} onChange={handleChange} />
 
                 <label className="block text-sm font-medium">Fecha de Salida</label>
                 <Input type="date" name="exitDate" value={formData.exitDate || ""} onChange={handleChange} />
 
-                {/* Campo para agreementId */}
-                {formData.agreement?.agreementId !== null ? (
-                  // Si ya existe un convenio, mostrar un campo para editar el agreementId
-                  <>
-                    <label className="block text-sm font-medium">ID del Convenio</label>
-                    <Input
-                      type="number"
-                      name="agreementId"
-                      value={formData.agreement?.agreementId || ""}
-                      onChange={handleChange}
-                    />
-                  </>
-                ) : (
-                  // Si no existe un convenio, preguntar si se desea añadir uno
-                  <>
-                    <label className="block text-sm font-medium">¿Desea añadir un convenio?</label>
-                    <Select
-                      value={formData.agreement?.agreementId !== null ? "Y" : "N"} // "Y" para sí, "N" para no
-                      onValueChange={(value) =>
-                        setFormData((prev) =>
-                          prev ? { ...prev, agreementId: value === "Y" ? 0 : null } : null
-                        )
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue>{formData.agreement?.agreementId !== null ? "Sí" : "No"}</SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Y">Sí</SelectItem>
-                        <SelectItem value="N">No</SelectItem>
-                      </SelectContent>
-                    </Select>
-
-                    {/* Mostrar el campo para agreementId si el usuario selecciona "Sí" */}
-                    {formData.agreement?.agreementId !== null && (
-                      <>
-                        <label className="block text-sm font-medium">ID del Convenio</label>
-                        <Input
-                          type="number"
-                          name="agreementId"
-                          value={formData.agreement?.agreementId || ""}
-                          onChange={handleChange}
-                        />
-                      </>
-                    )}
-                  </>
-                )}
-
-
+                <label className="block text-sm font-medium">Número de convenio</label>
+                <Input type="text" name="agreementId" value={formData.agreement?.agreementId.toString() || ""} onChange={handleChange} />
+                
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Guardando..." : "Guardar Cambios"}
                 </Button>

@@ -1,3 +1,58 @@
+export const CTADict: Record<string, string> = {
+    "1": "Periodo 1",
+    "2": "Periodo 2"
+}
+
+export const genderDict: Record<string, string> = {
+    "M": "Masculino",
+    "F": "Femenino",
+  };
+
+export const roleDict: Record<string, string> = {
+    STUDENT: "Estudiante",
+    TEACHER: "Docente",
+    ADMIN: "Administrativo",
+  };
+
+export const documentTypeDict: Record<string, string> = {
+    "TI": "Tarjeta de identidad",
+    "CC": "Cédula de Ciudadanía",
+    "CE": "Cédula de Extranjería",
+    "PS": "Pasaporte",
+    "V": "Visa",
+    "OT": "Otro",
+  };
+
+export const mobilityTypeDict: Record<string, string> = {
+    "INCOMING_IN_PERSON": "Entrante en persona",
+    "OUTGOING_IN_PERSON": "Saliente en persona",
+    "INCOMING_VIRTUAL": "Entrante virtual",
+    "OUTGOING_VIRTUAL": "Saliente virtual",
+  };
+
+export const facultyDict: Record<string, string> = {
+    FA: "Facultad de Artes",
+    FCA: "Facultad de Ciencias Agrarias",
+    FCS: "Facultad de Ciencias de la Salud",
+    FCCEA: "Facultad de Ciencias Contables, Económicas y Administrativas",
+    FCH: "Facultad de Ciencias Humanas",
+    FACNED: "Facultad de Ciencias Naturales, Exactas y de la Educación",
+    FDCPS: "Facultad de Derecho, Ciencias Políticas y Sociales",
+    FIC: "Facultad de Ingeniería Civil",
+    FIET: "Facultad de Ingeniería Electrónica y Telecomunicaciones",
+  };
+
+export const eventTypeDict: Record<string, string>  = {
+    "1": "Asistencia a evento",
+    "2": "Misión",
+    "3": "Curso corto",
+    "4": "Estancia o pasantía de investigación",
+    "5": "Intercambio",
+    "6": "Rotación médica",
+    "7": "Profesor visitante o saliente",
+    "8": "Voluntariado",
+  };
+
 export const options = [
     { label: "Asistencia a evento", value: "1" },
     { label: "Misión", value: "2" },
@@ -107,41 +162,6 @@ export const validateFields = (fields: MovilityFields) => {
     return newErrors;
 };
 
-/*
-export const validateFields = (fields: Record<string, any>) => {
-    const newErrors: Record<string, string> = {};
-    if (!fields.firstName) newErrors.firstName = "El nombre es obligatorio.";
-    if (!fields.lastName) newErrors.lastName = "Los apellidos son obligatorios.";
-    if (!fields.gender) newErrors.gender = "El género es obligatorio.";
-    if (!fields.personType) newErrors.personType = "El rol es obligatorio.";
-    if (!fields.identificationType) newErrors.identificationType = "El tipo de documento es obligatorio.";
-    if (!fields.identification) newErrors.identification = "El número de documento es obligatorio.";
-    if (!fields.movilityType) newErrors.movilityType = "El tipo de movilidad es obligatorio.";
-    if (!fields.faculty) newErrors.faculty = "La facultad es obligatoria.";
-    if (!fields.eventTypeId) newErrors.eventTypeId = "El tipo de evento es obligatorio.";
-    if (!fields.description) newErrors.description = "La descripción del evento es obligatoria.";
-    if (!fields.movilityScope) newErrors.movilityScope = "El ámbito es obligatorio.";
-    if (!fields.origin) newErrors.origin = "La universidad de origen es obligatoria.";
-    if (!fields.destination) newErrors.destination = "La universidad de destino es obligatoria.";
-    if (!fields.country) newErrors.country = "El país es obligatorio.";
-    if (!fields.city) newErrors.city = "La ciudad es obligatoria.";
-    if (!fields.originProgram) newErrors.originProgram = "El programa de origen es obligatorio.";
-    if (!fields.destinationProgram) newErrors.destinationProgram = "El programa de acogida es obligatorio.";
-    if (!fields.entryDate) newErrors.entryDate = "La fecha de entrada es obligatoria.";
-    if (!fields.exitDate) newErrors.exitDate = "La fecha de salida es obligatoria.";
-    if (!fields.agreement) newErrors.agreement = "Debe indicar si existe un convenio.";
-    if (fields.agreement === "Y" && !fields.numberAgreement) newErrors.numberAgreement = "El número de convenio es obligatorio.";
-    if (!fields.valorFinanciacion) newErrors.valorFinanciacion = "El valor de la financiación es obligatorio.";
-    if (!fields.fundingSource) newErrors.fundingSource = "La fuente de la financiación es obligatoria.";
-    const isIncomingMovility = fields.movilityType === "INCOMING_IN_PERSON" || fields.movilityType === "INCOMING_VIRTUAL";
-    const isStudent = fields.personType === "STUDENT";
-    const isRelevantEventType = [4, 5, 7].includes(fields.eventTypeId); // Tipos de evento 4, 5 o 7
-    if (isIncomingMovility && isStudent && isRelevantEventType && !fields.teacher) {
-        newErrors.teacher = "El tutor académico es obligatorio para estudiantes en movilidad entrante con los tipos de evento 4, 5 o 7.";
-    }
-    return newErrors;
-};
-*/
 export const handleEntryDateChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     setEntryDate: (date: string) => void,
@@ -195,4 +215,3 @@ export const handleExitDateChange = (
         setStayDays(0);
     }
 };
-

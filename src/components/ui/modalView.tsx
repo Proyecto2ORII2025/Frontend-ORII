@@ -4,73 +4,13 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Movility} from "@/types/movilityType";
+import {genderDict, roleDict, documentTypeDict, mobilityTypeDict, facultyDict, eventTypeDict} from "@/utils/movilityUtils"
 
 interface ModalVerProps {
   movility: Movility | null;
   open: boolean;
   onClose: () => void;
 }
-
-const mobilityTypeDict: Record<string, string> = {
-  "INCOMING_IN_PERSON": "Entrante en persona",
-  "OUTGOING_IN_PERSON": "Saliente en persona",
-  "INCOMING_VIRTUAL": "Entrante virtual",
-  "OUTGOING_VIRTUAL": "Saliente virtual",
-};
-
-const genderDict: Record<string, string> = {
-  "M": "Masculino",
-  "F": "Femenino",
-};
-
-const roleDict: Record<string, string> = {
-  "STUDENT": "Estudiante",
-  "TEACHER": "Docente",
-  "ADMIN": "Administrativo",
-};
-
-const documentTypeDict: Record<string, string> = {
-  "CC": "Cédula de Ciudadanía",
-  "CE": "Cédula de Extranjería",
-  "PS": "Pasaporte",
-  "DE": "Documento Extranjero",
-  "V": "Visa",
-};
-
-const facultyDict: Record<string, string> = {
-  "FA": "Facultad de Artes",
-  "FCA": "Facultad de Ciencias Agrarias",
-  "FCS": "Facultad de Ciencias de la Salud",
-  "FCCEA": "Facultad de Ciencias Contables, Económicas y Administrativas",
-  "FCH": "Facultad de Ciencias Humanas",
-  "FACNED": "Facultad de Ciencias Naturales, Exactas y de la Educación",
-  "FDCPS": "Facultad de Derecho, Ciencias Políticas y Sociales",
-  "FIC": "Facultad de Ingeniería Civil",
-  "FIET": "Facultad de Ingeniería Electrónica y Telecomunicaciones",
-};
-
-const eventTypeDict: Record<string, string> = {
-  "1": "Asistencia a evento",
-  "2": "Misión",
-  "3": "Curso corto",
-  "4": "Estancia de investigación",
-  "5": "Semestre académico de intercambio",
-  "6": "Doble titulación",
-  "7": "Pasantía o práctica",
-  "8": "Rotación médica",
-  "9": "Profesor visitante",
-  "10": "Profesor de programa de pregrado",
-  "11": "Profesor de programa de especialización",
-  "12": "Profesor de programa de maestría",
-  "13": "Profesor de programa de doctorado",
-  "14": "Profesor de programa de postdoctorado",
-  "15": "Estudios de maestría",
-  "16": "Estudios de doctorado",
-  "17": "Estudios de posdoctorado",
-  "18": "Internacionalización en casa",
-  "19": "Voluntariado",
-};
-
 
 const handleExitDateChangeView = (entryDate: string, exitDate: string) => {
   if (!entryDate || !exitDate) return "Fechas no disponibles";
@@ -99,21 +39,6 @@ const fixYear = (dateString: string) => {
   return parts.join("-");
 };
 
-const formatDate = (date: string) => {
-  if (!date) return "Fecha no disponible";
-
-  const fixedDate = fixYear(date);
-  const parsedDate = new Date(fixedDate);
-
-  if (isNaN(parsedDate.getTime())) return "Fecha inválida";
-
-  return parsedDate.toLocaleDateString("es-ES", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-};
-
 export default function ModalVer({ movility, open, onClose }: ModalVerProps) {
   if (!movility) return null;
 
@@ -129,11 +54,11 @@ export default function ModalVer({ movility, open, onClose }: ModalVerProps) {
 
                 {/* Información General */}
                 <h3 className="font-bold">Información General</h3>
-                <p><strong>Tipo de movilidad:</strong> {mobilityTypeDict[movility.direction] || movility.direction}</p>
+                <p><strong>Sentdio de la movilidad:</strong> {mobilityTypeDict[movility.direction] || movility.direction}</p>
                 <p><strong>Género:</strong> {genderDict[movility.gender] || movility.gender}</p>
-                <p><strong>CTA:</strong> {movility.cta}</p>
-                <p><strong>Fecha de inicio:</strong> {formatDate(movility.entryDate)}</p>
-                <p><strong>Fecha de finalización:</strong> {formatDate(movility.exitDate)}</p>
+                <p><strong>Periodo:</strong> {movility.cta}</p>
+                <p><strong>Fecha de inicio:</strong> {movility.entryDate}</p>
+                <p><strong>Fecha de finalización:</strong> {movility.exitDate}</p>
                 <p><strong>Días de estancia:</strong> {handleExitDateChangeView(movility.entryDate, movility.exitDate)}</p>
                 <p><strong>Año de movilidad:</strong> {new Date(fixYear(movility.exitDate)).getFullYear()}</p>
 
@@ -160,7 +85,7 @@ export default function ModalVer({ movility, open, onClose }: ModalVerProps) {
                       <p><strong>País:</strong> {movility.agreement.country}</p>
                       <p><strong>Descripción:</strong> {movility.agreement.description}</p>
                       <p><strong>Ámbito:</strong> {movility.agreement.scope}</p>
-                      <p><strong>Fecha de inicio:</strong> {formatDate(movility.agreement.startDate)}</p>
+                      <p><strong>Fecha de inicio:</strong> {movility.agreement.startDate}</p>
                       <p><strong>Estado:</strong> {movility.agreement.status}</p>
                     </>
                   ) : (

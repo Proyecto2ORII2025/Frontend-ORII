@@ -13,29 +13,7 @@ import { Movility } from "@/types/movilityType";
 import ModalEdit from "@/components/ui/modalEdit";
 import ConfirmationModal from "@/components/ui/confirmationModal";
 import ModalVer from "@/components/ui/modalView";
-
-const formatDate = (date: string) => {
-    if (!date) return "Fecha no disponible";
-
-    // Reparar el año si tiene formato incorrecto
-    const parts = date.split("-");
-    if (parts.length === 3) {
-        const year = parseInt(parts[0], 10);
-        if (year < 100) {
-            parts[0] = (year + 2000).toString();
-        }
-    }
-    const fixedDate = parts.join("-");
-    const parsedDate = new Date(fixedDate);
-
-    if (isNaN(parsedDate.getTime())) return "Fecha inválida";
-
-    return parsedDate.toLocaleDateString("es-ES", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-    });
-};
+import {documentTypeDict} from "@/utils/movilityUtils"
 
 export default function MovilityList() {
     const [movilities, setMovilities] = useState<Movility[]>([]);
@@ -81,14 +59,6 @@ export default function MovilityList() {
     const updateMovilityList = (updatedMovility: Movility) => {
         setMovilities((prev) => prev.map((mob) => (mob.id === updatedMovility.id ? updatedMovility : mob)));
     };
-
-    const documentTypeDict: Record<string, string> = {
-        "CC": "Cédula de Ciudadanía",
-        "CE": "Cédula de Extranjería",
-        "PS": "Pasaporte",
-        "DE": "Documento Extranjero",
-        "V": "Visa",
-      };
 
     const handleSelectMovility = (id: number) => {
         if (selectedMovilities.includes(id)) {
@@ -206,8 +176,8 @@ export default function MovilityList() {
                                                 {documentTypeDict[mob.person.identificationType.trim().toUpperCase()] || mob.person.identificationType}
                                             </td>
                                             <td className="px-4 py-3">{mob.event.description}</td>
-                                            <td className="px-4 py-3">{formatDate(mob.entryDate)}</td>
-                                            <td className="px-4 py-3">{formatDate(mob.exitDate)}</td>
+                                            <td className="px-4 py-3">{mob.entryDate}</td>
+                                            <td className="px-4 py-3">{mob.exitDate}</td>
                                             <td className="px-4 py-3">
                                                 <div className="flex space-x-2">
                                                     {/* Botón Ver (abre ModalVer) */}
