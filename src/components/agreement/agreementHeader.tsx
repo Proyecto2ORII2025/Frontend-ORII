@@ -12,7 +12,6 @@ import {
 import Title from "@/components/ui/title";
 import Link from "next/link";
 import { AgreementHeaderProps } from "@/types/agreementType";
-import ExportButton from "./exportButton";
 
 export default function AgreementHeader({
   title,
@@ -21,7 +20,6 @@ export default function AgreementHeader({
   onFilter,
   searchTerm,
   activeFilters,
-  agreements,
 }: AgreementHeaderProps) {
   return (
     <>
@@ -132,8 +130,6 @@ export default function AgreementHeader({
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
-
-            <ExportButton agreements={agreements}></ExportButton>
           </div>
         </div>
       )}
