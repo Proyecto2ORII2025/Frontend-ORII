@@ -7,13 +7,13 @@ import { Info } from "lucide-react";
 interface AgreementsSectionProps {
     agreement: string;
     agreementId: number;
-    valorFinanciacion: string;
+    funding: number;
     fundingSource: string;
     errors: Record<string, string>;
     setters: {
         setAgreement: (value: string) => void;
         setAgreementId: (value: number) => void;
-        setValorFinanciacion: (value: string) => void;
+        setfunding: (value: number) => void;
         setFuenteFinanciacion: (value: string) => void;
     };
 }
@@ -21,7 +21,7 @@ interface AgreementsSectionProps {
 export function AgreementsSection({
     agreement,
     agreementId,
-    valorFinanciacion,
+    funding,
     fundingSource,
     errors,
     setters
@@ -88,7 +88,7 @@ export function AgreementsSection({
 
                 <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                        <Label htmlFor="valorFinanciacion">Valor de la financiación en pesos</Label>
+                        <Label htmlFor="funding">Valor de la financiación en pesos</Label>
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger>
@@ -101,12 +101,12 @@ export function AgreementsSection({
                         </TooltipProvider>
                     </div>
                     <Input
-                        id="valorFinanciacion"
+                        id="funding"
                         type="text"
-                        value={valorFinanciacion}
-                        onChange={(e) => setters.setValorFinanciacion(e.target.value)}
+                        value={funding}
+                        onChange={(e) => setters.setfunding(Number(e.target.value))}
                     />
-                    {errors.valorFinanciacion && <p className="text-sm text-red-500">{errors.valorFinanciacion}</p>}
+                    {errors.funding && <p className="text-sm text-red-500">{errors.funding}</p>}
                 </div>
 
                 <div className="space-y-2">

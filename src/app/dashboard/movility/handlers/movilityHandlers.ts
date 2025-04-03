@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { createMovilityAction } from "@/actions/movilityAction";
+import { useState} from "react";
+import { createMovilityAction, editMovilityAction } from "@/actions/movilityAction";
 import { toast } from "sonner";
-import { validateFields, handleExitDateChange, handleEntryDateChange,formatDateToInput } from "@/utils/movilityUtils";
+import { validateFields, handleExitDateChange, handleEntryDateChange, formatDateToInput } from "@/utils/movilityUtils";
+import { Movility } from "@/types/movilityType";
+import { useRouter } from "next/navigation";
 
 export interface MovilityFormData {
   firstName: string;
@@ -26,7 +28,7 @@ export interface MovilityFormData {
   teacher: string;
   agreement: string;
   agreementId: number;
-  valorFinanciacion: string;
+  funding: number;
   fundingSource: string;
   entryDate: string;
   exitDate: string;
@@ -34,50 +36,81 @@ export interface MovilityFormData {
   movilityYear: string;
 }
 
-export function useMovilityForm() {
+export function useMovilityForm(initialValues?: Partial<MovilityFormData>) {
+  const router = useRouter();
+
   // Estados para Datos de la persona movilizada
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [personType, setRole] = useState("");
-  const [identificationType, setDocumentType] = useState("");
-  const [identification, setDocumentNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState(initialValues?.firstName || "");
+  const [lastName, setLastName] = useState(initialValues?.lastName || "");
+  const [gender, setGender] = useState(initialValues?.gender || "");
+  const [personType, setRole] = useState(initialValues?.personType || "");
+  const [identificationType, setDocumentType] = useState(initialValues?.identificationType || "");
+  const [identification, setDocumentNumber] = useState(initialValues?.identification || "");
+  const [email, setEmail] = useState(initialValues?.email || "");
 
   // Estados para Datos generales de la movilidad
-  const [movilityType, setMovilityType] = useState("");
-  const [faculty, setFaculty] = useState("");
-  const [eventTypeId, setEventType] = useState<number>(0);
-  const [description, setEventDescription] = useState("");
-  const [movilityScope, setMovilityScope] = useState("");
-  const [cta, setCta] = useState<number>(0);
+  const [movilityType, setMovilityType] = useState(initialValues?.movilityType || "");
+  const [faculty, setFaculty] = useState(initialValues?.faculty || "");
+  const [eventTypeId, setEventType] = useState<number>(initialValues?.eventTypeId || 0);
+  const [description, setEventDescription] = useState(initialValues?.description || "");
+  const [movilityScope, setMovilityScope] = useState(initialValues?.movilityScope || "");
+  const [cta, setCta] = useState<number>(initialValues?.cta || 0);
 
   // Estados para Detalles de la movilidad
-  const [origin, setOriginUniversity] = useState("");
-  const [destination, setDestinationUniversity] = useState("");
-  const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
+  const [origin, setOriginUniversity] = useState(initialValues?.origin || "");
+  const [destination, setDestinationUniversity] = useState(initialValues?.destination || "");
+  const [country, setCountry] = useState(initialValues?.country || "");
+  const [city, setCity] = useState(initialValues?.city || "");
 
   // Estados para Detalles académicos
-  const [originProgram, setOriginProgram] = useState("");
-  const [destinationProgram, setDestinationProgram] = useState("");
-  const [teacher, setTeacher] = useState("");
+  const [originProgram, setOriginProgram] = useState(initialValues?.originProgram || "");
+  const [destinationProgram, setDestinationProgram] = useState(initialValues?.destinationProgram || "");
+  const [teacher, setTeacher] = useState(initialValues?.teacher || "");
 
   // Estados para Convenios y patrocinios
-  const [agreement, setAgreement] = useState("");
-  const [agreementId, setAgreementId] = useState<number>(0);
-  const [valorFinanciacion, setValorFinanciacion] = useState("");
-  const [fundingSource, setFuenteFinanciacion] = useState("");
+  const [agreement, setAgreement] = useState(initialValues?.agreement || "");
+  const [agreementId, setAgreementId] = useState<number>(initialValues?.agreementId || 0);
+  const [funding, setfunding] = useState(initialValues?.funding || 0);
+  const [fundingSource, setFuenteFinanciacion] = useState(initialValues?.fundingSource || "");
 
   // Estados para Tiempo de la estancia
-  const [entryDate, setEntryDate] = useState("");
-  const [exitDate, setExitDate] = useState("");
-  const [stayDays, setStayDays] = useState(0);
-  const [movilityYear, setMovilityYear] = useState("");
+  const [entryDate, setEntryDate] = useState(initialValues?.entryDate || "");
+  const [exitDate, setExitDate] = useState(initialValues?.exitDate || "");
+  const [stayDays, setStayDays] = useState(initialValues?.stayDays || 0);
+  const [movilityYear, setMovilityYear] = useState(initialValues?.movilityYear || "");
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const initializeForm = (values: Partial<Movility>) => {
+    setFirstName(values.person?.firstName || "");
+    setLastName(values.person?.lastName || "");
+    setGender(values.gender || "");
+    setRole(values.person?.personType || "");
+    setDocumentType(values.person?.identificationType || "");
+    setDocumentNumber(values.person?.identification || "");
+    setEmail(values.person?.email || "");
+    setMovilityType(values.direction || "");
+    setFaculty(values.faculty || "");
+    setEventType(values.event?.eventType.eventTypeId || 0);
+    setEventDescription(values.event?.description || "");
+    setCta(values.cta || 0);
+    setOriginUniversity(values.origin || "");
+    setDestinationUniversity(values.destination || "");
+    setCountry(values.country || "");
+    setCity(values.city || "");
+    setOriginProgram(values.originProgram || "");
+    setDestinationProgram(values.destinationProgram || "");
+    setTeacher(values.teacher || "");
+    setAgreementId(values.agreement?.agreementId || 0);
+    setfunding(values.funding || 0);
+    setFuenteFinanciacion(values.fundingSource || "");
+    setEntryDate(values.entryDate || "");
+    setExitDate(values.exitDate || "");
+    setStayDays( Number(values.exitDate) - Number(values.entryDate) || 0);
+    setMovilityYear(values.exitDate || "");
+  };
+
+  const handleSubmit = async (e: React.FormEvent, isEditing: boolean = false, movilityId?: number) => {
     e.preventDefault();
     const fields: MovilityFormData = {
       firstName,
@@ -102,7 +135,7 @@ export function useMovilityForm() {
       teacher,
       agreement,
       agreementId,
-      valorFinanciacion,
+      funding,
       fundingSource,
       entryDate,
       exitDate,
@@ -111,7 +144,6 @@ export function useMovilityForm() {
     };
 
     const newErrors = validateFields(fields);
-    console.log("Errores después de validación:", errors);
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -132,7 +164,7 @@ export function useMovilityForm() {
       country,
       teacher,
       faculty,
-      funding: parseFloat(valorFinanciacion) || 0,
+      funding: funding || 0,
       fundingSource,
       destination,
       origin,
@@ -152,24 +184,34 @@ export function useMovilityForm() {
     };
 
     try {
-      toast.loading("Creando movilidad...", { id: "create-movility" });
-      const result = await createMovilityAction(data);
+      const loadingMessage = isEditing ? "Actualizando movilidad..." : "Creando movilidad...";
+      toast.loading(loadingMessage, { id: "movility-action" });
+
+      let result;
+      if (isEditing && movilityId) {
+        result = await editMovilityAction(data, movilityId);
+      } else {
+        result = await createMovilityAction(data);
+      }
 
       if (result.success) {
-        toast.success("Movilidad creada exitosamente", { id: "create-movility" });
-        resetForm();
+        const successMessage = isEditing ? "Movilidad actualizada exitosamente" : "Movilidad creada exitosamente";
+        toast.success(successMessage, { id: "movility-action" });
+        if (!isEditing) resetForm(); 
+        router.push("/dashboard/movility");
+
         return result;
       } else {
-        toast.error(result.error || "Error al crear la movilidad", {
-          id: "create-movility",
+        toast.error(result.error || `Error al ${isEditing ? 'actualizar' : 'crear'} la movilidad`, {
+          id: "movility-action",
           description: "Verifique los datos ingresados"
         });
         return { success: false, error: result.error };
       }
     } catch (error) {
-      console.error("Error al crear la movilidad:", error);
-      toast.error("Error inesperado al crear movilidad", {
-        id: "create-movility",
+      console.error(`Error al ${isEditing ? 'actualizar' : 'crear'} la movilidad:`, error);
+      toast.error(`Error inesperado al ${isEditing ? 'actualizar' : 'crear'} movilidad`, {
+        id: "movility-action",
         description: "Por favor intente nuevamente"
       });
       return { success: false, error: "Hubo un problema al guardar los datos." };
@@ -199,7 +241,7 @@ export function useMovilityForm() {
     setTeacher("");
     setAgreement("");
     setAgreementId(0);
-    setValorFinanciacion("");
+    setfunding(0);
     setFuenteFinanciacion("");
     setEntryDate("");
     setExitDate("");
@@ -232,7 +274,7 @@ export function useMovilityForm() {
     teacher,
     agreement,
     agreementId,
-    valorFinanciacion,
+    funding,
     fundingSource,
     entryDate,
     exitDate,
@@ -263,7 +305,7 @@ export function useMovilityForm() {
     setTeacher,
     setAgreement,
     setAgreementId,
-    setValorFinanciacion,
+    setfunding,
     setFuenteFinanciacion,
     setEntryDate,
     setExitDate,
@@ -271,6 +313,7 @@ export function useMovilityForm() {
     setMovilityYear,
 
     // Funciones
+    initializeForm,
     handleSubmit,
     resetForm,
     handleEntryDateChange: (e: React.ChangeEvent<HTMLInputElement>) =>

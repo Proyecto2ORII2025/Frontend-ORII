@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMovilityForm } from "@/app/dashboard/movility/handlers/movilityHandlers";
 import { PersonDataSection } from "./personDataSection";
@@ -9,13 +10,23 @@ import { AcademicDetailsSection } from "./academicDetailsSection";
 import { AgreementsSection } from "./agreementsSection";
 import { StayTimeSection } from "./stayTimeSection";
 import { FormActions } from "./formActions";
+import { Movility } from "@/types/movilityType";
 
 interface MovilityFormProps {
-  //initialValues?: any; // Define un tipo adecuado si es necesario
+  initialValues?: Partial<Movility>;
+  movility?: Movility;
   onClose?: () => void;
+  isEditing?: boolean;
+  onSuccess?: (result: Movility) => void;
 }
 
-export function MovilityForm({onClose }: MovilityFormProps) {
+export function MovilityForm({
+  initialValues,
+  movility,
+  onClose,
+  isEditing = false,
+  onSuccess
+}: MovilityFormProps) {
   const {
     // Estados
     firstName,
@@ -40,14 +51,14 @@ export function MovilityForm({onClose }: MovilityFormProps) {
     teacher,
     agreement,
     agreementId,
-    valorFinanciacion,
+    funding,
     fundingSource,
     entryDate,
     exitDate,
     stayDays,
     movilityYear,
     errors,
-    
+
     // Setters
     setFirstName,
     setLastName,
@@ -71,20 +82,41 @@ export function MovilityForm({onClose }: MovilityFormProps) {
     setTeacher,
     setAgreement,
     setAgreementId,
-    setValorFinanciacion,
+    setfunding,
     setFuenteFinanciacion,
     setEntryDate,
     setExitDate,
     setStayDays,
     setMovilityYear,
-    
+
     // Funciones
     handleSubmit,
     resetForm,
     handleEntryDateChange,
     handleExitDateChange,
-    formatDateToInput
+    formatDateToInput,
+    initializeForm
   } = useMovilityForm();
+
+  const onSubmit = async (e: React.FormEvent) => {
+    const result = await handleSubmit(e, isEditing, movility?.id);
+
+    if (result.success && 'data' in result && onSuccess) {
+      onSuccess(result.data as Movility);
+    }
+  };
+
+  // Inicializar el formulario con valores si estamos editando
+  // En tu useEffect de inicialización
+  useEffect(() => {
+
+    if (isEditing && movility) {
+      initializeForm(movility);
+    } else if (initialValues && Object.keys(initialValues).length > 0) {
+      initializeForm(initialValues);
+    }
+
+  }, [isEditing, movility, initialValues]);
 
   const handleCancel = () => {
     resetForm();
@@ -94,13 +126,17 @@ export function MovilityForm({onClose }: MovilityFormProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Información de la movilidad</CardTitle>
+        <CardTitle>
+          {isEditing ? "Editar Información de Movilidad" : "Nueva Movilidad"}
+        </CardTitle>
         <CardDescription>
-          Complete todos los campos requeridos para crear el formulario de movilidad.
+          {isEditing
+            ? "Modifique los campos que desea actualizar."
+            : "Complete todos los campos requeridos para crear la movilidad."}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={onSubmit} className="space-y-6">
           <PersonDataSection
             firstName={firstName}
             lastName={lastName}
@@ -119,6 +155,7 @@ export function MovilityForm({onClose }: MovilityFormProps) {
               setDocumentNumber,
               setEmail
             }}
+          //isEditing={isEditing} // Puedes usar esto para deshabilitar campos en edición
           />
 
           <GeneralInfoSection
@@ -170,13 +207,13 @@ export function MovilityForm({onClose }: MovilityFormProps) {
           <AgreementsSection
             agreement={agreement}
             agreementId={agreementId}
-            valorFinanciacion={valorFinanciacion}
+            funding={funding}
             fundingSource={fundingSource}
             errors={errors}
             setters={{
               setAgreement,
               setAgreementId,
-              setValorFinanciacion,
+              setfunding,
               setFuenteFinanciacion
             }}
           />
@@ -199,8 +236,8 @@ export function MovilityForm({onClose }: MovilityFormProps) {
           />
 
           <FormActions
-            submitButtonText="Crear Movilidad"
-            submittingText="Creando..."
+            submitButtonText={isEditing ? "Actualizar Movilidad" : "Crear Movilidad"}
+            submittingText={isEditing ? "Actualizando..." : "Creando..."}
             onCancel={handleCancel}
           />
         </form>

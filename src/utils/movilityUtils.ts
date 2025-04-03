@@ -6,29 +6,20 @@ export const CTADict: Record<string, string> = {
 export const genderDict: Record<string, string> = {
     "M": "Masculino",
     "F": "Femenino",
-  };
+};
 
 export const roleDict: Record<string, string> = {
     STUDENT: "Estudiante",
     TEACHER: "Docente",
     ADMIN: "Administrativo",
-  };
-
-export const documentTypeDict: Record<string, string> = {
-    "TI": "Tarjeta de identidad",
-    "CC": "Cédula de Ciudadanía",
-    "CE": "Cédula de Extranjería",
-    "PS": "Pasaporte",
-    "V": "Visa",
-    "OT": "Otro",
-  };
+};
 
 export const mobilityTypeDict: Record<string, string> = {
     "INCOMING_IN_PERSON": "Entrante en persona",
     "OUTGOING_IN_PERSON": "Saliente en persona",
     "INCOMING_VIRTUAL": "Entrante virtual",
     "OUTGOING_VIRTUAL": "Saliente virtual",
-  };
+};
 
 export const facultyDict: Record<string, string> = {
     FA: "Facultad de Artes",
@@ -40,7 +31,7 @@ export const facultyDict: Record<string, string> = {
     FDCPS: "Facultad de Derecho, Ciencias Políticas y Sociales",
     FIC: "Facultad de Ingeniería Civil",
     FIET: "Facultad de Ingeniería Electrónica y Telecomunicaciones",
-  };
+};
 
 export const eventTypeDict: Record<string, string>  = {
     "1": "Asistencia a evento",
@@ -57,22 +48,11 @@ export const options = [
     { label: "Asistencia a evento", value: "1" },
     { label: "Misión", value: "2" },
     { label: "Curso corto", value: "3" },
-    { label: "Estancia de investigación", value: "4" },
+    { label: "Estancia o pasantía de investigación", value: "4" },
     { label: "Semestre académico de intercambio", value: "5" },
-    { label: "Doble titulación", value: "6" },
-    { label: "Pasantía o práctica", value: "7" },
-    { label: "Rotación médica", value: "8" },
-    { label: "Profesor visitante", value: "9" },
-    { label: "Profesor de programa de pregrado", value: "10" },
-    { label: "Profesor de programa de especialización", value: "11" },
-    { label: "Profesor de programa de maestría", value: "12" },
-    { label: "Profesor de programa de doctorado", value: "13" },
-    { label: "Profesor de programa de postdoctorado", value: "14" },
-    { label: "Estudios de maestría", value: "15" },
-    { label: "Estudios de doctorado", value: "16" },
-    { label: "Estudios de posdoctorado", value: "17" },
-    { label: "Internacionalización en casa", value: "18" },
-    { label: "Voluntariado", value: "19" },
+    { label: "Rotación médica", value: "6" },
+    { label: "Profesor visitante o saliente", value: "7" },
+    { label: "Voluntariado", value: "8" },
 ];
 
 export const eventDescriptions = {
@@ -82,26 +62,25 @@ export const eventDescriptions = {
     3: 'Agrega una descripción resumida.',
     4: 'Agrega una descripción resumida.',
     5: 'Semestre de intercambio, Opción trabajo de grado en la modalidad profundización, Internado Rotatorio, debe especificar.',
-    6: 'Agrega una descripción resumida.',
-    7: 'Agrega una descripción resumida.',
-    8: 'Nombre de la Rotación.',
-    9: 'Agrega una breve descripción de las actividades que orientará o realizará.',
-    10: 'Indica el nombre del programa y agrega una breve descripción.',
-    11: 'Indica el nombre del programa y agrega una breve descripción.',
-    12: 'Indica el nombre del programa y agrega una breve descripción.',
-    13: 'Indica el nombre del programa y agrega una breve descripción.',
-    14: 'Indica el nombre del programa y agrega una breve descripción.',
-    15: 'Indica el nombre del programa y agrega una breve descripción.',
-    16: 'Indica el nombre del programa y agrega una breve descripción.',
-    17: 'Indica el nombre del programa y agrega una breve descripción.',
-    18: 'Agrega una descripción resumida.',
-    19: 'Descripción de las actividades a desarrollar durante el tiempo autorizado para el Voluntariado.',
+    6: 'Nombre de la Rotación',
+    7: 'Agrega una breve descripción de las actividades que realizará.',
+    8: 'Descripción de las actividades a desarrollar durante el tiempo autorizado para el Voluntariado.',
+};
+
+export const documentTypeDict: Record<string, string> = {
+    "TI": "Tarjeta de identidad",
+    "CC": "Cédula de Ciudadanía",
+    "CE": "Cédula de Extranjería",
+    "PS": "Pasaporte",
+    "V": "Visa",
+    "OT": "Otro",
 };
 
 interface MovilityFields {
     firstName?: string;
     lastName?: string;
     gender?: string;
+    cta?: number;
     personType?: string;
     identificationType?: string;
     identification?: string;
@@ -119,8 +98,8 @@ interface MovilityFields {
     destinationProgram?: string;
     teacher?: string;
     agreement?: string;
-    numberAgreement?: number;
-    valorFinanciacion?: string;
+    agreementId?: number;
+    funding?: number;
     fundingSource?: string;
     entryDate?: string;
     exitDate?: string;
@@ -141,6 +120,7 @@ export const validateFields = (fields: MovilityFields) => {
     if (!fields.eventTypeId) newErrors.eventTypeId = "El tipo de evento es obligatorio.";
     if (!fields.description) newErrors.description = "La descripción del evento es obligatoria.";
     if (!fields.movilityScope) newErrors.movilityScope = "El ámbito es obligatorio.";
+    if (!fields.cta) newErrors.cta = "El género es obligatorio.";
     if (!fields.origin) newErrors.origin = "La universidad de origen es obligatoria.";
     if (!fields.destination) newErrors.destination = "La universidad de destino es obligatoria.";
     if (!fields.country) newErrors.country = "El país es obligatorio.";
@@ -150,16 +130,35 @@ export const validateFields = (fields: MovilityFields) => {
     if (!fields.entryDate) newErrors.entryDate = "La fecha de entrada es obligatoria.";
     if (!fields.exitDate) newErrors.exitDate = "La fecha de salida es obligatoria.";
     if (!fields.agreement) newErrors.agreement = "Debe indicar si existe un convenio.";
-    if (fields.agreement === "Y" && !fields.numberAgreement) newErrors.numberAgreement = "El número de convenio es obligatorio.";
-    if (!fields.valorFinanciacion) newErrors.valorFinanciacion = "El valor de la financiación es obligatorio.";
+    if (fields.agreement === "Y" && !fields.agreementId) {
+        console.log("agreement:", fields.agreement);  // Verifica que es "Y"
+        console.log("agreementId:", fields.agreementId);  // Debería ser undefined o vacío
+        newErrors.agreementId = "El número de convenio es obligatorio.";
+    }
+    // if (fields.agreement === "Y" && !fields.agreementId) newErrors.agreementId = "El número de convenio es obligatorio.";
+    console.log("funding:", fields.funding);  // Debería ser undefined o vacío
+    if (!fields.funding) newErrors.funding = "El valor de la financiación es obligatorio.";
     if (!fields.fundingSource) newErrors.fundingSource = "La fuente de la financiación es obligatoria.";
     const isIncomingMovility = fields.movilityType === "INCOMING_IN_PERSON" || fields.movilityType === "INCOMING_VIRTUAL";
     const isStudent = fields.personType === "STUDENT";
-    const isRelevantEventType = [4, 5, 7].includes(fields.eventTypeId || 0); // Tipos de evento 4, 5 o 7
-    if (isIncomingMovility && isStudent && isRelevantEventType && !fields.teacher) {
-        newErrors.teacher = "El tutor académico es obligatorio para estudiantes en movilidad entrante con los tipos de evento 4, 5 o 7.";
+    if (isIncomingMovility && isStudent && !fields.teacher) {
+        newErrors.teacher = "El tutor académico es obligatorio para estudiantes en movilidad entrante";
     }
+    console.log("Errores antes de retornar:", newErrors);
+
     return newErrors;
+};
+
+export const formatDateToBackend = (isoDate: string): string => {
+    if (!isoDate) return "";
+    const [year, month, day] = isoDate.split("-");
+    return `${day}-${month}-${year}`;
+};
+
+export const formatDateToInput = (backendDate: string): string => {
+    if (!backendDate) return "";
+    const [day, month, year] = backendDate.split("-");
+    return `${year}-${month}-${day}`;
 };
 
 export const handleEntryDateChange = (
@@ -170,25 +169,23 @@ export const handleEntryDateChange = (
     setStayDays: (days: number) => void,
     setMovilityYear: (year: string) => void
 ) => {
-    const newEntryDate = e.target.value;
-    setEntryDate(newEntryDate);
+    const newEntryDateIso = e.target.value; // Formato YYYY-MM-DD
+    const newEntryDateFormatted = formatDateToBackend(newEntryDateIso); // Convertir a DD-MM-YYYY
 
-    const year = new Date(newEntryDate).getFullYear().toString();
-    setMovilityYear(year);
+    setEntryDate(newEntryDateFormatted); // Guardar en estado (formato backend)
+    setMovilityYear(new Date(newEntryDateIso).getFullYear().toString());
 
+    // Bloquear fechas anteriores en el input de salida
     const exitDateInput = document.getElementById("exitDate") as HTMLInputElement;
-    if (exitDateInput) {
-        exitDateInput.min = newEntryDate;
-    }
+    if (exitDateInput) exitDateInput.min = newEntryDateIso;
 
-    if (exitDate && new Date(exitDate) < new Date(newEntryDate)) {
-        setExitDate("");
-        setStayDays(0);
-    } else if (exitDate) {
-        const start = new Date(newEntryDate).getTime();
-        const end = new Date(exitDate).getTime();
-        const diffTime = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-        setStayDays(diffTime);
+    // Recalcular días si hay fecha de salida
+    if (exitDate) {
+        const exitDateIso = formatDateToInput(exitDate); // Convertir exitDate a ISO para cálculo
+        const start = new Date(newEntryDateIso).getTime();
+        const end = new Date(exitDateIso).getTime();
+        const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        setStayDays(diffDays > 0 ? diffDays : 0);
     }
 };
 
@@ -198,20 +195,17 @@ export const handleExitDateChange = (
     setExitDate: (date: string) => void,
     setStayDays: (days: number) => void
 ) => {
-    const newExitDate = e.target.value;
-    setExitDate(newExitDate);
+    const newExitDateIso = e.target.value; // Formato YYYY-MM-DD
+    const newExitDateFormatted = formatDateToBackend(newExitDateIso); // Convertir a DD-MM-YYYY
 
-    if (entryDate && newExitDate) {
-        const start = new Date(entryDate).getTime();
-        const end = new Date(newExitDate).getTime();
+    setExitDate(newExitDateFormatted); // Guardar en estado (formato backend)
 
-        if (end > start) {
-            const diffTime = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-            setStayDays(diffTime);
-        } else {
-            setStayDays(0);
-        }
-    } else {
-        setStayDays(0);
+    // Calcular días de estadía
+    if (entryDate) {
+        const entryDateIso = formatDateToInput(entryDate); // Convertir entryDate a ISO para cálculo
+        const start = new Date(entryDateIso).getTime();
+        const end = new Date(newExitDateIso).getTime();
+        const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        setStayDays(diffDays > 0 ? diffDays : 0);
     }
 };

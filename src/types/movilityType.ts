@@ -21,10 +21,10 @@ export interface Person {
 export interface Movility {
     id: number;
     orii: boolean;
-    direction: string; 
+    direction: string;
     gender: string;
     cta: number;
-    entryDate: string; 
+    entryDate: string;
     exitDate: string;
     originProgram: string;
     destinationProgram: string;
@@ -47,7 +47,7 @@ export interface MovilityCrear {
     direction: string;
     gender: string;
     cta: number;
-    entryDate: string; 
+    entryDate: string;
     exitDate: string;
     originProgram: string;
     destinationProgram: string;
@@ -67,6 +67,41 @@ export interface MovilityCrear {
     person: Person;
 }
 
+// En tus tipos:
+export interface MovilityFormData {
+    id: number;
+    orii: boolean;
+    direction: string;
+    gender: string;
+    cta: number;
+    entryDate: string;
+    exitDate: string;
+    originProgram: string;
+    destinationProgram: string;
+    city: string;
+    country: string;
+    teacher: string;
+    faculty: string;
+    funding: number;
+    fundingSource: string;
+    destination: string;
+    origin: string;
+    description: string;
+    eventTypeId: number;
+    agreement: Agreement | null; // Asegúrate que sea string en lugar de Agreement | null
+    agreementId: null,
+    event: Event;
+    identificationType: string;
+    personType: string;
+    firstName: string;
+    lastName: string;
+    identification: string;
+    stayDays: number;
+    estadoAgreement: boolean;
+    movilityYear: string;
+    email?: string;
+}
+
 export interface Agreement {
     agreementId: number;
     institution: string;
@@ -76,4 +111,15 @@ export interface Agreement {
     scope: string;
     startDate: string;
     status: string;
-  }
+}
+
+// movilityType.ts
+export interface MovilityTableProps {
+    movilities: Movility[];
+    isLoading: boolean;
+    emptyMessage: string;
+    columns: {
+        key: keyof Movility | 'person' | 'event' | 'identificationType';
+        header: string;
+    }[];
+}
