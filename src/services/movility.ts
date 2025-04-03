@@ -1,8 +1,8 @@
 import axios from "./axios.service";
 import { apiUrl } from "./env.service";
-import { MovilityCrear } from "../types/movilityType"; 
+import { MovilityCrear } from "../types/movilityType";
 
-const url = `${apiUrl}/form`; 
+const url = `${apiUrl}/form`;
 
 export const getMovilities = async () => {
     return await axios.get(`${url}/allForms`);
@@ -23,3 +23,10 @@ export const deleteMovility = async (movilityId: number) => {
 export const getMovilityById = async (id: number) => {
     return await axios.get(`${url}/${id}`);
 }
+
+export const getMobilitiesBlob = async () => {
+    //Desde el back se esta trayendo un arraybuffer, de aqui pasamos al action
+    //Importante definir el responseType
+    return await axios.get(`${apiUrl}/reports/mobility`, { responseType: 'arraybuffer' });
+}
+

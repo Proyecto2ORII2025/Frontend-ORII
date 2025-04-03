@@ -29,6 +29,6 @@ export function useAgreements(wasDeleted: string, wasUpdated: string) {
         filteredNationalAgreements,
         filteredInternationalAgreements,
         setFilteredNationalAgreements,
-        setFilteredInternationalAgreements
+        setFilteredInternationalAgreements,
     };
 }
