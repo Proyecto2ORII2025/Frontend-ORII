@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getStatistics } from "@/services/statistics.service";
+import { fetchMobilityByEvent } from "@/actions/statisticsAction";
 import PieChart from "./PieChart";
-import { ChartData, LoadingState } from "@/validations/ChartTypes";
+import { ChartData, LoadingState } from "@/types/ChartTypes";
 import ChartWrapper from "../chartWrapper";
 
 export default function PieChartMobilityByEvent() {
@@ -11,15 +11,15 @@ export default function PieChartMobilityByEvent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getStatistics.getMobilityByEvent();
-        if (response.data.agreementType.length === 0 || response.data.totalMobilityByAgreementsType.length === 0) {
+        const response = await fetchMobilityByEvent();
+        if (response.agreementType.length === 0 || response.totalMobilityByAgreementsType.length === 0) {
           setState(LoadingState.NO_DATA);
         } else {
           setChartData({
-            labels: response.data.agreementType,
+            labels: response.agreementType,
             datasets: [
               {
-                data: response.data.totalMobilityByAgreementsType,
+                data: response.totalMobilityByAgreementsType,
               },
             ],
           });

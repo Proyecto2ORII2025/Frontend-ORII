@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getStatistics } from "@/services/statistics.service";
+import { fetchMobilityByCountry } from "@/actions/statisticsAction";
 import BarChart from "./BarChart";
-import { ChartData, LoadingState } from "@/validations/ChartTypes";
+import { ChartData, LoadingState } from "@/types/ChartTypes";
 import ChartWrapper from "../chartWrapper";
 
 export default function BarChartMobilityByCountry() {
@@ -11,15 +11,15 @@ export default function BarChartMobilityByCountry() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getStatistics.getMobilityByCountry();
-        if (response.data.country.length === 0 || response.data.mobilities.length === 0) {
+        const response = await fetchMobilityByCountry();
+        if (response.country.length === 0 || response.mobilities.length === 0) {
           setState(LoadingState.NO_DATA);
         } else {
           setChartData({
-            labels: response.data.country,
+            labels: response.country,
             datasets: [
               {
-                data: response.data.mobilities,
+                data: response.mobilities,
               }
             ],
           });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getStatistics } from "@/services/statistics.service";
+import { fetchMobilityByFaculty } from "@/actions/statisticsAction";
 import BarChart from "./BarChart";
-import { ChartData, LoadingState } from "@/validations/ChartTypes";
+import { ChartData, LoadingState } from "@/types/ChartTypes";
 import ChartWrapper from "../chartWrapper";
 
 export default function BarChartMobilityByFaculty() {
@@ -11,20 +11,20 @@ export default function BarChartMobilityByFaculty() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getStatistics.getMovilityByFaculty();
-        if (response.data.faculty.length === 0 || response.data.output.length === 0 || response.data.input.length === 0) {
+        const response = await fetchMobilityByFaculty();
+        if (response.faculty.length === 0 || response.output.length === 0 || response.input.length === 0) {
           setState(LoadingState.NO_DATA);
         } else {
           setChartData({
-            labels: response.data.faculty,
+            labels: response.faculty,
             datasets: [
               {
                 label: "Salidas",
-                data: response.data.output
+                data: response.output
               },
               {
                 label: "Entradas",
-                data: response.data.input
+                data: response.input
               }
             ],
           });

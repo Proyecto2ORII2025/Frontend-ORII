@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getStatistics } from "@/services/statistics.service";
+import { fetchMobilityPerYear } from "@/actions/statisticsAction";
 import BarChart from "./BarChart";
-import { ChartData, LoadingState } from "@/validations/ChartTypes";
+import { ChartData, LoadingState } from "@/types/ChartTypes";
 import ChartWrapper from "../chartWrapper";
 
 export default function BarChartMobilityPerYear() {
@@ -11,15 +11,15 @@ export default function BarChartMobilityPerYear() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getStatistics.getMobilityPerYear();
-        if (response.data.years.length === 0 || response.data.amountMobility.length === 0) {
+        const response = await fetchMobilityPerYear();
+        if (response.years.length === 0 || response.amountMobility.length === 0) {
           setState(LoadingState.NO_DATA);
         } else {
           setChartData({
-            labels: response.data.years.reverse(),
+            labels: response.years.reverse(),
             datasets: [
               {
-                data: response.data.amountMobility.reverse()
+                data: response.amountMobility.reverse()
               },
             ],
           });

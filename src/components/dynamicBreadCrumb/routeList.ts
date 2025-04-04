@@ -4,6 +4,6 @@ export const routeList: Record<string, string> = {
     "/dashboard/agreements/create": "Crear convenio",
     "/dashboard/movility": "Movilidad",
     "/dashboard/movility/create": "Crear movilidad",
-    "/dashboard/statistics": "Estadísticas",
+    "/dashboard/statistics": "Estadisticas",
     // ...
 };

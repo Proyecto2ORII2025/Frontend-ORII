@@ -10,7 +10,7 @@ import {
     ChartData,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { ChartProps } from "@/validations/ChartTypes";
+import { ChartProps } from "@/types/ChartTypes";
 import { getDistinctColors } from "../chartColors";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);

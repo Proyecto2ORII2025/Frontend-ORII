@@ -1,29 +1,33 @@
 import axios from "axios";
-
 import { apiUrl } from "./env.service";
+import { cookies } from 'next/headers';
 
-let tokenUser: string = "";
-if (typeof window !== "undefined") {
-    tokenUser = localStorage.getItem('user') || "";
-}
-tokenUser = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwMDAsInN1YiI6Imp1bGlhbnJ1YW5vQHVuaWNhdWNhLmVkdS5jbyIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc0MjUwNjA4NiwiZXhwIjoxNzQyNTQyMDg2fQ.giWw95PMauhG4ti_g7DoP7RYXc2cDOH3X9GiOP-5UAk";
 
-/**
- * Axios instance configured with default settings.
- *
- * @constant {AxiosInstance} instance - The Axios instance.
- * @property {boolean} withCredentials - Indicates whether or not cross-site Access-Control requests should be made using credentials.
- * @property {string} baseURL - The base URL for the Axios instance.
- * @property {Object} headers - The headers to be sent with the request.
- * @property {string} headers.Authorization - The Authorization header containing the Bearer token.
- */
-const instance = axios.create({
+const axiosInstance = axios.create({
     withCredentials: true,
-    baseURL: apiUrl,
-    headers: {
-        'Authorization': `Bearer ${tokenUser}`,
-        'Content-Type': 'application/json',
-    }
-})
+    baseURL: apiUrl
+});
 
-export default instance;
+// Interceptor para añadir el token de autorización a todas las peticiones
+axiosInstance.interceptors.request.use(
+    async (config) => {
+        // Obtener el token de las cookies
+        try {
+            const token = (await cookies()).get('auth-token')?.value;
+            
+            if (token) {
+                // Añadir el token al header de autorización a todas las peticiones
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+        } catch (error) {
+            console.error("Error al obtener el token:", error);
+        }
+        
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+export default axiosInstance;

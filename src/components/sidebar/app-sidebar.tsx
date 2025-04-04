@@ -19,14 +19,13 @@ import {
     SidebarHeader,
     SidebarRail,
 } from "@/components/ui/sidebar"
-import Link from "next/link"
 import Image from "next/image"
 
 const data = {
     user: {
         name: "Mario Perdomo",
         email: "cmperdomo@unicauca.edu.co",
-        avatar: "/user.png",
+        avatar: "/img/user.png",
     },
     navMain: [
         {
@@ -72,17 +71,13 @@ const data = {
             ],
         },
         {
-            title: "Estadísticas",
+            title: "Estadisticas",
             url: "/dashboard/statistics",
             icon: ChartColumnIncreasing,
             items: [
                 {
                     title: "Gráficos",
                     url: "/dashboard/statistics",
-                },
-                {
-                    title: "Reportes",
-                    url: "#",
                 },
             ],
         },
@@ -104,15 +99,14 @@ export const AppSidebar = React.memo(function AppSidebar({ ...props }: React.Com
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader className="bg-blueDark text-white p-4 items-start">
-                <Link href={"/"}>
-                    <Image
-                        src={"/ORII.webp"}
-                        alt="Logo"
-                        width={150}
-                        height={150}
-                        className="group-data-[collapsible=icon]:w-0"
-                    />
-                </Link>
+                <Image
+                    src={"/logos/ORII.webp"}
+                    alt="Logo"
+                    width={150}
+                    height={150}
+                    className="group-data-[collapsible=icon]:w-0 orii-logo"
+                    priority
+                />
             </SidebarHeader>
             <SidebarContent className="bg-blueDark text-white pt-8">
                 <NavMain items={data.navMain} />

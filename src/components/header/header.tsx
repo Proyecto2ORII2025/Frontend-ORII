@@ -6,8 +6,6 @@ import {
 } from "@/components/ui/breadcrumb";
 
 export default function Header() {
-
-
     return (
         <>
             <header className="border-b-2 border-tertiary/15 w-full">

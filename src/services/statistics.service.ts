@@ -1,43 +1,25 @@
-import axios from "./axios.service";
+import axiosInstance from "./axios.service";
 import { apiUrl } from "./env.service";
+import { eventData, yearData, facultyData, countryData } from "@/types/ChartTypes";
 
 const url = `${apiUrl}/statistics`;
 
-export const getStatistics = {
-    getMovilityByFaculty: async () => {
-        try {
-            const response = await axios.get(`${url}/faculty`);
-            return response;
-        } catch (error) {
-            console.error("Error al obtener estadísticas: ", error);
-            throw error;
-        }
-    },
-    getMobilityByCountry: async () => {
-        try{
-            const response = await axios.get(`${url}/country`);
-            return response;
-        } catch (error) {
-            console.error("Error al obtener estadísticas: ", error);
-            throw error;
-        }
-    },
-    getMobilityPerYear: async () => {
-        try{
-            const response = await axios.get(`${url}/mobilitytrend`);
-            return response;
-        } catch (error) {
-            console.error("Error al obtener estadísticas: ", error);
-            throw error;
-        }
-    },
-    getMobilityByEvent: async () => {
-        try{
-            const response = await axios.get(`${url}/mobilitybyevent`);
-            return response;
-        } catch (error) {
-            console.error("Error al obtener estadísticas: ", error);
-            throw error;
-        }
-    }
-};
+export const getMovilityByFaculty = async (): Promise<facultyData> => {
+    const response = await axiosInstance.get(`${url}/faculty`);
+    return response.data;
+}
+
+export const getMobilityByCountry = async (): Promise<countryData> => {
+    const response = await axiosInstance.get(`${url}/country`);
+    return response.data;
+}
+
+export const getMobilityPerYear = async (): Promise<yearData> => {
+    const response = await axiosInstance.get(`${url}/mobilitytrend`);
+    return response.data;
+}
+
+export const getMobilityByEvent = async (): Promise<eventData> => {
+    const response = await axiosInstance.get(`${url}/mobilitybyevent`);
+    return response.data;
+}

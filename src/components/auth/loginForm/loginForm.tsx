@@ -24,7 +24,7 @@ export default function LoginForm() {
             email: "",
             password: ""
         },
-        mode: "onChange"
+        mode: "onSubmit"
     });
 
     useEffect(() => {
@@ -44,13 +44,13 @@ export default function LoginForm() {
     const onSubmit = async (data: FormData) => {
         try {
             // Usar el Server Action
-            const result = await authAction(data);
+            const res = await authAction(data);
 
-            if (result.success) {
+            if (res.success) {
                 handleSuccessfulLogin(data);
                 return;
             }
-            handleAuthError(result);
+            handleAuthError(res);
         } catch (error) {
             console.error("Error al ejecutar Server Action:", error);
             setError("email", { type: "server", message: "" });
