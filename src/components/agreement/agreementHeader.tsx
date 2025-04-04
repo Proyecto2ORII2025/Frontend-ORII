@@ -21,7 +21,6 @@ export default function AgreementHeader({
   onFilter,
   searchTerm,
   activeFilters,
-  agreements,
 }: AgreementHeaderProps) {
   return (
     <>
@@ -132,8 +131,6 @@ export default function AgreementHeader({
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
-
-            <ExportButton agreements={agreements}></ExportButton>
           </div>
         </div>
       )}

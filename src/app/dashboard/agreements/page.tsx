@@ -32,6 +32,7 @@ export default function Agreements() {
         handleFilter
     } = useAgreementFilters(nationalAgreements, internationalAgreements);
 
+
     return (
         <div className="flex flex-col gap-6 pb-10">
             <AgreementHeader
@@ -41,7 +42,7 @@ export default function Agreements() {
                 onFilter={handleFilter}
                 searchTerm={searchTerm}
                 activeFilters={activeFilters}
-                agreements={activeTab === "nacional" ? nationalAgreements : internationalAgreements}
+                agreements={activeTab === "nacional" ? filteredNational : filteredInternational}
             />
 
             <Tabs defaultValue="internacional" className="w-full" onValueChange={setActiveTab}>
