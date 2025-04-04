@@ -15,7 +15,7 @@ export interface Person {
     firstName: string;
     lastName: string;
     identification: string;
-    email?: string;
+    email?: string | null;
 }
 
 export interface Movility {
@@ -32,15 +32,14 @@ export interface Movility {
     country: string;
     teacher: string;
     faculty: string;
-    funding: number;
+    funding: string;
     fundingSource: string;
     destination: string;
     origin: string;
-    agreement: Agreement | null;
+    agreement?: Agreement | null;
     event: Event;
     person: Person;
 }
-
 
 export interface MovilityCrear {
     orii: boolean;
@@ -55,11 +54,11 @@ export interface MovilityCrear {
     country: string;
     teacher: string;
     faculty: string;
-    funding: number;
+    funding: string;
     fundingSource: string;
     destination: string;
     origin: string;
-    agreementId: number | null;
+    agreementId?: number | null;
     event: {
         description: string;
         eventTypeId: number;
@@ -67,40 +66,33 @@ export interface MovilityCrear {
     person: Person;
 }
 
-// En tus tipos:
-export interface MovilityFormData {
-    id: number;
-    orii: boolean;
-    direction: string;
-    gender: string;
-    cta: number;
-    entryDate: string;
-    exitDate: string;
-    originProgram: string;
-    destinationProgram: string;
-    city: string;
-    country: string;
-    teacher: string;
-    faculty: string;
-    funding: number;
-    fundingSource: string;
-    destination: string;
-    origin: string;
-    description: string;
-    eventTypeId: number;
-    agreement: Agreement | null; // Asegúrate que sea string en lugar de Agreement | null
-    agreementId: null,
-    event: Event;
-    identificationType: string;
-    personType: string;
-    firstName: string;
-    lastName: string;
-    identification: string;
-    stayDays: number;
-    estadoAgreement: boolean;
-    movilityYear: string;
-    email?: string;
-}
+
+// export interface MovilityFormData {
+//     orii: true;
+//     cta: number;
+//     entryDate: string;
+//     exitDate: string;
+//     originProgram: string;
+//     destinationProgram: string;
+//     city: string;
+//     country: string;
+//     teacher?: string;
+//     funding: string;
+//     fundingSource: string;
+//     destination: string;
+//     origin: string;
+//     agreementId?: number | null,
+//     direction: string;
+//     faculty: string;
+//     gender: string;
+//     event: {
+//         description: string;
+//         eventTypeId: number;
+//     };
+//     person: Person;
+//     //stayDays: number;
+//     //movilityYear: string;
+// }
 
 export interface Agreement {
     agreementId: number;

@@ -7,7 +7,7 @@ interface AcademicDetailsSectionProps {
     originProgram: string;
     destinationProgram: string;
     teacher: string;
-    movilityType: string;
+    direction: string;
     personType: string;
     errors: Record<string, string>;
     setters: {
@@ -21,7 +21,7 @@ export function AcademicDetailsSection({
     originProgram,
     destinationProgram,
     teacher,
-    movilityType,
+    direction,
     personType,
     errors,
     setters
@@ -95,7 +95,7 @@ export function AcademicDetailsSection({
                         value={teacher}
                         onChange={(e) => setters.setTeacher(e.target.value)}
                         disabled={!(
-                            (movilityType === "INCOMING_IN_PERSON" || movilityType === "INCOMING_VIRTUAL") &&
+                            (direction === "INCOMING_IN_PERSON" || direction === "INCOMING_VIRTUAL") &&
                             personType === "STUDENT"
                         )}
                     />

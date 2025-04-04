@@ -7,13 +7,13 @@ import { Info } from "lucide-react";
 interface AgreementsSectionProps {
     agreement: string;
     agreementId: number;
-    funding: number;
+    funding: string;
     fundingSource: string;
     errors: Record<string, string>;
     setters: {
         setAgreement: (value: string) => void;
         setAgreementId: (value: number) => void;
-        setfunding: (value: number) => void;
+        setfunding: (value: string) => void;
         setFuenteFinanciacion: (value: string) => void;
     };
 }
@@ -103,8 +103,9 @@ export function AgreementsSection({
                     <Input
                         id="funding"
                         type="text"
+                        placeholder="$"
                         value={funding}
-                        onChange={(e) => setters.setfunding(Number(e.target.value))}
+                        onChange={(e) => setters.setfunding(e.target.value)}
                     />
                     {errors.funding && <p className="text-sm text-red-500">{errors.funding}</p>}
                 </div>

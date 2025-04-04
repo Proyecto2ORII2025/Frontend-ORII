@@ -36,11 +36,10 @@ export function MovilityForm({
     identificationType,
     identification,
     email,
-    movilityType,
+    direction,
     faculty,
     eventTypeId,
     description,
-    movilityScope,
     cta,
     origin,
     destination,
@@ -67,11 +66,10 @@ export function MovilityForm({
     setDocumentType,
     setDocumentNumber,
     setEmail,
-    setMovilityType,
+    setDirection,
     setFaculty,
     setEventType,
     setEventDescription,
-    setMovilityScope,
     setCta,
     setOriginUniversity,
     setDestinationUniversity,
@@ -159,19 +157,17 @@ export function MovilityForm({
           />
 
           <GeneralInfoSection
-            movilityType={movilityType}
+            direction={direction}
             faculty={faculty}
             eventTypeId={eventTypeId}
             description={description}
-            movilityScope={movilityScope}
             cta={cta}
             errors={errors}
             setters={{
-              setMovilityType,
+              setDirection,
               setFaculty,
               setEventType,
               setEventDescription,
-              setMovilityScope,
               setCta
             }}
           />
@@ -194,7 +190,7 @@ export function MovilityForm({
             originProgram={originProgram}
             destinationProgram={destinationProgram}
             teacher={teacher}
-            movilityType={movilityType}
+            direction={direction}
             personType={personType}
             errors={errors}
             setters={{

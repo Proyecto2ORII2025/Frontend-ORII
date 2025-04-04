@@ -6,29 +6,26 @@ import { Info } from "lucide-react";
 import { options, eventDescriptions } from "@/utils/movilityUtils";
 
 interface GeneralInfoSectionProps {
-    movilityType: string;
+    direction: string;
     faculty: string;
     eventTypeId: number;
     description: string;
-    movilityScope: string;
     cta: number;
     errors: Record<string, string>;
     setters: {
-        setMovilityType: (value: string) => void;
+        setDirection: (value: string) => void;
         setFaculty: (value: string) => void;
         setEventType: (value: number) => void;
         setEventDescription: (value: string) => void;
-        setMovilityScope: (value: string) => void;
         setCta: (value: number) => void;
     };
 }
 
 export function GeneralInfoSection({
-    movilityType,
+    direction,
     faculty,
     eventTypeId,
     description,
-    movilityScope,
     cta,
     errors,
     setters
@@ -39,7 +36,7 @@ export function GeneralInfoSection({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                        <Label htmlFor="movilityType">Sentido de movilidad</Label>
+                        <Label htmlFor="direction">Sentido de movilidad</Label>
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger>
@@ -52,8 +49,8 @@ export function GeneralInfoSection({
                         </TooltipProvider>
                     </div>
                     <Select
-                        value={movilityType}
-                        onChange={(e) => setters.setMovilityType(e.target.value)}
+                        value={direction}
+                        onChange={(e) => setters.setDirection(e.target.value)}
                         options={[
                             { label: "Entrante presencial", value: "INCOMING_IN_PERSON" },
                             { label: "Saliente presencial", value: "OUTGOING_IN_PERSON" },
@@ -62,7 +59,7 @@ export function GeneralInfoSection({
                         ]}
                         placeholder="Seleccione el tipo de movilidad"
                     />
-                    {errors.movilityType && <p className="text-sm text-red-500">{errors.movilityType}</p>}
+                    {errors.direction && <p className="text-sm text-red-500">{errors.direction}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -143,32 +140,6 @@ export function GeneralInfoSection({
                         placeholder="Ingrese la descripción del evento"
                     />
                     {errors.description && <p className="text-sm text-red-500">{errors.description}</p>}
-                </div>
-
-                <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                        <Label htmlFor="movilityScope">Ámbito</Label>
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <Info className="h-4 w-4 text-muted-foreground" />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Seleccione el ámbito de la movilidad</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-                    </div>
-                    <Select
-                        value={movilityScope}
-                        onChange={(e) => setters.setMovilityScope(e.target.value)}
-                        options={[
-                            { label: "Nacional", value: "ambito_nacional" },
-                            { label: "Internacional", value: "ambito_internacional" },
-                        ]}
-                        placeholder="Seleccione el ámbito"
-                    />
-                    {errors.movilityScope && <p className="text-sm text-red-500">{errors.movilityScope}</p>}
                 </div>
 
                 <div className="space-y-2">

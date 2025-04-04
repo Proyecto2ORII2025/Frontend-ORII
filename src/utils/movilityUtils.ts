@@ -85,11 +85,10 @@ interface MovilityFields {
     identificationType?: string;
     identification?: string;
     email?: string;
-    movilityType?: string;
+    direction?: string;
     faculty?: string;
     eventTypeId?: number;
     description?: string;
-    movilityScope?: string;
     origin?: string;
     destination?: string;
     country?: string;
@@ -99,7 +98,7 @@ interface MovilityFields {
     teacher?: string;
     agreement?: string;
     agreementId?: number;
-    funding?: number;
+    funding?: string;
     fundingSource?: string;
     entryDate?: string;
     exitDate?: string;
@@ -115,11 +114,10 @@ export const validateFields = (fields: MovilityFields) => {
     if (!fields.personType) newErrors.personType = "El rol es obligatorio.";
     if (!fields.identificationType) newErrors.identificationType = "El tipo de documento es obligatorio.";
     if (!fields.identification) newErrors.identification = "El número de documento es obligatorio.";
-    if (!fields.movilityType) newErrors.movilityType = "El tipo de movilidad es obligatorio.";
+    if (!fields.direction) newErrors.direction = "El tipo de movilidad es obligatorio.";
     if (!fields.faculty) newErrors.faculty = "La facultad es obligatoria.";
     if (!fields.eventTypeId) newErrors.eventTypeId = "El tipo de evento es obligatorio.";
     if (!fields.description) newErrors.description = "La descripción del evento es obligatoria.";
-    if (!fields.movilityScope) newErrors.movilityScope = "El ámbito es obligatorio.";
     if (!fields.cta) newErrors.cta = "El género es obligatorio.";
     if (!fields.origin) newErrors.origin = "La universidad de origen es obligatoria.";
     if (!fields.destination) newErrors.destination = "La universidad de destino es obligatoria.";
@@ -139,7 +137,7 @@ export const validateFields = (fields: MovilityFields) => {
     console.log("funding:", fields.funding);  // Debería ser undefined o vacío
     if (!fields.funding) newErrors.funding = "El valor de la financiación es obligatorio.";
     if (!fields.fundingSource) newErrors.fundingSource = "La fuente de la financiación es obligatoria.";
-    const isIncomingMovility = fields.movilityType === "INCOMING_IN_PERSON" || fields.movilityType === "INCOMING_VIRTUAL";
+    const isIncomingMovility = fields.direction === "INCOMING_IN_PERSON" || fields.direction === "INCOMING_VIRTUAL";
     const isStudent = fields.personType === "STUDENT";
     if (isIncomingMovility && isStudent && !fields.teacher) {
         newErrors.teacher = "El tutor académico es obligatorio para estudiantes en movilidad entrante";
