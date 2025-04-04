@@ -1,8 +1,8 @@
 "use client";
 
 import { Loader2, Pencil, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/buttons/button";
+import { Badge } from "@/components/ui/typography/badge";
 import { AgreementProps, AgreementTableProps } from "@/types/agreementType";
 import {
     Modal,
@@ -17,7 +17,7 @@ import { deleteAgreementAction } from "@/actions/agreementAction";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import AgreementForm from "./agreementForm";
-import Title from "@/components/ui/title";
+import Title from "@/components/ui/typography/title";
 
 export default function AgreementTable({
     agreements,

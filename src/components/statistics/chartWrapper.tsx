@@ -1,9 +1,9 @@
 import React from "react";
-import SkeletonBarChart from "@/components/ui/skeletonBarChart";
-import SkeletonPieChart from "@/components/ui/skeletonPieChart";
-import SkeletonLineChart from "@/components/ui/skeletonLineChart";
-import ChartError from "@/components/ui/chartError";
-import ChartNoFound from "@/components/ui/chartNoFound";
+import SkeletonBarChart from "@/components/ui/charts/skeletonBarChart";
+import SkeletonPieChart from "@/components/ui/charts/skeletonPieChart";
+import SkeletonLineChart from "@/components/ui/charts/skeletonLineChart";
+import ChartError from "@/components/ui/charts/chartError";
+import ChartNoFound from "@/components/ui/charts/chartNoFound";
 import { LoadingState } from "@/types/ChartTypes";
 
 interface ChartWrapperProps {

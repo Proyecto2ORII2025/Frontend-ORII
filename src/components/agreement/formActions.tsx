@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/buttons/button";
 
 interface FormActionsProps {
     isSubmitting: boolean;
@@ -28,7 +28,7 @@ export const FormActions = ({
             >
                 Cancelar
             </Button>
-            <Button 
+            <Button
                 className="w-1/3 md:w-1/4 px-4"
                 type="submit"
                 disabled={isSubmitting}

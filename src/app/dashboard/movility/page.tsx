@@ -1,18 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Title from "@/components/ui/title";
+import Title from "@/components/ui/typography/title";
 import { Search, Plus, Download, Filter } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/form/input";
 import Link from "next/link";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Tabs, TabsContent } from "@/components/ui/navigation/tabs";
+import { Button } from "@/components/ui/buttons/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/navigation/dropdown-menu";
 import { fetchMovilities, deleteMovilityAction } from "@/actions/movilityAction";
 import { Movility } from "@/types/movilityType";
-import ModalEdit from "@/components/ui/modalEdit";
-import ConfirmationModal from "@/components/ui/confirmationModal";
-import ModalVer from "@/components/ui/modalView";
+import ModalEdit from "@/components/ui/modals/modalEdit";
+import ConfirmationModal from "@/components/ui/modals/confirmationModal";
+import ModalVer from "@/components/ui/modals/modalView";
 
 const formatDate = (date: string) => {
     if (!date) return "Fecha no disponible";

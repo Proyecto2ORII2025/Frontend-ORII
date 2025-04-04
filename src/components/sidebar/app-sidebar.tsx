@@ -18,14 +18,14 @@ import {
     SidebarFooter,
     SidebarHeader,
     SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/navigation/sidebar"
 import Image from "next/image"
 
 const data = {
     user: {
         name: "Mario Perdomo",
         email: "cmperdomo@unicauca.edu.co",
-        avatar: "/img/user.png",
+        avatar: "/img/user.webp",
     },
     navMain: [
         {

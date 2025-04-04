@@ -1,6 +1,6 @@
 "use client";
 
-import Title from "@/components/ui/title";
+import Title from "@/components/ui/typography/title";
 import BarChartMobilityByFaculty from "@/components/statistics/barChart/BarChartMobilityByFaculty";
 import BarChartMobilityByCountry from "@/components/statistics/barChart/BarChartMobilityByCountry";
 import BarChartMobilitiesPerYear from "@/components/statistics/barChart/BarChartMobilityPerYear";

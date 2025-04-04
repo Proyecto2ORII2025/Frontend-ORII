@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { Info } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/basic-select";
-import { Label } from "@/components/ui/label";
-import Title from "@/components/ui/title";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/buttons/button";
+import { Input } from "@/components/ui/form/input";
+import { Select } from "@/components/ui/form/basic-select";
+import { Label } from "@/components/ui/typography/label";
+import Title from "@/components/ui/typography/title";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/navigation/tooltip";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/layout/card";
 import { createMovilityAction } from "@/actions/movilityAction";
 import { options, eventDescriptions, validateFields, handleExitDateChange, handleEntryDateChange } from "@/utils/movilityUtils";
 

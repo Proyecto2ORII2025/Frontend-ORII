@@ -8,14 +8,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/layout/card";
 import {
   agreementSchema,
   AgreementFormValues,
 } from "@/validations/agreementSchema";
-import { FormField } from "./formField";
-import { TextAreaField } from "./textAreaField";
-import { SelectField } from "./selectField";
+import { FormField } from "@/components/ui/form/formField";
+import { TextAreaField } from "@/components/ui/form/textAreaField";
+import { SelectField } from "@/components/ui/form/selectField";
 import { FormActions } from "./formActions";
 import { AgreementProps } from "@/types/agreementType";
 import { useAgreementHandlers } from "@/app/dashboard/agreements/handlers/agreementHandlers";

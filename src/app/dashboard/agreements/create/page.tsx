@@ -1,5 +1,5 @@
 "use client";
-import Title from "@/components/ui/title";
+import Title from "@/components/ui/typography/title";
 import AgreementForm from "@/components/agreement/agreementForm";
 
 export default function CreateAgreement() {
