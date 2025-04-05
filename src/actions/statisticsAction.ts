@@ -1,7 +1,7 @@
 'use server';
 
-import { getMovilityByFaculty, getMobilityByCountry, getMobilityByEvent, getMobilityPerYear } from "@/services/statistics.service";
-import { eventData, yearData, facultyData, countryData } from "@/types/ChartTypes";
+import { getMovilityByFaculty, getMobilityByCountry, getMobilityByEvent, getMobilityPerYear, getAgreementByCountry, getAgreementByRegion } from "@/services/statistics.service";
+import { eventData, yearData, facultyData, countryData, InternationalAgreementData, NationalAgreementData } from "@/types/ChartTypes";
 
 export async function fetchMobilityByFaculty(): Promise<facultyData> {
     try {
@@ -34,6 +34,26 @@ export async function fetchMobilityPerYear(): Promise<yearData> {
 export async function fetchMobilityByEvent(): Promise<eventData> {
     try {
         const response = await getMobilityByEvent();
+        return response;
+    } catch (error) {
+        console.error("Error al obtener las estadísticas:", error);
+        throw error;
+    }
+}
+
+export async function fetchAgreementByCountry(): Promise<InternationalAgreementData> {
+    try {
+        const response = await getAgreementByCountry();
+        return response;
+    } catch (error) {
+        console.error("Error al obtener las estadísticas:", error);
+        throw error;
+    }
+}
+
+export async function fetchAgreementByRegion(): Promise<NationalAgreementData> {
+    try {
+        const response = await getAgreementByRegion();
         return response;
     } catch (error) {
         console.error("Error al obtener las estadísticas:", error);

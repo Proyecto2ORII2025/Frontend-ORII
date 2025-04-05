@@ -1,41 +1,43 @@
-import React, { useState, useEffect } from "react";
-import { fetchMobilityByCountry } from "@/actions/statisticsAction";
-import BarChart from "./BarChart";
+import React, { useEffect, useState } from "react";
+import { fetchAgreementByCountry } from "@/actions/statisticsAction";
+import PieChart from "./PieChart";
 import { ChartData, LoadingState } from "@/types/ChartTypes";
 import ChartWrapper from "../chartWrapper";
 
-export default function BarChartMobilityByCountry() {
+export default function PieChartInternationalAgreement() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [state, setState] = useState<LoadingState>(LoadingState.LOADING);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchMobilityByCountry();
-        if (response.country.length === 0 || response.mobilities.length === 0) {
+        const response = await fetchAgreementByCountry();
+        if (response.countries.length === 0 || response.totalAgreementsByCountry.length === 0) {
           setState(LoadingState.NO_DATA);
         } else {
           setChartData({
-            labels: response.country,
+            labels: response.countries,
             datasets: [
               {
-                data: response.mobilities,
-              }
+                data: response.totalAgreementsByCountry,
+              },
             ],
           });
           setState(LoadingState.SUCCESS);
         }
+
       } catch (err) {
         setState(LoadingState.ERROR);
         console.error("Error:", err);
       }
     };
+
     fetchData();
   }, []);
 
   return (
-    <ChartWrapper state={state} chartType="bar">
-      {chartData && <BarChart title="Movilidad por países" xLabel="Países" yLabel="Número de movilidades" data={chartData} />}
+    <ChartWrapper state={state} chartType="pie">
+      {chartData && <PieChart title="Convenios internacionales" data={chartData} />}
     </ChartWrapper>
   );
 }

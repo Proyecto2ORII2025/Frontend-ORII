@@ -1,27 +1,44 @@
 "use client";
 
-import Title from "@/components/ui/typography/title";
-import BarChartMobilityByFaculty from "@/components/statistics/barChart/BarChartMobilityByFaculty";
-import BarChartMobilityByCountry from "@/components/statistics/barChart/BarChartMobilityByCountry";
-import BarChartMobilitiesPerYear from "@/components/statistics/barChart/BarChartMobilityPerYear";
+import StatisticsHeader from "@/components/statistics/statisticsHeader";
+
+import PieChartInternationalAgreement from "@/components/statistics/pieChart/PieChartInternationalAgreement";
+import PieChartNationalAgreement from "@/components/statistics/pieChart/PieChartNacionalAgreements";
 import BarChartMobilityByEvent from "@/components/statistics/barChart/BarChartMobilityByEvent";
-import PieChartMobilityByEvent from "@/components/statistics/pieChart/PieChartMobilityByEvent";
+import BarChartMobilityByFaculty from "@/components/statistics/barChart/BarChartMobilityByFaculty";
 import LineChartMobilityTrend from "@/components/statistics/lineChart/LineChartMobilityTrend";
-import LineChartEvent from "@/components/statistics/lineChart/LineChartEvent";
+import BarChartMobilitiesPerYear from "@/components/statistics/barChart/BarChartMobilityPerYear";
+import BarChartMobilityByCountry from "@/components/statistics/barChart/BarChartMobilityByCountry";
+
+import { useStatisticsFilters } from "@/hooks/useFilterStatistics";
 
 export default function StatisticsPage() {
+
+    // Hook para manejar filtros y búsquedas
+    const {
+        activeFilters,
+        handleFilter
+    } = useStatisticsFilters([], []);
+
     return (
-        <>
-            <Title title="Estadísticas" />
+        <div className="flex flex-col gap-6 pb-10">
+
+            <StatisticsHeader
+                title="Estadísticas"
+                description="Visualización de estadísticas sobre los convenios y movilidades registrados."
+                onFilter={handleFilter}
+                activeFilters={activeFilters}
+            />
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mx-10 my-10">
-                <PieChartMobilityByEvent />
+                <PieChartInternationalAgreement />
+                <PieChartNationalAgreement />
+                <BarChartMobilityByEvent />
                 <BarChartMobilityByFaculty />
                 <LineChartMobilityTrend />
-                <BarChartMobilityByCountry />
                 <BarChartMobilitiesPerYear />
-                <BarChartMobilityByEvent />
-                <LineChartEvent />
+                <BarChartMobilityByCountry />
             </div>
-        </>
+        </div>
     );
 }

@@ -1,3 +1,16 @@
+export interface FilterState {
+    date?: string;
+    status?: string;
+    type?: string;
+};
+
+export interface StatisticsHeaderProps {
+    title: string;
+    description?: string;
+    onFilter?: (filterType: string, value?: string) => void;
+    activeFilters?: FilterState;
+}
+
 export interface ChartData {
     labels: string[];
     datasets: {
@@ -40,3 +53,15 @@ export interface eventData{
     agreementType: string[];
     totalMobilityByAgreementsType: number[];
 }
+
+export interface InternationalAgreementData{
+    countries: string[];
+    totalAgreementsByCountry: number[];
+}
+
+export interface NationalAgreementData{
+    region: string[];
+    totalAgreementsByRegion: number[];
+}
+
+

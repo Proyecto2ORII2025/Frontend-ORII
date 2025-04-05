@@ -1,6 +1,6 @@
 import axiosInstance from "./axios.service";
 import { apiUrl } from "./env.service";
-import { eventData, yearData, facultyData, countryData } from "@/types/ChartTypes";
+import { eventData, yearData, facultyData, countryData, InternationalAgreementData, NationalAgreementData } from "@/types/ChartTypes";
 
 const url = `${apiUrl}/statistics`;
 
@@ -22,4 +22,20 @@ export const getMobilityPerYear = async (): Promise<yearData> => {
 export const getMobilityByEvent = async (): Promise<eventData> => {
     const response = await axiosInstance.get(`${url}/mobilitybyevent`);
     return response.data;
+}
+
+export const getAgreementByCountry = async (): Promise<InternationalAgreementData> => {
+    //const response = await axiosInstance.get(`${url}/agreementbycountry`);
+    //return response.data;
+    return {
+        countries: ["Argentina", "Chile", "Colombia", "Perú"],
+        totalAgreementsByCountry: [10, 20, 30, 40],}
+}
+
+export const getAgreementByRegion = async (): Promise<NationalAgreementData> => {
+    //const response = await axiosInstance.get(`${url}/agreementbyregion`);
+    //return response.data;
+    return {
+        region: ["Cali", "Bogota", "Medellin"],
+        totalAgreementsByRegion: [50, 20, 30],}
 }
