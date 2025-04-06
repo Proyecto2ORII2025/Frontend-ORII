@@ -66,34 +66,6 @@ export interface MovilityCrear {
     person: Person;
 }
 
-
-// export interface MovilityFormData {
-//     orii: true;
-//     cta: number;
-//     entryDate: string;
-//     exitDate: string;
-//     originProgram: string;
-//     destinationProgram: string;
-//     city: string;
-//     country: string;
-//     teacher?: string;
-//     funding: string;
-//     fundingSource: string;
-//     destination: string;
-//     origin: string;
-//     agreementId?: number | null,
-//     direction: string;
-//     faculty: string;
-//     gender: string;
-//     event: {
-//         description: string;
-//         eventTypeId: number;
-//     };
-//     person: Person;
-//     //stayDays: number;
-//     //movilityYear: string;
-// }
-
 export interface Agreement {
     agreementId: number;
     institution: string;

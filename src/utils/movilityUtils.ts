@@ -33,7 +33,7 @@ export const facultyDict: Record<string, string> = {
     FIET: "Facultad de Ingeniería Electrónica y Telecomunicaciones",
 };
 
-export const eventTypeDict: Record<string, string>  = {
+export const eventTypeDict: Record<string, string> = {
     "1": "Asistencia a evento",
     "2": "Misión",
     "3": "Curso corto",
@@ -42,7 +42,7 @@ export const eventTypeDict: Record<string, string>  = {
     "6": "Rotación médica",
     "7": "Profesor visitante o saliente",
     "8": "Voluntariado",
-  };
+};
 
 export const options = [
     { label: "Asistencia a evento", value: "1" },
@@ -133,8 +133,6 @@ export const validateFields = (fields: MovilityFields) => {
         console.log("agreementId:", fields.agreementId);  // Debería ser undefined o vacío
         newErrors.agreementId = "El número de convenio es obligatorio.";
     }
-    // if (fields.agreement === "Y" && !fields.agreementId) newErrors.agreementId = "El número de convenio es obligatorio.";
-    console.log("funding:", fields.funding);  // Debería ser undefined o vacío
     if (!fields.funding) newErrors.funding = "El valor de la financiación es obligatorio.";
     if (!fields.fundingSource) newErrors.fundingSource = "La fuente de la financiación es obligatoria.";
     const isIncomingMovility = fields.direction === "INCOMING_IN_PERSON" || fields.direction === "INCOMING_VIRTUAL";
@@ -152,6 +150,7 @@ export const formatDateToBackend = (isoDate: string): string => {
     const [year, month, day] = isoDate.split("-");
     return `${day}-${month}-${year}`;
 };
+
 
 export const formatDateToInput = (backendDate: string): string => {
     if (!backendDate) return "";
