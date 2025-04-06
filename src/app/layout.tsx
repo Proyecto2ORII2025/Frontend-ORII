@@ -1,7 +1,7 @@
 import "./globals.css";
 import { openSans } from "@/lib/fonts";
 import { metadata } from "@/lib/metadata";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/feedback/sonner"
 
 export { metadata };
 
