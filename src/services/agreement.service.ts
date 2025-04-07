@@ -1,22 +1,23 @@
 import { apiUrl } from "./env.service";
 import { Agreement, AgreementsData } from "@/types/agreementType";
-import axiosInstance from "./axios.service";
+import authApi from "./axios.service";
+
 const url = `${apiUrl}/agreement`;
 
 export const getAgreements = async (): Promise<{ data: Agreement[] }> => {
-    return await axiosInstance.get(`${url}/all`);
+    return await authApi.get(`${url}/all`);
 };
 
 export const createAgreement = async (agreement: Agreement): Promise<{ data: Agreement }> => {
-    return await axiosInstance.post(`${url}/create`, agreement);
+    return await authApi.post(`${url}/create`, agreement);
 }
 
 export const updateAgreement = async (agreement: Agreement, agreementId: string): Promise<{ data: Agreement }> => {
-    return await axiosInstance.put(`${url}/update/${agreementId}`, agreement);
+    return await authApi.put(`${url}/update/${agreementId}`, agreement);
 }
 
 export const deleteAgreement = async (agreementId: string): Promise<{ data: Agreement }> => {
-    return await axiosInstance.delete(`${url}/delete/${agreementId}`);
+    return await authApi.delete(`${url}/delete/${agreementId}`);
 }
 
 // Función para obtener los acuerdos categorizados

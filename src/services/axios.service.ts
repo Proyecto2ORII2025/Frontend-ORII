@@ -1,32 +1,23 @@
 import axios from "axios";
-import { apiUrl } from "./env.service";
-import { cookies } from 'next/headers';
+import { getServerAuthToken } from "@/lib/auth-server";
 
-const axiosInstance = axios.create({
+const baseURL = process.env.NODE_ENV === "production"
+    ? process.env.DOMAIN
+    : process.env.NEXT_PUBLIC_API_URL;
+
+const authApi = axios.create({
+    baseURL,
     withCredentials: true,
-    baseURL: apiUrl
 });
 
-// Interceptor para añadir el token de autorización a todas las peticiones
-axiosInstance.interceptors.request.use(
-    async (config) => {
-        // Obtener el token de las cookies
-        try {
-            const token = (await cookies()).get('auth-token')?.value;
-            
-            if (token) {
-                // Añadir el token al header de autorización a todas las peticiones
-                config.headers.Authorization = `Bearer ${token}`;
-            }
-        } catch (error) {
-            console.error("Error al obtener el token:", error);
-        }
-        
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
+// Interceptor para requests desde el cliente
+authApi.interceptors.request.use(async (config) => {
+    const token = await getServerAuthToken();
+    
+    if (token) {
+        config.headers.set('Authorization', `Bearer ${token}`);
     }
-);
+    return config;
+});
 
-export default axiosInstance;
+export default authApi;

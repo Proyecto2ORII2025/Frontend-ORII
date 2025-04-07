@@ -35,10 +35,9 @@ import {
     useDisclosure,
 } from "@heroui/modal";
 import { Button } from "@/components/ui/buttons/button";
-
-import { logoutAction } from "@/actions/authAction"
 import { useRouter } from "next/navigation"
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useAuthStore } from "@/store/auth"
 
 export function NavUser({
     user,
@@ -53,22 +52,17 @@ export function NavUser({
     const router = useRouter();
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
+    const logout = useAuthStore((state) => state.logout);
 
-    const handleLogout = async () => {
+    const handleLogout = useCallback(async () => {
         try {
             setIsLoading(true);
-            const res = await logoutAction();
-            
-            if (res.success) {
-                setTimeout(() => {
-                    onClose();
-                    router.push('/');
-                    router.refresh();
-                }, 100);
-            } else {
-                onClose();
-                router.push('/');
-            }
+            await logout();
+
+            onClose();
+
+            router.push('/');
+
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
             onClose();
@@ -76,8 +70,8 @@ export function NavUser({
         } finally {
             setIsLoading(false);
         }
-    }
-
+    }, [logout, onClose, router]);
+    
     return (
         <>
             <SidebarMenu>
@@ -136,7 +130,7 @@ export function NavUser({
                     </DropdownMenu>
                 </SidebarMenuItem>
             </SidebarMenu>
-            
+
             <Modal
                 backdrop="opaque"
                 isOpen={isOpen}
