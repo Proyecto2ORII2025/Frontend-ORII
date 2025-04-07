@@ -27,6 +27,6 @@ export const getMovilityById = async (id: number) => {
 export const getMobilitiesBlob = async () => {
     //Desde el back se esta trayendo un arraybuffer, de aqui pasamos al action
     //Importante definir el responseType
-    return await authApi.get(`${apiUrl}/reports/mobility`, { responseType: 'arraybuffer' });
+    return await axios.get(`${apiUrl}/reports/mobility/filters`, { responseType: 'arraybuffer' });
 }
 
