@@ -20,7 +20,7 @@ export default function filterSelector({
                         {filterName} {activeValue && `: ${activeValue}`}
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-[200px]">
+                <DropdownMenuContent align="end" className="w-[200px] max-h-[200px] overflow-y-auto"> {/* No funciona el Scroll*/ }
                     {filterValues.map((value) => (
                         <DropdownMenuItem key={value} onClick={() => onSelect(value)}>
                             {value}
@@ -28,6 +28,7 @@ export default function filterSelector({
                         </DropdownMenuItem>
                     ))}
                 </DropdownMenuContent>
+                
 
             </DropdownMenu>
             <button onClick={onRemove}
