@@ -15,7 +15,7 @@ import {
 } from "@/validations/agreementSchema";
 import { FormField } from "@/components/ui/form/formField";
 import { TextAreaField } from "@/components/ui/form/textAreaField";
-import { SelectField } from "@/components/ui/form/selectField";
+import { RadioSelectField } from "@/components/ui/form/radioSelectField";
 import { FormActions } from "./formActions";
 import { AgreementProps } from "@/types/agreementType";
 import { useAgreementHandlers } from "@/app/dashboard/agreements/handlers/agreementHandlers";
@@ -130,7 +130,7 @@ export default function AgreementForm({
               error={errors.startDate?.message}
             />
 
-            <SelectField
+            <RadioSelectField
               id="scope"
               label="Ámbito"
               tooltipText="Tipo de convenio"

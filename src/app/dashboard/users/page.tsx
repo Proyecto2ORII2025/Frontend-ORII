@@ -11,6 +11,7 @@ import { UserPlus } from "lucide-react"
 import { formSchema, type FormValues } from "@/validations/formSchema"
 import { createUser } from "@/actions/userAction"
 import { toast } from "sonner"
+import { SelectField } from "@/components/ui/form/selectField"
 
 export default function UsersPage() {
     const {
@@ -19,6 +20,7 @@ export default function UsersPage() {
         formState: { errors },
         setValue,
         watch,
+        reset,
     } = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -31,11 +33,12 @@ export default function UsersPage() {
     })
 
     const onSubmit = async (values: FormValues) => {
-        console.log("Formulario enviado:", values);
-        
         try {
             await createUser(values)
             toast.success("Usuario creado correctamente")
+            
+            // Limpia todos los campos del formulario
+            reset()
         } catch (error) {
             console.error("Error creating user:", error)
             toast.error("Error creando usuario")
@@ -105,59 +108,47 @@ export default function UsersPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <div className="flex flex-col space-y-1.5">
-                                    <Label required htmlFor="role" className="text-blueDark font-bold">
-                                        Rol
-                                    </Label>
-                                    <Select onValueChange={(value) => setValue("role", value)} defaultValue={watch("role")}>
-                                        <SelectTrigger
-                                            id="role"
-                                            className="border-blue/20 focus:ring-blueLight bg-white/50 hover:bg-white transition-colors h-10"
-                                        >
-                                            <SelectValue placeholder="Seleccione un rol" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="ADMIN">Administrador</SelectItem>
-                                            <SelectItem value="USER">Usuario</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                {errors.role && errors.role.message !== "" && (
-                                    <span className="text-xs md:text-sm text-error font-medium mt-1 block">{errors.role.message}</span>
-                                )}
+                                <SelectField
+                                    id="role"
+                                    label="Rol"
+                                    tooltipText="Seleccione el rol del usuario"
+                                    {...register("role")}
+                                    options={[
+                                        { value: "ADMIN", label: "Administrador" },
+                                        { value: "USER", label: "Usuario" },
+                                    ]}
+                                    defaultValue={watch("role")}
+                                    onValueChange={(value) => setValue("role", value)}
+                                    error={errors.role?.message}
+                                    className="text-blueDark/80"
+                                    placeholder="Seleccione un rol"
+                                />
                             </div>
 
-                            <div>
-                                <div className="flex flex-col space-y-1.5">
-                                    <Label required htmlFor="faculty" className="text-blueDark font-bold">
-                                        Facultad
-                                    </Label>
-                                    <Select onValueChange={(value) => setValue("faculty", value)} defaultValue={watch("faculty")}>
-                                        <SelectTrigger
-                                            id="faculty"
-                                            className="border-blue/20 focus:ring-blueLight bg-white/50 hover:bg-white transition-colors h-10"
-                                        >
-                                            <SelectValue placeholder="Seleccione una facultad" />
-                                        </SelectTrigger>
-                                        <SelectContent className="max-h-80">
-                                            <SelectItem value="FIET">Facultad de Ingeniería Electrónica y Telecomunicaciones</SelectItem>
-                                            <SelectItem value="FIC">Facultad de Ingeniería Civil</SelectItem>
-                                            <SelectItem value="FCS">Facultad de Ciencias de la Salud</SelectItem>
-                                            <SelectItem value="FDCPS">Facultad de Derecho y Ciencias Políticas y Sociales</SelectItem>
-                                            <SelectItem value="FACNED">Facultad de Ciencias Naturales, Exactas y de la Educación</SelectItem>
-                                            <SelectItem value="FCH">Facultad de Ciencias Humanas</SelectItem>
-                                            <SelectItem value="FA">Facultad de Artes</SelectItem>
-                                            <SelectItem value="FCA">Facultad de Ciencias Agropecuarias</SelectItem>
-                                            <SelectItem value="FCCEA">Facultad de Ciencias Contables, Económicas y Administrativas</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                                {errors.faculty && errors.faculty.message !== "" && (
-                                    <span className="text-xs md:text-sm text-error font-medium mt-1 block">{errors.faculty.message}</span>
-                                )}
-                            </div>
+                            <SelectField
+                                id="faculty"
+                                label="Facultad"
+                                tooltipText="Seleccione la facultad del usuario"
+                                {...register("faculty")}
+                                options={[
+                                    { value: "FIET", label: "Facultad de Ingeniería Electrónica y Telecomunicaciones" },
+                                    { value: "FIC", label: "Facultad de Ingeniería Civil" },
+                                    { value: "FCS", label: "Facultad de Ciencias de la Salud" },
+                                    { value: "FDCPS", label: "Facultad de Derecho y Ciencias Políticas y Sociales" },
+                                    { value: "FACNED", label: "Facultad de Ciencias Naturales, Exactas y de la Educación" },
+                                    { value: "FCH", label: "Facultad de Ciencias Humanas" },
+                                    { value: "FA", label: "Facultad de Artes" },
+                                    { value: "FCA", label: "Facultad de Ciencias Agropecuarias" },
+                                    { value: "FCCEA", label: "Facultad de Ciencias Contables, Económicas y Administrativas" },
+                                ]}
+                                defaultValue={watch("faculty")}
+                                onValueChange={(value) => setValue("faculty", value)}
+                                error={errors.faculty?.message}
+                                className="text-blueDark/80"
+                                placeholder="Seleccione una facultad"
+                            />
                         </div>
-
+                        
                         <div className="pt-4 flex justify-center">
                             <Button
                                 type="submit"
