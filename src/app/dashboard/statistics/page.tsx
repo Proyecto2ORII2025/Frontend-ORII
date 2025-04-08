@@ -14,18 +14,20 @@ import { useStatisticsFilters } from "@/hooks/useFilterStatistics";
 
 export default function StatisticsPage() {
 
-    // Hook para manejar filtros y búsquedas
+    // Hook para manejar filtros
     const {
         activeFilters,
         handleFilter
-    } = useStatisticsFilters([], []);
+    } = useStatisticsFilters();
+
+    console.log("activeFilters", activeFilters);
 
     return (
         <div className="flex flex-col gap-6 pb-10">
 
             <StatisticsHeader
                 title="Estadísticas"
-                description="Visualización de estadísticas sobre los convenios y movilidades registrados."
+                description="Consulta estadísticas de convenios y movilidades. Filtra la información y exporta los datos para su uso."
                 onFilter={handleFilter}
                 activeFilters={activeFilters}
             />

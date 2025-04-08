@@ -13,7 +13,7 @@ import {
   ChartData,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { ChartProps } from "@/types/ChartTypes";
+import { ChartProps } from "@/types/chartTypes";
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend, scales );
 

@@ -1,13 +1,9 @@
-export interface FilterState {
-    date?: string;
-    status?: string;
-    type?: string;
-};
+import { FilterState } from './filterChartType';
 
 export interface StatisticsHeaderProps {
     title: string;
     description?: string;
-    onFilter?: (filterType: string, value?: string) => void;
+    onFilter: (filterType: string, value?: string) => void;
     activeFilters?: FilterState;
 }
 

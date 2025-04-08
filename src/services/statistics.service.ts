@@ -1,6 +1,6 @@
 import axiosInstance from "./axios.service";
 import { apiUrl } from "./env.service";
-import { eventData, yearData, facultyData, countryData, InternationalAgreementData, NationalAgreementData } from "@/types/ChartTypes";
+import { eventData, yearData, facultyData, countryData, InternationalAgreementData, NationalAgreementData } from "@/types/chartTypes";
 
 const url = `${apiUrl}/statistics`;
 

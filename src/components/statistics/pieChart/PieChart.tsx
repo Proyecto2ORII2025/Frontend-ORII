@@ -8,7 +8,7 @@ import {
     ChartData
 } from "chart.js";
 import { Pie } from "react-chartjs-2";
-import { ChartProps } from "@/types/ChartTypes";
+import { ChartProps } from "@/types/chartTypes";
 import { getDistinctColors } from "../chartColors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);

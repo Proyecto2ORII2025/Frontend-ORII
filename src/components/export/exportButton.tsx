@@ -1,5 +1,5 @@
 import { Download } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "../ui/buttons/button";
 import { saveAs } from "file-saver";
 
 interface Props {

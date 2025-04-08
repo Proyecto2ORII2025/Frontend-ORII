@@ -4,7 +4,7 @@ import SkeletonPieChart from "@/components/ui/charts/skeletonPieChart";
 import SkeletonLineChart from "@/components/ui/charts/skeletonLineChart";
 import ChartError from "@/components/ui/charts/chartError";
 import ChartNoFound from "@/components/ui/charts/chartNoFound";
-import { LoadingState } from "@/types/ChartTypes";
+import { LoadingState } from "@/types/chartTypes";
 
 interface ChartWrapperProps {
   state: LoadingState;

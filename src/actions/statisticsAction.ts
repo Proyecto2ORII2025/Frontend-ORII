@@ -1,7 +1,7 @@
 'use server';
 
 import { getMovilityByFaculty, getMobilityByCountry, getMobilityByEvent, getMobilityPerYear, getAgreementByCountry, getAgreementByRegion } from "@/services/statistics.service";
-import { eventData, yearData, facultyData, countryData, InternationalAgreementData, NationalAgreementData } from "@/types/ChartTypes";
+import { eventData, yearData, facultyData, countryData, InternationalAgreementData, NationalAgreementData } from "@/types/chartTypes";
 
 export async function fetchMobilityByFaculty(): Promise<facultyData> {
     try {
