@@ -5,5 +5,6 @@ export const routeList: Record<string, string> = {
     "/dashboard/movility": "Movilidad",
     "/dashboard/movility/create": "Crear movilidad",
     "/dashboard/statistics": "Estadisticas",
+    "/dashboard/users": "Registrar enlace",
     // ...
 };

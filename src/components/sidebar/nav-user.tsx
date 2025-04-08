@@ -1,7 +1,6 @@
 "use client"
 
 import {
-    Bell,
     ChevronsUpDown,
     LogOut,
 } from "lucide-react"
@@ -35,10 +34,11 @@ import {
     useDisclosure,
 } from "@heroui/modal";
 import { Button } from "@/components/ui/buttons/button";
-
-import { logoutAction } from "@/actions/authAction"
 import { useRouter } from "next/navigation"
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useAuthStore } from "@/store/auth"
+import { UserRole } from "@/types/userType";
+import { Badge } from "../ui/typography/badge"
 
 export function NavUser({
     user,
@@ -53,22 +53,19 @@ export function NavUser({
     const router = useRouter();
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
+    const logout = useAuthStore((state) => state.logout);
+    const userSession = useAuthStore((state) => state.userSession);
+    const role: UserRole = (userSession?.role as UserRole) || 'USER';
 
-    const handleLogout = async () => {
+    const handleLogout = useCallback(async () => {
         try {
             setIsLoading(true);
-            const res = await logoutAction();
-            
-            if (res.success) {
-                setTimeout(() => {
-                    onClose();
-                    router.push('/');
-                    router.refresh();
-                }, 100);
-            } else {
-                onClose();
-                router.push('/');
-            }
+            await logout();
+
+            onClose();
+
+            router.push('/');
+
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
             onClose();
@@ -76,7 +73,7 @@ export function NavUser({
         } finally {
             setIsLoading(false);
         }
-    }
+    }, [logout, onClose, router]);
 
     return (
         <>
@@ -119,10 +116,20 @@ export function NavUser({
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuGroup>
-                                <DropdownMenuItem>
-                                    <Bell />
-                                    Notificaciones
-                                </DropdownMenuItem>
+                                <span className="pl-2 font-bold text-blue">
+                                    Rol:
+                                </span>
+                                <Badge
+                                    className="mx-2 mb-2 mt-1"
+                                    variant={
+                                        role === "SU" ? "su" :
+                                            role === "ADMIN" ? "admin" :
+                                                "user"
+                                    }
+                                >
+                                    {role === "SU" ? "Super Usuario" : role === "ADMIN" ? "Administrador" : "Usuario"}
+                                </Badge>
+
                             </DropdownMenuGroup>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onSelect={(e) => {
@@ -136,7 +143,7 @@ export function NavUser({
                     </DropdownMenu>
                 </SidebarMenuItem>
             </SidebarMenu>
-            
+
             <Modal
                 backdrop="opaque"
                 isOpen={isOpen}

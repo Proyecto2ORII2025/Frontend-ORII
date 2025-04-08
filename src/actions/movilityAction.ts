@@ -1,7 +1,7 @@
 "use server";
 
 import { Movility, MovilityCrear } from "@/types/movilityType";
-import { getMovilities, createMovility, updateMovility, deleteMovility, getMovilityById, getMobilitiesBlob } from "@/services/movility";
+import { getMovilities, createMovility, updateMovility, deleteMovility, getMovilityById, getMobilitiesBlob } from "@/services/movility.service";
 
 interface PromiseSuccess {
     success: boolean;
@@ -72,27 +72,18 @@ export async function getMovilityByIdAction(id: number): Promise<Movility | null
 }
 
 //Como es posible reconocer el nombre del archivo desde los datos, se pone otro retorno para el filename
-export async function exportMobilities(): Promise<{ blob: Blob; filename: string }> {
+export async function exportMobilities(): Promise<{ blob: Blob } | null> {
     try {
         const res = await getMobilitiesBlob();
-        
+
         //Se convierte el arraybuffer a blob, ya que la función de descarga (saveAs en el exportButton) trabaja con este tipo de datos
         const blob = new Blob([res.data], {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         });
 
-        //Se obtiene el nombre del archivo desde el header content-disposition
-        const contentDisposition = res.headers?.['content-disposition'];
-        //Si no hay header, se pone un nombre por defecto. Importante la extencion xlsx
-        const filename = contentDisposition?.match(/filename="?(.+)"?/)?.[1] || "movilidades.xlsx";
-
-        //Retornamos el blob y el filename
-        return { blob, filename };
+        return { blob };
     } catch (error) {
         console.error("Error al obtener el blob de movibilidades:", error);
-        return {
-            blob: new Blob(),
-            filename: "movilidades.xlsx",
-        };
+        return null;
     }
 }

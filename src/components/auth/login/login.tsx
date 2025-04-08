@@ -11,12 +11,18 @@ import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { loadCredentials, saveCredentials, clearCredentials } from "@/lib/rememberMe";
-import { authAction } from "@/actions/authAction";
-import { LoginResponse } from "@/actions/responseType";
+import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
+import { AuthCredentials, LoginResponse } from "@/types/authType";
 
 export default function Login() {
     const router = useRouter();
     const [rememberMe, setRememberMe] = useState(false);
+
+    const {
+        login,
+        loading,
+    } = useAuth();
 
     const { register, handleSubmit, formState: { errors }, setValue, setError } = useForm({
         resolver: zodResolver(userSchema),
@@ -27,6 +33,7 @@ export default function Login() {
         mode: "onSubmit"
     });
 
+    // Cargar credenciales guardadas
     useEffect(() => {
         const savedCredentials = loadCredentials();
         if (savedCredentials) {
@@ -36,34 +43,25 @@ export default function Login() {
         }
     }, [setValue]);
 
-    interface FormData {
-        email: string;
-        password: string;
-    }
-
-    const onSubmit = async (data: FormData) => {
+    const onSubmit = async (data: AuthCredentials) => {
         try {
-            // Usar el Server Action
-            const res = await authAction(data);
-
+            const res = await login(data);
             if (res.success) {
                 handleSuccessfulLogin(data);
                 return;
             }
             handleAuthError(res);
         } catch (error) {
-            console.error("Error al ejecutar Server Action:", error);
-            setError("email", { type: "server", message: "" });
-            setError("password", { type: "server", message: "" });
-            setError("root", {
-                type: "server",
-                message: "Error al iniciar sesión. Por favor, inténtalo nuevamente."
-            });
-            toast.error("Error al iniciar sesión. Por favor, inténtalo nuevamente.");
+            console.log(error);
+            handleAuthError({
+                success: false,
+                error: "Error inesperado",
+                field: "root"
+            })
         }
     };
 
-    const handleSuccessfulLogin = (data: FormData) => {
+    const handleSuccessfulLogin = (data: AuthCredentials) => {
         if (rememberMe) {
             saveCredentials(data.email, data.password);
         } else {
@@ -89,14 +87,9 @@ export default function Login() {
             </div>
             <div className="flex flex-col justify-center items-center w-full h-full py-10 md:py-0">
                 <div className="flex flex-col items-start w-[70%] md:w-[50%]">
-                    <h1 className="text-2xl md:text-3xl text-blue font-bold">
-                        Inicio de sesión
-                    </h1>
+                    <h1 className="text-2xl md:text-3xl text-blue font-bold">Inicio de sesión</h1>
                 </div>
-                <form
-                    className="flex flex-col gap-3 w-[70%] md:w-[50%] py-10"
-                    onSubmit={handleSubmit(onSubmit)}
-                >
+                <form className="flex flex-col gap-3 w-[70%] md:w-[50%] py-10" onSubmit={handleSubmit(onSubmit)}>
                     <LabeledInput
                         label="Correo institucional"
                         id="email"
@@ -109,7 +102,6 @@ export default function Login() {
                     {errors.email && errors.email.message !== "" && (
                         <span className="text-xs md:text-sm text-error font-medium">{errors.email.message}</span>
                     )}
-
                     <LabeledInput
                         label="Contraseña"
                         id="password"
@@ -123,7 +115,6 @@ export default function Login() {
                         <span className="text-xs md:text-sm text-error font-medium">{errors.password.message}</span>
                     )}
                     {errors.root && <span className="text-error text-[12px] md:text-sm">{errors.root.message as string}</span>}
-
                     <div className="flex items-center space-x-2 pb-2">
                         <Checkbox
                             id="terms"
@@ -137,10 +128,20 @@ export default function Login() {
                             Recordar por 30 días
                         </label>
                     </div>
-
-                    <Button variant="default" type="submit" className="w-full">
-                        Iniciar sesión
+                    <Button
+                        variant="default"
+                        type="submit"
+                        className="w-full"
+                        disabled={loading}
+                    >
+                        {loading ? "Iniciando sesión..." : "Iniciar sesión"}
                     </Button>
+                    <Link
+                        href="/forgot-password"
+                        className="text-[12px] md:text-sm text-blue/80 hover:text-blue font-medium text-center hover:underline cursor-pointer"
+                    >
+                        ¿Olvidó su contraseña?
+                    </Link>
                 </form>
             </div>
         </div>

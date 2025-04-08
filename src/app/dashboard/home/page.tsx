@@ -1,30 +1,47 @@
+'use client';
+
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/buttons/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/layout/card"
 import { Globe2, BookOpen, Users, ArrowRight, GraduationCap, MapPin } from "lucide-react"
+import { useAuthStore } from "@/store/auth"
+import { UserRole } from "@/types/userType";
+import MultiColorBar from "@/components/ui/layout/multi-color-bar";
 
 export default function Home() {
+    const userSession = useAuthStore((state) => state.userSession);
+    const role: UserRole = (userSession?.role as UserRole) || 'USER';
+
     return (
-        <div className="container mx-auto px-4 py-8">
+        <>
             {/* Hero Section */}
             <section className="relative mb-16 overflow-hidden rounded-xl bg-gradient-to-r from-blueDark to-[#0150C5] text-white">
-                <div className="relative grid gap-8 p-8 md:grid-cols-2 md:p-12 lg:p-16">
-                    <div className="space-y-6">
+                <div className="relative grid gap-8 p-8 md:grid-cols-2 md:p-16 lg:p-20">
+                    <div className="flex flex-col gap-10">
                         <h1 className="text-3xl font-bold font-open-sans sm:text-4xl md:text-5xl">
                             Oficina de Relaciones Interinstitucionales e Internacionales
                         </h1>
-                        <p className="max-w-[600px] text-lg text-white/90 leading-relaxed">
+                        <p className="max-w-[600px] text-base text-white/90 leading-relaxed">
                             Impulsando la proyección global de la Universidad del Cauca a través de cooperación internacional y
                             movilidad académica.
                         </p>
-                        <div className="flex flex-wrap gap-4">
-                            <Button className="bg-white text-[#0150C5] hover:bg-white/90 font-bold transition-all">
-                                <Link href="/dashboard/movility">Programas de Movilidad</Link>
-                            </Button>
-                            <Button className="bg-transparent border-2 border-white hover:bg-white/10 font-bold transition-all">
-                                <Link href="/dashboard/agreements">Convenios Internacionales</Link>
-                            </Button>
+                        <div className="flex flex-wrap gap-4 w-1/2">
+                            {role === 'SU' ? (
+                                <Button className="bg-white text-[#0150C5] hover:bg-white/90 font-bold transition-all">
+                                    <Link href="/dashboard/users">Registrar enlace</Link>
+                                </Button>
+                            ) : (
+                                <>
+                                    <Button className="bg-white text-[#0150C5] hover:bg-white/90 font-bold transition-all">
+                                        <Link href="/dashboard/movility">Programas de Movilidad</Link>
+                                    </Button>
+                                    <Button className="bg-transparent border-2 border-white hover:bg-white/10 font-bold transition-all">
+                                        <Link href="/dashboard/agreements">Convenios Internacionales</Link>
+                                    </Button>
+                                </>
+                            )}
+
                         </div>
                     </div>
                     <div className="hidden items-center justify-center md:flex">
@@ -138,21 +155,21 @@ export default function Home() {
             </section>
 
             {/* Stats Section */}
-            <section className="mb-16 rounded-xl bg-gradient-to-r from-[#E6EFF8] to-[#F5F9FD] p-8 shadow-sm">
-                <div className="mb-8 text-center">
+            <section className="flex flex-col gap-8 mb-16 rounded-xl bg-gradient-to-r from-[#E6EFF8] to-[#F5F9FD] shadow-sm">
+                <div className="mb-8 mt-4 text-center">
                     <h2 className="text-2xl text-[#0150C5] font-bold tracking-tight sm:text-3xl">Impacto Global</h2>
                     <p className="mx-auto mt-2 max-w-[700px] text-[#0150C5]/80 font-medium">Nuestra presencia internacional en números</p>
                 </div>
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                    <div className="text-center">
+                    <div className="text-center border-r border-r-blueLight">
                         <p className="text-4xl font-bold text-[#0150C5]">50+</p>
                         <p className="mt-2 font-medium text-slate-700">Convenios Activos</p>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center border-r border-r-blueLight">
                         <p className="text-4xl font-bold text-[#0150C5]">25</p>
                         <p className="mt-2 font-medium text-slate-700">Países Colaboradores</p>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center border-r border-r-blueLight">
                         <p className="text-4xl font-bold text-[#0150C5]">200+</p>
                         <p className="mt-2 font-medium text-slate-700">Estudiantes en Movilidad</p>
                     </div>
@@ -160,11 +177,14 @@ export default function Home() {
                         <p className="text-4xl font-bold text-[#0150C5]">30+</p>
                         <p className="mt-2 font-medium text-slate-700">Proyectos Internacionales</p>
                     </div>
+                    
                 </div>
+                <MultiColorBar />
+
             </section>
 
             {/* Contact Section */}
-            <section>
+            <section className="mb-10">
                 <Card className="overflow-hidden border-none bg-gradient-to-r from-[#E6EFF8] to-[#F5F9FD] shadow-md">
                     <div className="grid md:grid-cols-2">
                         <CardContent className="p-6 md:p-8">
@@ -201,11 +221,10 @@ export default function Home() {
                                 fill
                                 className="object-cover"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-r from-white from-[0%] to-transparent to-[2%]"></div>
                         </div>
                     </div>
                 </Card>
             </section>
-        </div>
+        </>
     )
 }
