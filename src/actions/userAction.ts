@@ -6,25 +6,50 @@ import { updatePassword } from "@/services/user.service";
 import { UpdatePasswordPayload } from "@/types/passwordType";
 import { UserData } from "@/types/userType";
 import { AxiosError } from "axios";
-
-interface PromiseSuccess {
-    success: boolean;
-    error?: string;
-    field?: string;
-}
+import { PromiseSuccess } from "@/types/responseType";
+import { CreateUserResponse } from "@/types/userType";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function createUser(data: UserData) {
+export async function createUser(data: UserData): Promise <CreateUserResponse> {
     try {
         console.log("Datos enviados para crear usuario:", data);
         const response = await axios.post(`${API_URL}/users/createAdmin`, data);
         console.log("Respuesta del servidor al crear usuario:", response.data);
-        return response.data;
+        return {
+            success: true,
+            data: {
+                ...response.data,
+            },
+        }
     } catch (error) {
-        console.error("Error al crear el usuario:", error);
-        if (error instanceof AxiosError && error.response) {
-            console.error("Detalles del error de respuesta:", error.response.data);
+        const axiosError = error as AxiosError;
+        // Determinar qué campo tiene el error
+        let field: 'name' | 'lastName' | 'email' | 'role' | 'faculty' | 'root' = 'root';
+        let errorMessage = "Error al crear el usuario. Inténtelo nuevamente.";
+        if (axiosError.response?.status === 400) {
+            errorMessage = "Error de validación. Verifique los datos ingresados.";
+            const responseData = axiosError.response?.data as CreateUserResponse;
+            if (responseData?.error?.includes('name')) {
+                field = 'name';
+            } else if (responseData?.error?.includes('lastName')) {
+                field = 'lastName';
+            } else if (responseData?.error?.includes('email')) {
+                field = 'email';
+            } else if (responseData?.error?.includes('role')) {
+                field = 'role';
+            } else if (responseData?.error?.includes('faculty')) {
+                field = 'faculty';
+            }
+        } else if (axiosError.response?.status === 500) {
+            errorMessage = "El correo ya está registrado. Ingrese otro.";
+            field = 'email';
+        }
+
+        return {
+            success: false,
+            error: errorMessage,
+            field: field,
         }
     }
 }

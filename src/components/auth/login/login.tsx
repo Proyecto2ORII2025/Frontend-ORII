@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { loadCredentials, saveCredentials, clearCredentials } from "@/lib/rememberMe";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
-import { LoginResponse } from "@/types/authType";
+import { AuthCredentials, LoginResponse } from "@/types/authType";
 
 export default function Login() {
     const router = useRouter();
@@ -43,7 +43,7 @@ export default function Login() {
         }
     }, [setValue]);
 
-    const onSubmit = async (data: { email: string; password: string }) => {
+    const onSubmit = async (data: AuthCredentials) => {
         try {
             const res = await login(data);
             if (res.success) {
@@ -53,18 +53,15 @@ export default function Login() {
             handleAuthError(res);
         } catch (error) {
             console.log(error);
-            
-            setError("email", { type: "server", message: "" });
-            setError("password", { type: "server", message: "" });
-            setError("root", {
-                type: "server",
-                message: "Error al iniciar sesión. Por favor, inténtalo nuevamente."
-            });
-            toast.error("Error al iniciar sesión. Por favor, inténtalo nuevamente.");
+            handleAuthError({
+                success: false,
+                error: "Error inesperado",
+                field: "root"
+            })
         }
     };
 
-    const handleSuccessfulLogin = (data: { email: string; password: string }) => {
+    const handleSuccessfulLogin = (data: AuthCredentials) => {
         if (rememberMe) {
             saveCredentials(data.email, data.password);
         } else {

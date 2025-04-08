@@ -16,6 +16,7 @@ interface SelectFieldProps {
     label: string
     tooltipText: string
     options: SelectOption[]
+    value?: string
     defaultValue?: string
     onValueChange: (value: string) => void
     error?: string
@@ -29,6 +30,7 @@ export const SelectField = ({
     tooltipText,
     options,
     defaultValue,
+    value,
     onValueChange,
     error,
     className = "",
@@ -51,7 +53,7 @@ export const SelectField = ({
             </div>
 
             <div className="flex flex-col gap-1">
-                <Select defaultValue={defaultValue} onValueChange={onValueChange}>
+                <Select defaultValue={defaultValue} value={value} onValueChange={onValueChange}>
                     <SelectTrigger id={id} className={error ? "border-error" : ""}>
                         <SelectValue placeholder={placeholder} />
                     </SelectTrigger>

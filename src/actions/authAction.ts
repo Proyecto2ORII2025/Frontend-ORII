@@ -3,7 +3,7 @@
 
 import { cookies } from 'next/headers';
 import axios, { AxiosError } from 'axios';
-import { LoginResponse, ErrorResponse } from '@/types/authType';
+import { LoginResponse, ErrorResponse, AuthCredentials } from '@/types/authType';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const TOKEN_COOKIE_NAME = 'auth-token';
@@ -11,7 +11,7 @@ const TOKEN_COOKIE_NAME = 'auth-token';
 /**
  * Acción del servidor para iniciar sesión
  */
-export async function loginAction(credentials: { email: string; password: string }): Promise<LoginResponse> {
+export async function loginAction(credentials: AuthCredentials): Promise<LoginResponse> {
     try {
         const response = await axios.post(`${API_URL}/auth/login`, credentials);
         const apiToken = response.data.accessToken;

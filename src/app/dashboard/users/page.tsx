@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/buttons/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/form/select"
 import { Label } from "@/components/ui/typography/label"
 import LabeledInput from "@/components/ui/form/labeledInput"
-import { UserPlus } from "lucide-react"
-import { formSchema, type FormValues } from "@/validations/formSchema"
+import { UserPlus, Trash2 } from "lucide-react"
+import { formSchema, type UserFormValues } from "@/validations/formSchema"
 import { createUser } from "@/actions/userAction"
 import { toast } from "sonner"
 import { SelectField } from "@/components/ui/form/selectField"
+import { CreateUserResponse } from "@/types/userType"
 
 export default function UsersPage() {
     const {
@@ -19,9 +20,10 @@ export default function UsersPage() {
         handleSubmit,
         formState: { errors },
         setValue,
+        setError,
         watch,
         reset,
-    } = useForm<FormValues>({
+    } = useForm<UserFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
@@ -32,17 +34,40 @@ export default function UsersPage() {
         },
     })
 
-    const onSubmit = async (values: FormValues) => {
+    const onSubmit = async (data: UserFormValues) => {
         try {
-            await createUser(values)
-            toast.success("Usuario creado correctamente")
-            
-            // Limpia todos los campos del formulario
-            reset()
+            const res = await createUser(data)
+            if (res.success) {
+                handleSuccessfulCreateUser(data)
+                return
+            }
+            handleCreateUserError(res)
         } catch (error) {
-            console.error("Error creating user:", error)
-            toast.error("Error creando usuario")
+            console.error(error);
+            handleCreateUserError({
+                success: false,
+                error: "Error inesperado",
+                field: "root",
+            })
         }
+    }
+
+    const handleSuccessfulCreateUser = (data: UserFormValues) => {
+        toast.success("Usuario creado correctamente")
+        reset()
+    }
+
+    const handleCreateUserError = (res: CreateUserResponse) => {
+        setError("name", { type: "server", message: "" })
+        setError("lastName", { type: "server", message: "" })
+        setError("email", { type: "server", message: "" })
+        setError("role", { type: "server", message: "" })
+        setError("faculty", { type: "server", message: "" })
+        setError("root", {
+            type: "server",
+            message: res.error,
+        })
+        toast.error(res.error)
     }
 
     return (
@@ -68,7 +93,7 @@ export default function UsersPage() {
                                     type="text"
                                     placeholder="Ingresa el nombre"
                                     required
-                                    autoFocus
+                                    className={errors.name ? "border-error" : ""}
                                 />
                                 {errors.name && errors.name.message !== "" && (
                                     <span className="text-xs md:text-sm text-error font-medium mt-1 block">{errors.name.message}</span>
@@ -83,6 +108,7 @@ export default function UsersPage() {
                                     type="text"
                                     placeholder="Ingresa el apellido"
                                     required
+                                    className={errors.lastName ? "border-error" : ""}
                                 />
                                 {errors.lastName && errors.lastName.message !== "" && (
                                     <span className="text-xs md:text-sm text-error font-medium mt-1 block">
@@ -96,10 +122,12 @@ export default function UsersPage() {
                             <LabeledInput
                                 label="Email"
                                 {...register("email")}
+                                value={watch("email")}
                                 name="email"
                                 type="email"
                                 placeholder="Ingresa el email"
                                 required
+                                className={errors.email ? "border-error" : ""}
                             />
                             {errors.email && errors.email.message !== "" && (
                                 <span className="text-xs md:text-sm text-error font-medium mt-1 block">{errors.email.message}</span>
@@ -107,23 +135,22 @@ export default function UsersPage() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <SelectField
-                                    id="role"
-                                    label="Rol"
-                                    tooltipText="Seleccione el rol del usuario"
-                                    {...register("role")}
-                                    options={[
-                                        { value: "ADMIN", label: "Administrador" },
-                                        { value: "USER", label: "Usuario" },
-                                    ]}
-                                    defaultValue={watch("role")}
-                                    onValueChange={(value) => setValue("role", value)}
-                                    error={errors.role?.message}
-                                    className="text-blueDark/80"
-                                    placeholder="Seleccione un rol"
-                                />
-                            </div>
+                            <SelectField
+                                id="role"
+                                label="Rol"
+                                tooltipText="Seleccione el rol del usuario"
+                                {...register("role")}
+                                options={[
+                                    { value: "ADMIN", label: "Administrador" },
+                                    { value: "USER", label: "Usuario" },
+                                ]}
+                                defaultValue={watch("role")}
+                                onValueChange={(value) => setValue("role", value)}
+                                value={watch("role")}
+                                error={errors.role?.message}
+                                className={errors.role ? "border-error text-blueDark" : "text-blueDark"}
+                                placeholder="Seleccione un rol"
+                            />
 
                             <SelectField
                                 id="faculty"
@@ -142,20 +169,33 @@ export default function UsersPage() {
                                     { value: "FCCEA", label: "Facultad de Ciencias Contables, Económicas y Administrativas" },
                                 ]}
                                 defaultValue={watch("faculty")}
+                                value={watch("faculty")}
                                 onValueChange={(value) => setValue("faculty", value)}
                                 error={errors.faculty?.message}
-                                className="text-blueDark/80"
+                                className={errors.faculty ? "border-error text-blueDark" : "text-blueDark"}
                                 placeholder="Seleccione una facultad"
                             />
                         </div>
-                        
-                        <div className="pt-4 flex justify-center">
+
+                        <div className="pt-4 flex gap-4 justify-center">
                             <Button
                                 type="submit"
-                                className="bg-blue hover:bg-blueLight text-white transition-colors shadow-sm hover:shadow"
+                                variant={"default"}
                             >
                                 <UserPlus className="h-4 w-4 mr-2" />
                                 Crear enlace
+                            </Button>
+
+                            <Button
+                                type="button"
+                                variant={"delete"}
+                                className="w-2/4"
+                                onClick={() => {
+                                    reset()
+                                }}
+                            >
+                                <Trash2 className="h-4 w-4 mr-2" />
+                                Vaciar formulario
                             </Button>
                         </div>
                     </form>

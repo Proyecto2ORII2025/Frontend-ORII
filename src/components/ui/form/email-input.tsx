@@ -5,8 +5,14 @@ import { CircleCheck, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const EmailInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-    ({ className, onChange, ...props }, ref) => {
+    ({ value, className, onChange, ...props }, ref) => {
         const [isValidEmail, setIsValidEmail] = React.useState<null | boolean>(null);
+
+        React.useEffect(() => {
+            if (!value) {
+                setIsValidEmail(null);
+            }
+        }, [value]);
 
         // Handler que combina la validación interna con el onChange de React Hook Form
         const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,6 +35,7 @@ const EmailInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"inpu
             <div className="relative flex items-center">
                 <input
                     type="email"
+                    value={value}
                     className={cn(
                         "flex h-9 w-full rounded-2xl border border-blueDark/20 bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-blueDark/70 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
                         "pr-9",
