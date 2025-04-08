@@ -1,10 +1,17 @@
+'use client';
+
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/buttons/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/layout/card"
 import { Globe2, BookOpen, Users, ArrowRight, GraduationCap, MapPin } from "lucide-react"
+import { useAuthStore } from "@/store/auth"
+import { UserRole } from "@/types/userType";
 
 export default function Home() {
+    const userSession = useAuthStore((state) => state.userSession);
+    const role: UserRole = (userSession?.role as UserRole) || 'USER';
+
     return (
         <>
             {/* Hero Section */}
@@ -19,12 +26,21 @@ export default function Home() {
                             movilidad académica.
                         </p>
                         <div className="flex flex-wrap gap-4">
-                            <Button className="bg-white text-[#0150C5] hover:bg-white/90 font-bold transition-all">
-                                <Link href="/dashboard/movility">Programas de Movilidad</Link>
-                            </Button>
-                            <Button className="bg-transparent border-2 border-white hover:bg-white/10 font-bold transition-all">
-                                <Link href="/dashboard/agreements">Convenios Internacionales</Link>
-                            </Button>
+                            {role === 'SU' ? (
+                                <Button className="bg-white text-[#0150C5] hover:bg-white/90 font-bold transition-all">
+                                    <Link href="/dashboard/users">Registrar enlace</Link>
+                                </Button>
+                            ) : (
+                                <>
+                                    <Button className="bg-white text-[#0150C5] hover:bg-white/90 font-bold transition-all">
+                                        <Link href="/dashboard/movility">Programas de Movilidad</Link>
+                                    </Button>
+                                    <Button className="bg-transparent border-2 border-white hover:bg-white/10 font-bold transition-all">
+                                        <Link href="/dashboard/agreements">Convenios Internacionales</Link>
+                                    </Button>
+                                </>
+                            )}
+
                         </div>
                     </div>
                     <div className="hidden items-center justify-center md:flex">

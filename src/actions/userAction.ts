@@ -4,6 +4,8 @@ import axios from "@/services/axios.service";
 import { apiUrl } from "@/services/env.service";
 import { updatePassword } from "@/services/user.service";
 import { UpdatePasswordPayload } from "@/types/passwordType";
+import { UserData } from "@/types/userType";
+import { AxiosError } from "axios";
 
 interface PromiseSuccess {
     success: boolean;
@@ -12,6 +14,20 @@ interface PromiseSuccess {
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export async function createUser(data: UserData) {
+    try {
+        console.log("Datos enviados para crear usuario:", data);
+        const response = await axios.post(`${API_URL}/users/createAdmin`, data);
+        console.log("Respuesta del servidor al crear usuario:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error al crear el usuario:", error);
+        if (error instanceof AxiosError && error.response) {
+            console.error("Detalles del error de respuesta:", error.response.data);
+        }
+    }
+}
 
 export async function fetchUserData(userID: number) {
     try {

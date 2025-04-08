@@ -1,7 +1,7 @@
 "use server";
 
 import { Movility, MovilityCrear } from "@/types/movilityType";
-import { getMovilities, createMovility, updateMovility, deleteMovility, getMovilityById, getMobilitiesBlob } from "@/services/movility";
+import { getMovilities, createMovility, updateMovility, deleteMovility, getMovilityById, getMobilitiesBlob } from "@/services/movility.service";
 
 interface PromiseSuccess {
     success: boolean;

@@ -6,9 +6,10 @@ import { JwtPayload } from "jwt-decode";
 export interface UserSession extends JwtPayload {
     email: string;
     role: string;
-    userId?: string;
-    sub?: string;
-    name?: string;
+    userId: string;
+    sub: string;
+    name: string;
+    lastname: string;
     exp: number;
 }
 

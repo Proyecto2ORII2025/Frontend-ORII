@@ -1,12 +1,10 @@
 export interface UserData {
-    userId: number;
+    userId?: number;
     name: string;
     lastName: string;
     email: string;
     role: string;
-    emailVerified: boolean;
-    updatePassword: string;
-    faculty: string | null;
+    faculty: string;
 }
 
 export type UserRole = 'SU' | 'ADMIN' | 'USER';

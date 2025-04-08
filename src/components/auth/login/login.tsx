@@ -141,7 +141,7 @@ export default function Login() {
                     </Button>
                     <Link
                         href="/forgot-password"
-                        className="text-[12px] md:text-sm text-blue font-medium text-center hover:underline cursor-pointer"
+                        className="text-[12px] md:text-sm text-blue/80 hover:text-blue font-medium text-center hover:underline cursor-pointer"
                     >
                         ¿Olvidó su contraseña?
                     </Link>

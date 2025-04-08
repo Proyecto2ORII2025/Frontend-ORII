@@ -25,7 +25,8 @@ export const useAuthStore = create<AuthStore>()(
                 }
 
                 const userSession = decodeToken(token);
-
+                console.log("User session decoded:", userSession);
+                
                 set({
                     token,
                     userSession,

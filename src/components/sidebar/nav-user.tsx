@@ -1,7 +1,6 @@
 "use client"
 
 import {
-    Bell,
     ChevronsUpDown,
     LogOut,
 } from "lucide-react"
@@ -38,6 +37,8 @@ import { Button } from "@/components/ui/buttons/button";
 import { useRouter } from "next/navigation"
 import { useCallback, useState } from "react";
 import { useAuthStore } from "@/store/auth"
+import { UserRole } from "@/types/userType";
+import { Badge } from "../ui/typography/badge"
 
 export function NavUser({
     user,
@@ -53,6 +54,8 @@ export function NavUser({
     const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
     const logout = useAuthStore((state) => state.logout);
+    const userSession = useAuthStore((state) => state.userSession);
+    const role: UserRole = (userSession?.role as UserRole) || 'USER';
 
     const handleLogout = useCallback(async () => {
         try {
@@ -71,7 +74,7 @@ export function NavUser({
             setIsLoading(false);
         }
     }, [logout, onClose, router]);
-    
+
     return (
         <>
             <SidebarMenu>
@@ -113,10 +116,20 @@ export function NavUser({
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuGroup>
-                                <DropdownMenuItem>
-                                    <Bell />
-                                    Notificaciones
-                                </DropdownMenuItem>
+                                <span className="pl-2 font-bold text-blue">
+                                    Rol:
+                                </span>
+                                <Badge
+                                    className="mx-2 mb-2 mt-1"
+                                    variant={
+                                        role === "SU" ? "su" :
+                                            role === "ADMIN" ? "admin" :
+                                                "user"
+                                    }
+                                >
+                                    {role === "SU" ? "Super Usuario" : role === "ADMIN" ? "Administrador" : "Usuario"}
+                                </Badge>
+
                             </DropdownMenuGroup>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onSelect={(e) => {

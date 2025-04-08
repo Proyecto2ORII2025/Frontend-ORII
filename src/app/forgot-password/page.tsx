@@ -7,6 +7,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/buttons/button";
 import Header from "@/components/auth/layout/header";
+import LabeledInput from "@/components/ui/form/labeledInput";
 
 interface ForgotPasswordForm {
     email: string;
@@ -48,31 +49,20 @@ export default function ForgotPasswordPage() {
                     <h1 className="text-2xl md:text-3xl text-blue font-bold">Recuperar Contraseña</h1>
                 </div>
                 <form className="flex flex-col gap-3 w-[70%] md:w-[50%] py-10" onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-col gap-1">
-                        <label htmlFor="email" className="text-sm font-medium">
-                            Correo electrónico
-                        </label>
-                        <div
-                            className={`flex items-center border rounded-md overflow-hidden ${errors.email ? "border-error" : "border-input"}`}
-                        >
-                            <input
-                                id="email"
-                                type="email"
-                                className="w-full py-2 px-3 outline-none"
-                                placeholder="Ingresa tu correo electrónico"
-                                {...register("email", {
-                                    required: "El correo es obligatorio",
-                                    pattern: {
-                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                        message: "Ingresa un correo electrónico válido"
-                                    }
-                                })}
-                            />
-                        </div>
-                        {errors.email && (
-                            <span className="text-xs md:text-sm text-error font-medium">{errors.email.message}</span>
-                        )}
+                    <div className="flex flex-col gap-1 w-full">
+                        <LabeledInput
+                            label="Correo institucional"
+                            id="email"
+                            type="email"
+                            placeholder="Correo institucional"
+                            required={true}
+                            className={errors.email ? "border-error" : ""}
+                            {...register("email")}
+                        />
                     </div>
+                    {errors.email && (
+                        <span className="text-xs md:text-sm text-error font-medium">{errors.email.message}</span>
+                    )}
 
                     <Button type="submit" disabled={isPending} className="w-full mt-4">
                         {isPending ? "Enviando..." : "Enviar enlace de recuperación"}
