@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/buttons/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/navigation/dropdown-menu";
 import Title from "@/components/ui/typography/title";
 import { StatisticsHeaderProps } from "@/types/chartTypes";
-import ExportButton from "@/components/ui/buttons/exportButton";
 import FilterSelector from "@/components/statistics/filterSelector";
 import { filterOptions, filterNames } from "@/types/filterChartType";
 
@@ -89,7 +88,7 @@ export default function StatisticsHeader({
                                 )}
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <ExportButton agreements={[]} />
+                        
                 </div>
             </div>
         </>
