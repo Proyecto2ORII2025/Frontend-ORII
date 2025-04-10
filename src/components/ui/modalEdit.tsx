@@ -12,11 +12,6 @@ interface ModalEditProps {
 }
 
 export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEditProps) {
-  const handleSuccess = (updatedData: Movility) => {
-    onUpdate(updatedData);
-    onClose();
-  };
-
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
@@ -28,7 +23,10 @@ export default function ModalEdit({ movility, open, onClose, onUpdate }: ModalEd
               movility={movility}
               onClose={onClose}
               isEditing={true}
-              onSuccess={handleSuccess}
+              onSuccess={(updatedData) => {
+                onUpdate(updatedData);
+                onClose();
+              }}
             />
           )}
         </div>

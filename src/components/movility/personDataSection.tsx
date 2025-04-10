@@ -2,6 +2,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/basic-select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {genderDict, roleDict, documentTypeDict} from "@/utils/movilityUtils"
 import { Info } from "lucide-react";
 
 interface PersonDataSectionProps {
@@ -100,11 +101,10 @@ export function PersonDataSection({
                     <Select
                         value={gender}
                         onChange={(e) => setters.setGender(e.target.value)}
-                        options={[
-                            { label: "Femenino", value: "F" },
-                            { label: "Masculino", value: "M" },
-                            { label: "Otro", value: "O" },
-                        ]}
+                        options={Object.entries(genderDict).map(([value, label]) => ({
+                            value,
+                            label,
+                        }))}
                         placeholder="Seleccione el género"
                     />
                     {errors.gender && <p className="text-sm text-red-500">{errors.gender}</p>}
@@ -126,11 +126,10 @@ export function PersonDataSection({
                     <Select
                         value={personType}
                         onChange={(e) => setters.setRole(e.target.value)}
-                        options={[
-                            { label: "Estudiante", value: "STUDENT" },
-                            { label: "Docente", value: "TEACHER" },
-                            { label: "Administrativo", value: "ADMIN" },
-                        ]}
+                        options={Object.entries(roleDict).map(([value, label]) => ({
+                            value,
+                            label,
+                        }))}
                         placeholder="Seleccione el rol"
                     />
                     {errors.personType && <p className="text-sm text-red-500">{errors.personType}</p>}
@@ -152,14 +151,10 @@ export function PersonDataSection({
                     <Select
                         value={identificationType}
                         onChange={(e) => setters.setDocumentType(e.target.value)}
-                        options={[
-                            { label: "Tarjeta de identidad", value: "TI" },
-                            { label: "Cédula de Ciudadanía", value: "CC" },
-                            { label: "Cédula de Extranjería", value: "CE" },
-                            { label: "Pasaporte", value: "PS" },
-                            { label: "Visa", value: "V" },
-                            { label: "Otro", value: "OT" },
-                        ]}
+                        options={Object.entries(documentTypeDict).map(([value, label]) => ({
+                            value,
+                            label,
+                        }))}
                         placeholder="Seleccione el tipo de documento"
                     />
                     {errors.identificationType && <p className="text-sm text-red-500">{errors.identificationType}</p>}
@@ -206,6 +201,7 @@ export function PersonDataSection({
                         value={email}
                         onChange={(e) => setters.setEmail(e.target.value)}
                     />
+                    {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
                 </div>
             </div>
         </div>

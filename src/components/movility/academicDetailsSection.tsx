@@ -7,7 +7,7 @@ interface AcademicDetailsSectionProps {
     originProgram: string;
     destinationProgram: string;
     teacher: string;
-    direction: string;
+    //direction: string;
     personType: string;
     errors: Record<string, string>;
     setters: {
@@ -21,7 +21,7 @@ export function AcademicDetailsSection({
     originProgram,
     destinationProgram,
     teacher,
-    direction,
+    //direction,
     personType,
     errors,
     setters
@@ -84,7 +84,7 @@ export function AcademicDetailsSection({
                                     <Info className="h-4 w-4 text-muted-foreground" />
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p>Se habilita cuando se trate de estudiantes en Movilidad académica ENTRANTE</p>
+                                    <p>Se habilita cuando se trate de estudiantes en Movilidad académica</p>
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
@@ -94,10 +94,7 @@ export function AcademicDetailsSection({
                         type="text"
                         value={teacher}
                         onChange={(e) => setters.setTeacher(e.target.value)}
-                        disabled={!(
-                            (direction === "INCOMING_IN_PERSON" || direction === "INCOMING_VIRTUAL") &&
-                            personType === "STUDENT"
-                        )}
+                        disabled={!(personType === "STUDENT")}
                     />
                     {errors.teacher && <p className="text-sm text-red-500">{errors.teacher}</p>}
                 </div>

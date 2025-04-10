@@ -8,6 +8,7 @@ import ConfirmationModal from "@/components/ui/confirmationModal";
 import ModalVer from "@/components/ui/modalView";
 import MovilityTable from "@/components/movility/movilityTable";
 import MovilityHeader from "@/components/movility/movilityHeader";
+import { toast } from "sonner";
 
 export default function MovilityList() {
     const [movilities, setMovilities] = useState<Movility[]>([]);
@@ -77,16 +78,15 @@ export default function MovilityList() {
         }
     };
 
-    // Confirmar la eliminación de movilidades seleccionadas
     const confirmDelete = async () => {
         try {
             await Promise.all(selectedMovilities.map((id) => deleteMovilityAction(id)));
             setMovilities(movilities.filter((mob) => !selectedMovilities.includes(mob.id)));
             setSelectedMovilities([]); // Limpiar selección
-            alert("Movilidades eliminadas correctamente.");
+            toast.success("Movilidades eliminadas correctamente");
         } catch (error) {
             console.error("Error al eliminar las movilidades:", error);
-            alert("Hubo un problema al eliminar las movilidades.");
+            toast.error("Hubo un problema al eliminar las movilidades");
         }
         setIsModalOpen(false);
     };

@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Plus, Filter } from "lucide-react";
+import { Search, Plus, Filter, Download } from "lucide-react";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import Title from "@/components/ui/title";
@@ -35,6 +35,8 @@ const MovilityHeader: React.FC<MovilityHeaderProps> = ({
   useEffect(() => {
     onFilterChange(filteredMovilities);
   }, [filteredMovilities, onFilterChange]);
+
+  const hasActiveFilters = Object.values(activeFilters).some(Boolean);
 
   return (
     <div className="flex flex-col space-y-6 pb-10">
@@ -72,10 +74,15 @@ const MovilityHeader: React.FC<MovilityHeaderProps> = ({
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="w-full md:w-auto bg-purple-100 hover:bg-purple-200 text-purple-700 border-purple-300"
+                className={`w-full md:w-auto ${hasActiveFilters ? "bg-purple-600 text-white hover:bg-purple-700" : "bg-purple-100 hover:bg-purple-200 text-purple-700"} border-purple-300 flex items-center`}
               >
                 <Filter className="mr-2 h-4 w-4" />
                 Filtrar
+                {hasActiveFilters && (
+                  <span className="ml-2 inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-purple-600 bg-white rounded-full border border-purple-600">
+                    {Object.values(activeFilters).filter(Boolean).length}
+                  </span>
+                )}
               </Button>
             </DropdownMenuTrigger>
 
@@ -101,7 +108,7 @@ const MovilityHeader: React.FC<MovilityHeaderProps> = ({
                 >
                   <option value="">Todos</option>
                   {[...Array(12)].map((_, i) => {
-                    const mes = (i + 1).toString().padStart(2, "0"); 
+                    const mes = (i + 1).toString().padStart(2, "0");
                     return (
                       <option key={mes} value={mes}>
                         {mes}
@@ -159,12 +166,18 @@ const MovilityHeader: React.FC<MovilityHeaderProps> = ({
               <Button
                 variant="outline"
                 onClick={() => handleFilter("reset")}
-                className="w-full mt-2"
+                className="w-full mt-2 font-semibold text-error bg-white border border-orange-200 hover:bg-orange-500 hover:text-white focus:bg-error focus:text-white transition-colors duration-200"
               >
                 Limpiar filtros
               </Button>
+
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <Button variant="outline" className="bg-green-100 hover:bg-green-200 text-green-700 border-green-300">
+            <Download className="mr-2 h-4 w-4" />
+            Exportar
+          </Button>
 
           {/* Eliminar seleccionados */}
           <Button
@@ -181,7 +194,7 @@ const MovilityHeader: React.FC<MovilityHeaderProps> = ({
       {/* Mostrar mensaje si no hay movilidades filtradas */}
       {filteredMovilities.length === 0 && (
         <div className="text-center text-red-500 mt-4">
-          <p>No hay movilidades relacionadas con esos filtros.</p>
+          <p>No se encontraron movilidades relacionadas con esos filtros.</p>
         </div>
       )}
     </div>

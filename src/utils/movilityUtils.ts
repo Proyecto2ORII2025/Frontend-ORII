@@ -19,7 +19,7 @@ export const roleDict: Record<string, string> = {
     ADMIN: "Administrativo",
 };
 
-export const mobilityTypeDict: Record<string, string> = {
+export const movilityTypeDict: Record<string, string> = {
     "INCOMING_IN_PERSON": "Entrante en persona",
     "OUTGOING_IN_PERSON": "Saliente en persona",
     "INCOMING_VIRTUAL": "Entrante virtual",
@@ -197,25 +197,26 @@ export const handleEntryDateChange = (
     exitDate: string,
     setExitDate: (date: string) => void,
     setStayDays: (days: number) => void,
-    setMovilityYear: (year: string) => void
+    setMovilityYear: (year: string) => void,
 ) => {
-    const newEntryDateIso = e.target.value; // Formato YYYY-MM-DD
-    const newEntryDateFormatted = formatDateToBackend(newEntryDateIso); // Convertir a DD-MM-YYYY
+    const newEntryDateIso = e.target.value;
+    const newEntryDateFormatted = formatDateToBackend(newEntryDateIso);
 
-    setEntryDate(newEntryDateFormatted); // Guardar en estado (formato backend)
+    setEntryDate(newEntryDateFormatted);
     setMovilityYear(new Date(newEntryDateIso).getFullYear().toString());
 
-    // Bloquear fechas anteriores en el input de salida
-    const exitDateInput = document.getElementById("exitDate") as HTMLInputElement;
-    if (exitDateInput) exitDateInput.min = newEntryDateIso;
+    setExitDate(""); 
+    setStayDays(0);
 
-    // Recalcular días si hay fecha de salida
+    // Configuración de validación (siempre fecha fin >= fecha inicio)
+    const exitDateInput = document.getElementById("exitDate") as HTMLInputElement;
+    if (exitDateInput) {
+        exitDateInput.min = newEntryDateIso;
+    }
+
     if (exitDate) {
-        const exitDateIso = formatDateToInput(exitDate); // Convertir exitDate a ISO para cálculo
-        const start = new Date(newEntryDateIso).getTime();
-        const end = new Date(exitDateIso).getTime();
-        const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-        setStayDays(diffDays > 0 ? diffDays : 0);
+        const exitDateIso = formatDateToInput(exitDate);
+        calculateStayDays(newEntryDateIso, exitDateIso, setStayDays);
     }
 };
 
@@ -223,19 +224,40 @@ export const handleExitDateChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     entryDate: string,
     setExitDate: (date: string) => void,
+    setStayDays: (days: number) => void,
+) => {
+    const newExitDateIso = e.target.value;
+    const newExitDateFormatted = formatDateToBackend(newExitDateIso);
+
+    setExitDate(newExitDateFormatted);
+
+    if (entryDate) {
+        const entryDateIso = formatDateToInput(entryDate);
+        calculateStayDays(entryDateIso, newExitDateIso, setStayDays);
+    }
+};
+
+const calculateStayDays = (
+    startDateIso: string,
+    endDateIso: string,
     setStayDays: (days: number) => void
 ) => {
-    const newExitDateIso = e.target.value; // Formato YYYY-MM-DD
-    const newExitDateFormatted = formatDateToBackend(newExitDateIso); // Convertir a DD-MM-YYYY
-
-    setExitDate(newExitDateFormatted); // Guardar en estado (formato backend)
-
-    // Calcular días de estadía
-    if (entryDate) {
-        const entryDateIso = formatDateToInput(entryDate); // Convertir entryDate a ISO para cálculo
-        const start = new Date(entryDateIso).getTime();
-        const end = new Date(newExitDateIso).getTime();
-        const diffDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-        setStayDays(diffDays > 0 ? diffDays : 0);
+    if (!startDateIso || !endDateIso) {
+        setStayDays(0);
+        return;
     }
+
+    const start = new Date(startDateIso);
+    const end = new Date(endDateIso);
+
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+
+    let diffDays = 0;
+    if (end >= start) {
+        const diffTime = end.getTime() - start.getTime();
+        diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 para incluir día inicial
+    }
+
+    setStayDays(diffDays);
 };

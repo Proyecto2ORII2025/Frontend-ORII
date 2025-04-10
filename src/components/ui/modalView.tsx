@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Movility} from "@/types/movilityType";
-import {genderDict, roleDict, documentTypeDict, mobilityTypeDict, facultyDict, eventTypeDict} from "@/utils/movilityUtils"
+import {genderDict, roleDict, documentTypeDict, movilityTypeDict, facultyDict, eventTypeDict} from "@/utils/movilityUtils"
 
 interface ModalVerProps {
   movility: Movility | null;
@@ -54,7 +54,7 @@ export default function ModalVer({ movility, open, onClose }: ModalVerProps) {
 
                 {/* Información General */}
                 <h3 className="font-bold">Información General</h3>
-                <p><strong>Sentdio de la movilidad:</strong> {mobilityTypeDict[movility.direction] || movility.direction}</p>
+                <p><strong>Sentdio de la movilidad:</strong> {movilityTypeDict[movility.direction] || movility.direction}</p>
                 <p><strong>Género:</strong> {genderDict[movility.gender] || movility.gender}</p>
                 <p><strong>Periodo:</strong> {movility.cta}</p>
                 <p><strong>Fecha de inicio:</strong> {movility.entryDate}</p>

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/basic-select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
-import { options, eventDescriptions } from "@/utils/movilityUtils";
+import {movilityTypeDict, facultyDict, eventTypeDict, eventDescriptions, CTADict} from "@/utils/movilityUtils"
 
 interface GeneralInfoSectionProps {
     direction: string;
@@ -51,12 +51,10 @@ export function GeneralInfoSection({
                     <Select
                         value={direction}
                         onChange={(e) => setters.setDirection(e.target.value)}
-                        options={[
-                            { label: "Entrante presencial", value: "INCOMING_IN_PERSON" },
-                            { label: "Saliente presencial", value: "OUTGOING_IN_PERSON" },
-                            { label: "Entrante virtual", value: "INCOMING_VIRTUAL" },
-                            { label: "Saliente virtual", value: "OUTGOING_VIRTUAL" },
-                        ]}
+                        options={Object.entries(movilityTypeDict).map(([value, label]) => ({
+                            value,
+                            label,
+                        }))}
                         placeholder="Seleccione el tipo de movilidad"
                     />
                     {errors.direction && <p className="text-sm text-red-500">{errors.direction}</p>}
@@ -79,17 +77,10 @@ export function GeneralInfoSection({
                     <Select
                         value={faculty}
                         onChange={(e) => setters.setFaculty(e.target.value)}
-                        options={[
-                            { label: "Facultad de Artes", value: "FA" },
-                            { label: "Facultad de Ciencias Agrarias", value: "FCA" },
-                            { label: "Facultad de Ciencias de la Salud", value: "FCS" },
-                            { label: "Facultad de Ciencias Contables, Económicas y Administrativas", value: "FCCEA" },
-                            { label: "Facultad de Ciencias Humanas", value: "FCH" },
-                            { label: "Facultad de Ciencias Naturales, Exactas y de la Educación", value: "FACNED" },
-                            { label: "Facultad de Derecho, Ciencias Políticas y Sociales", value: "FDCPS" },
-                            { label: "Facultad de Ingeniería Civil", value: "FIC" },
-                            { label: "Facultad de Ingeniería Electrónica y Telecomunicaciones", value: "FIET" },
-                        ]}
+                        options={Object.entries(facultyDict).map(([value, label]) => ({
+                            value,
+                            label,
+                        }))}
                         placeholder="Seleccione una facultad"
                     />
                     {errors.faculty && <p className="text-sm text-red-500">{errors.faculty}</p>}
@@ -112,7 +103,11 @@ export function GeneralInfoSection({
                     <Select
                         value={eventTypeId ? eventTypeId.toString() : ""}
                         onChange={(e) => setters.setEventType(Number(e.target.value))}
-                        options={options}
+                        options={Object.entries(eventTypeDict).map(([value, label]) => ({
+                            value,
+                            label,
+                          }))}
+                          
                         placeholder="Seleccione el tipo de evento"
                     />
                     {errors.eventTypeId && <p className="text-sm text-red-500">{errors.eventTypeId}</p>}
@@ -159,10 +154,10 @@ export function GeneralInfoSection({
                     <Select
                         value={cta ? cta.toString() : ""}
                         onChange={(e) => setters.setCta(Number(e.target.value))}
-                        options={[
-                            { label: "Periodo 1", value: "1" },
-                            { label: "Periodo 2", value: "2" },
-                        ]}
+                        options={Object.entries(CTADict).map(([value, label]) => ({
+                            value,
+                            label,
+                        }))}
                         placeholder="Seleccione el periodo"
                     />
                     {errors.cta && <p className="text-sm text-red-500">{errors.cta}</p>}

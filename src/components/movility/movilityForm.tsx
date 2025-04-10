@@ -11,6 +11,7 @@ import { AgreementsSection } from "./agreementsSection";
 import { StayTimeSection } from "./stayTimeSection";
 import { FormActions } from "./formActions";
 import { Movility } from "@/types/movilityType";
+import { useRouter } from "next/navigation";
 
 interface MovilityFormProps {
   initialValues?: Partial<Movility>;
@@ -27,6 +28,7 @@ export function MovilityForm({
   isEditing = false,
   onSuccess
 }: MovilityFormProps) {
+  const router = useRouter();
   const {
     // Estados
     firstName,
@@ -98,14 +100,18 @@ export function MovilityForm({
 
   const onSubmit = async (e: React.FormEvent) => {
     const result = await handleSubmit(e, isEditing, movility?.id);
-
     if (result.success && 'data' in result && onSuccess) {
       onSuccess(result.data as Movility);
     }
+
+    if (isEditing) {
+      onClose?.();
+    } else {
+      router.push("/dashboard/movility");
+      router.refresh();
+    }
   };
 
-  // Inicializar el formulario con valores si estamos editando
-  // En tu useEffect de inicialización
   useEffect(() => {
 
     if (isEditing && movility) {
@@ -113,13 +119,16 @@ export function MovilityForm({
     } else if (initialValues && Object.keys(initialValues).length > 0) {
       initializeForm(initialValues);
     }
-    
 
   }, [isEditing, movility, initialValues]);
 
   const handleCancel = () => {
     resetForm();
-    onClose?.();
+    if (movility) {
+      onClose?.();
+    } else {
+      router.push("/dashboard/movility");
+    }
   };
 
   return (
@@ -190,7 +199,7 @@ export function MovilityForm({
             originProgram={originProgram}
             destinationProgram={destinationProgram}
             teacher={teacher}
-            direction={direction}
+            //direction={direction}
             personType={personType}
             errors={errors}
             setters={{
@@ -229,6 +238,7 @@ export function MovilityForm({
             handleEntryDateChange={handleEntryDateChange}
             handleExitDateChange={handleExitDateChange}
             formatDateToInput={formatDateToInput}
+            direction={direction}
           />
 
           <FormActions

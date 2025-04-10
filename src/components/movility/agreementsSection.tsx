@@ -1,7 +1,10 @@
+import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/basic-select";
+import { AgreementProps } from "@/types/agreementType"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { fetchAgreements } from "@/actions/agreementAction";
 import { Info } from "lucide-react";
 
 interface AgreementsSectionProps {
@@ -26,6 +29,38 @@ export function AgreementsSection({
     errors,
     setters
 }: AgreementsSectionProps) {
+    const [agreements, setAgreements] = useState<AgreementProps[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Cargar convenios al montar el componente o cuando se selecciona "Sí"
+    useEffect(() => {
+        const loadAgreements = async () => {
+            if (agreement === "Y") {
+                setIsLoading(true);
+                try {
+                    const data = await fetchAgreements();
+                    setAgreements(data.ALL as AgreementProps[]);
+                } catch (error) {
+                    console.error("Error loading agreements:", error);
+                } finally {
+                    setIsLoading(false);
+                }
+            }
+        };
+
+        loadAgreements();
+    }, [agreement]);
+
+    // Crear opciones para el select
+    const agreementOptions = agreements.map(agreement => ({
+        label: `${agreement.agreementNumber}`,
+        value: agreement.agreementId?.toString() || ''
+    }));
+
+    const handleAgreementChange = (value: string) => {
+        setters.setAgreementId(Number(value));
+    };
+
     return (
         <div className="bg-gray-100 p-4 rounded-md">
             <h2 className="text-lg font-semibold">Convenios y patrocinios</h2>
@@ -66,22 +101,22 @@ export function AgreementsSection({
                                         <Info className="h-4 w-4 text-muted-foreground" />
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p>En el apartado CONVENIOS en la barra de navegación puede consultar los convenios existentes</p>
+                                        <p>Seleccione el convenio de la lista</p>
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
                         </div>
-                        <Input
-                            id="numberAgreement"
-                            type="number"
-                            value={agreementId}
-                            // onChange={(e) => setters.setAgreementId(Number(e.target.value))}
-                            onChange={(e) => {
-                                console.log("Valor ingresado:", e.target.value); // Verifica que el valor llegue correctamente
-                                setters.setAgreementId(Number(e.target.value));
-                              }}
-                            
-                        />
+                        {isLoading ? (
+                            <p>Cargando convenios...</p>
+                        ) : (
+                            <Select
+                                //id="numberAgreement"
+                                value={agreementId.toString()}
+                                onChange={(e) => handleAgreementChange(e.target.value)}
+                                options={agreementOptions}
+                                placeholder="Seleccione un convenio"
+                            />
+                        )}
                         {errors.agreementId && <p className="text-sm text-red-500">{errors.agreementId}</p>}
                     </div>
                 )}

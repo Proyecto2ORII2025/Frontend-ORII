@@ -3,11 +3,12 @@
 import { Movility, MovilityCrear } from "@/types/movilityType";
 import { getMovilities, createMovility, updateMovility, deleteMovility, getMovilityById } from "@/services/movility";
 
-interface PromiseSuccess {
+interface PromiseSuccess<T = unknown> {
     success: boolean;
     error?: string;
     field?: string;
-}
+    data?: T;
+} 
 
 export async function fetchMovilities(): Promise<Movility[]> {
     try {
@@ -20,7 +21,7 @@ export async function fetchMovilities(): Promise<Movility[]> {
     }
 }
 
-export async function createMovilityAction(data: MovilityCrear): Promise<PromiseSuccess> {
+export async function createMovilityAction(data: MovilityCrear): Promise<PromiseSuccess<void>> {
     try {
         console.log("Datos recibidos en createMovilityAction:", data);
 
@@ -33,20 +34,18 @@ export async function createMovilityAction(data: MovilityCrear): Promise<Promise
     }
 }
 
-export async function editMovilityAction(data: MovilityCrear, movilityId: number): Promise<PromiseSuccess> {
+export async function editMovilityAction(data: MovilityCrear, movilityId: number): Promise<PromiseSuccess<Movility>> {
     try {
-        console.log("Datos recibidos en editMovilityAction:", movilityId);
-
         await updateMovility(data, movilityId);
-
-        return { success: true };
+        const response = await getMovilityById(movilityId);
+        return { success: true, data: response.data };
     } catch (error) {
         console.error("Error detallado en editMovilityAction:", error);
         return { success: false };
     }
 }
 
-export async function deleteMovilityAction(movilityId: number): Promise<PromiseSuccess> {
+export async function deleteMovilityAction(movilityId: number): Promise<PromiseSuccess<void>> {
     try {
         console.log("Eliminando movilidad con ID:", movilityId);
 

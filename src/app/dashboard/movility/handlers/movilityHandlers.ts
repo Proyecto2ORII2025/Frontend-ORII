@@ -111,8 +111,6 @@ export function useMovilityForm(initialValues?: Partial<MovilityCrear>) {
       movilityYear,
     };
 
-    console.log("Datos ", fields.agreement)
-
     const newErrors = validateFields(fields);
     console.log("Convenio: ", agreement)
     if (Object.keys(newErrors).length > 0) {
@@ -168,8 +166,8 @@ export function useMovilityForm(initialValues?: Partial<MovilityCrear>) {
         const successMessage = isEditing ? "Movilidad actualizada exitosamente" : "Movilidad creada exitosamente";
         toast.success(successMessage, { id: "movility-action" });
         if (!isEditing) resetForm();
-
         return result;
+
       } else {
         toast.error(result.error || `Error al ${isEditing ? 'actualizar' : 'crear'} la movilidad`, {
           id: "movility-action",
