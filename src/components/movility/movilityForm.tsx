@@ -154,7 +154,6 @@ export function MovilityForm({
               setDocumentNumber,
               setEmail
             }}
-          //isEditing={isEditing} // Puedes usar esto para deshabilitar campos en edición
           />
 
           <GeneralInfoSection

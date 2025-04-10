@@ -3,6 +3,11 @@ export const CTADict: Record<string, string> = {
     "2": "Periodo 2"
 }
 
+export const scopeDict: Record<string, string> = {
+    "Nacional": "Nacional",
+    "Internacional": "Internacional",
+  };
+
 export const genderDict: Record<string, string> = {
     "M": "Masculino",
     "F": "Femenino",
@@ -76,6 +81,34 @@ export const documentTypeDict: Record<string, string> = {
     "OT": "Otro",
 };
 
+
+
+
+
+export interface FilterState {
+    facultad?: string;
+    programa?: string;
+    tipo?: string;
+    ambito?: string;
+}
+
+export interface MovilityProps {
+    id: number;
+    title: string;
+    institution: string;
+    type: string;
+    ambito: string;
+    facultad: string;
+    programa: string;
+    fechaInicio?: string;
+    fechaFin?: string;
+    estado?: string;
+}
+
+
+
+
+
 interface MovilityFields {
     firstName?: string;
     lastName?: string;
@@ -118,7 +151,7 @@ export const validateFields = (fields: MovilityFields) => {
     if (!fields.faculty) newErrors.faculty = "La facultad es obligatoria.";
     if (!fields.eventTypeId) newErrors.eventTypeId = "El tipo de evento es obligatorio.";
     if (!fields.description) newErrors.description = "La descripción del evento es obligatoria.";
-    if (!fields.cta) newErrors.cta = "El género es obligatorio.";
+    if (!fields.cta) newErrors.cta = "El periodo es obligatorio.";
     if (!fields.origin) newErrors.origin = "La universidad de origen es obligatoria.";
     if (!fields.destination) newErrors.destination = "La universidad de destino es obligatoria.";
     if (!fields.country) newErrors.country = "El país es obligatorio.";

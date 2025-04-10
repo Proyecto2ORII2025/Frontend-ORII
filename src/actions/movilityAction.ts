@@ -1,6 +1,6 @@
 "use server";
 
-import { Movility, MovilityCrear} from "@/types/movilityType";
+import { Movility, MovilityCrear } from "@/types/movilityType";
 import { getMovilities, createMovility, updateMovility, deleteMovility, getMovilityById } from "@/services/movility";
 
 interface PromiseSuccess {
@@ -23,7 +23,7 @@ export async function fetchMovilities(): Promise<Movility[]> {
 export async function createMovilityAction(data: MovilityCrear): Promise<PromiseSuccess> {
     try {
         console.log("Datos recibidos en createMovilityAction:", data);
-        
+
         await createMovility(data);
 
         return { success: true };

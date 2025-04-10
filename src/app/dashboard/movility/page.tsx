@@ -18,6 +18,13 @@ export default function MovilityList() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMovilities, setSelectedMovilities] = useState<number[]>([]);
 
+    const [filteredMovilities, setFilteredMovilities] = useState<Movility[]>([]);
+
+    const handleFilterChange = (filtered: Movility[]) => {
+        console.log("Movilidades filtradas:", filtered);
+        setFilteredMovilities(filtered);
+    };
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -90,21 +97,24 @@ export default function MovilityList() {
 
     return (
         <div>
-
             {/* Header de movilidaes */}
             <MovilityHeader
                 handleDeleteSelected={handleDeleteSelected}
                 selectedMovilities={selectedMovilities}
+                originalMovilities={movilities}
+                onFilterChange={handleFilterChange}
             />
 
-            {/* Tabla de movilidaes */}
-            <MovilityTable
-                movilities={movilities}
-                selectedMovilities={selectedMovilities}
-                handleSelectMovility={handleSelectMovility}
-                openViewModal={openViewModal}
-                openEditModal={openEditModal}
-            />
+            {/* Mostrar la tabla solo si hay movilidades filtradas o si hay movilidades generales */}
+            {(filteredMovilities.length != 0) && (
+                <MovilityTable
+                    movilities={filteredMovilities.length > 0 ? filteredMovilities : movilities}
+                    selectedMovilities={selectedMovilities}
+                    handleSelectMovility={handleSelectMovility}
+                    openViewModal={openViewModal}
+                    openEditModal={openEditModal}
+                />
+            )}
 
             {/* Modal de Edición */}
             <ModalEdit

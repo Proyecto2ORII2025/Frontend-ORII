@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createMovilityAction, editMovilityAction } from "@/actions/movilityAction";
 import { toast } from "sonner";
 import { validateFields, handleExitDateChange, handleEntryDateChange, formatDateToInput } from "@/utils/movilityUtils";
-import { Movility, MovilityCrear} from "@/types/movilityType";
+import { Movility, MovilityCrear } from "@/types/movilityType";
 
 export function useMovilityForm(initialValues?: Partial<MovilityCrear>) {
 
@@ -73,10 +73,10 @@ export function useMovilityForm(initialValues?: Partial<MovilityCrear>) {
     setAgreementId(values.agreement?.agreementId || 0);
     setfunding(values.funding || "");
     setFuenteFinanciacion(values.fundingSource || "");
-    setEntryDate(values.entryDate ? formatDateToInput(values.entryDate) : "");
-    setExitDate(values.exitDate ? formatDateToInput(values.exitDate) : "");
+    setEntryDate(values?.entryDate || "");
+    setExitDate(values?.exitDate || "");
     setStayDays(Number(values.exitDate) - Number(values.entryDate) || 0);
-    setMovilityYear(values.exitDate ? new Date(values.exitDate).getFullYear().toString() : "");
+    setMovilityYear(values.entryDate ? values.entryDate.split('-')[2] : "");
   };
 
   const handleSubmit = async (e: React.FormEvent, isEditing: boolean = false, movilityId?: number) => {

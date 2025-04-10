@@ -9,7 +9,7 @@ interface MovilityTableProps {
     handleSelectMovility: (id: number) => void;
     openViewModal: (movility: Movility) => void;
     openEditModal: (movility: Movility) => void;
-}
+} 
 
 const MovilityTable = ({
     movilities,
