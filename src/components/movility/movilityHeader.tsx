@@ -53,7 +53,7 @@ const MovilityHeader: React.FC<MovilityHeaderProps> = ({
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar por título, institución, tipo..."
+            placeholder="Buscar movilidad"
             className="pl-10 w-full"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
@@ -163,13 +163,15 @@ const MovilityHeader: React.FC<MovilityHeaderProps> = ({
                 </select>
               </div>
 
-              <Button
-                variant="outline"
-                onClick={() => handleFilter("reset")}
-                className="w-full mt-2 font-semibold text-error bg-white border border-orange-200 hover:bg-orange-500 hover:text-white focus:bg-error focus:text-white transition-colors duration-200"
-              >
-                Limpiar filtros
-              </Button>
+              {hasActiveFilters && (
+                <Button
+                  variant="outline"
+                  onClick={() => handleFilter("reset")}
+                  className="w-full mt-2 font-semibold text-orange-500 bg-orange-50 border border-orange-100 rounded-md hover:bg-orange-500 hover:text-white transition-colors duration-200"
+                >
+                  Limpiar filtros
+                </Button>
+              )}
 
             </DropdownMenuContent>
           </DropdownMenu>
@@ -194,7 +196,7 @@ const MovilityHeader: React.FC<MovilityHeaderProps> = ({
       {/* Mostrar mensaje si no hay movilidades filtradas */}
       {filteredMovilities.length === 0 && (
         <div className="text-center text-red-500 mt-4">
-          <p>No se encontraron movilidades relacionadas con esos filtros.</p>
+          <p>No se encontraron movilidades relacionadas.</p>
         </div>
       )}
     </div>

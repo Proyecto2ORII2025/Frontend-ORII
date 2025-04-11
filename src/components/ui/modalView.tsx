@@ -3,8 +3,8 @@
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Movility} from "@/types/movilityType";
-import {genderDict, roleDict, documentTypeDict, movilityTypeDict, facultyDict, eventTypeDict} from "@/utils/movilityUtils"
+import { Movility } from "@/types/movilityType";
+import { genderDict, roleDict, documentTypeDict, movilityTypeDict, facultyDict, eventTypeDict } from "@/utils/movilityUtils";
 
 interface ModalVerProps {
   movility: Movility | null;
@@ -15,8 +15,13 @@ interface ModalVerProps {
 const handleExitDateChangeView = (entryDate: string, exitDate: string) => {
   if (!entryDate || !exitDate) return "Fechas no disponibles";
 
-  const start = new Date(entryDate);
-  const end = new Date(exitDate);
+  const parseDate = (dateStr: string): Date => {
+    const [day, month, year] = dateStr.split("-");
+    return new Date(`${year}-${month}-${day}`); 
+  };
+
+  const start = parseDate(entryDate);
+  const end = parseDate(exitDate);
 
   if (isNaN(start.getTime()) || isNaN(end.getTime())) return "Fechas inválidas";
 
@@ -26,26 +31,15 @@ const handleExitDateChangeView = (entryDate: string, exitDate: string) => {
   return diffDays;
 };
 
-const fixYear = (dateString: string) => {
-  if (!dateString) return "Fecha no disponible";
-
-  const parts = dateString.split("-");
-  if (parts.length === 3) {
-    const year = parseInt(parts[0], 10);
-    if (year < 100) {
-      parts[0] = (year + 2000).toString();
-    }
-  }
-  return parts.join("-");
-};
-
 export default function ModalVer({ movility, open, onClose }: ModalVerProps) {
   if (!movility) return null;
+
+  const labelClass = "font-bold text-blue-900";
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">
-        <DialogTitle className="text-lg font-semibold">Detalles de Movilidad</DialogTitle>
+        <DialogTitle className="text-lg font-semibold text-center text-blue-900">Detalles de Movilidad</DialogTitle>
 
         <div className="max-h-[500px] overflow-y-auto p-2">
           <Card>
@@ -53,66 +47,66 @@ export default function ModalVer({ movility, open, onClose }: ModalVerProps) {
               <div className="space-y-4">
 
                 {/* Información General */}
-                <h3 className="font-bold">Información General</h3>
-                <p><strong>Sentdio de la movilidad:</strong> {movilityTypeDict[movility.direction] || movility.direction}</p>
-                <p><strong>Género:</strong> {genderDict[movility.gender] || movility.gender}</p>
-                <p><strong>Periodo:</strong> {movility.cta}</p>
-                <p><strong>Fecha de inicio:</strong> {movility.entryDate}</p>
-                <p><strong>Fecha de finalización:</strong> {movility.exitDate}</p>
-                <p><strong>Días de estancia:</strong> {handleExitDateChangeView(movility.entryDate, movility.exitDate)}</p>
-                <p><strong>Año de movilidad:</strong> {new Date(fixYear(movility.exitDate)).getFullYear()}</p>
+                <h3 className="text-center font-bold text-blue-900 text-base mb-2">Información General</h3>
+                <p><span className={labelClass}>Sentido de la movilidad:</span> {movilityTypeDict[movility.direction] || movility.direction}</p>
+                <p><span className={labelClass}>Género:</span> {genderDict[movility.gender] || movility.gender}</p>
+                <p><span className={labelClass}>Periodo:</span> {movility.cta}</p>
+                <p><span className={labelClass}>Fecha de inicio:</span> {movility.entryDate}</p>
+                <p><span className={labelClass}>Fecha de finalización:</span> {movility.exitDate}</p>
+                <p><span className={labelClass}>Días de estancia:</span> {handleExitDateChangeView(movility.entryDate, movility.exitDate)}</p>
+                <p><span className={labelClass}>Año de movilidad:</span> {movility.entryDate.split('-')[2]}</p>
 
                 {/* Programas y Facultad */}
-                <h3 className="font-bold">Programas y Facultad</h3>
-                <p><strong>Programa de Origen:</strong> {movility.originProgram}</p>
-                <p><strong>Programa de Acogida:</strong> {movility.destinationProgram}</p>
-                <p><strong>Facultad:</strong> {facultyDict[movility.faculty] || movility.faculty}</p>
+                <h3 className="text-center font-bold text-blue-900 text-base mb-2">Programas y Facultad</h3>
+                <p><span className={labelClass}>Programa de Origen:</span> {movility.originProgram}</p>
+                <p><span className={labelClass}>Programa de Acogida:</span> {movility.destinationProgram}</p>
+                <p><span className={labelClass}>Facultad:</span> {facultyDict[movility.faculty] || movility.faculty}</p>
 
                 {/* Ubicación y Docente */}
-                <h3 className="font-bold">Ubicación y Docente</h3>
-                <p><strong>Ciudad:</strong> {movility.city}</p>
-                <p><strong>País:</strong> {movility.country}</p>
-                <p><strong>Docente Responsable:</strong> {movility.teacher}</p>
+                <h3 className="text-center font-bold text-blue-900 text-base mb-2">Ubicación y Docente</h3>
+                <p><span className={labelClass}>Ciudad:</span> {movility.city}</p>
+                <p><span className={labelClass}>País:</span> {movility.country}</p>
+                <p><span className={labelClass}>Docente Responsable:</span> {movility.teacher || "Sin docente responsable"}</p>
 
                 {/* Financiación */}
-                <h3 className="font-bold">Financiación</h3>
-                <div>
-                  <strong>Convenio</strong>
-                  {movility.agreement ? (
-                    <>
-                      <p><strong>Institución:</strong> {movility.agreement.institution}</p>
-                      <p><strong>Número de convenio:</strong> {movility.agreement.agreementNumber}</p>
-                      <p><strong>País:</strong> {movility.agreement.country}</p>
-                      <p><strong>Descripción:</strong> {movility.agreement.description}</p>
-                      <p><strong>Ámbito:</strong> {movility.agreement.scope}</p>
-                      <p><strong>Fecha de inicio:</strong> {movility.agreement.startDate}</p>
-                      <p><strong>Estado:</strong> {movility.agreement.status}</p>
-                    </>
-                  ) : (
-                    ": No tiene convenio asociado"
-                  )}
-                </div>
+                <h3 className="text-center font-bold text-blue-900 text-base mb-2">Financiación</h3>
 
-                <p><strong>Monto de Financiación en pesos:</strong> ${movility.funding}</p>
-                <p><strong>Fuente de Financiación:</strong> {movility.fundingSource}</p>
+                {movility.agreement ? (
+                  <>
+                    <h4 className="font-bold text-blue-900 text-base mt-2">Convenio</h4>
+                    <p><span className={labelClass}>Institución:</span> {movility.agreement.institution}</p>
+                    <p><span className={labelClass}>Número de convenio:</span> {movility.agreement.agreementNumber}</p>
+                    <p><span className={labelClass}>País:</span> {movility.agreement.country}</p>
+                    <p><span className={labelClass}>Descripción:</span> {movility.agreement.description}</p>
+                    <p><span className={labelClass}>Ámbito:</span> {movility.agreement.scope}</p>
+                    <p><span className={labelClass}>Fecha de inicio:</span> {movility.agreement.startDate}</p>
+                    <p><span className={labelClass}>Estado:</span> {movility.agreement.status}</p>
+                  </>
+                ) : (
+                  <p><span className={labelClass}>Convenio:</span> No tiene convenio asociado</p>
+                )}
+
+                <p><span className={labelClass}>Monto de Financiación en pesos:</span> ${movility.funding}</p>
+                <p><span className={labelClass}>Fuente de Financiación:</span> {movility.fundingSource}</p>
+
 
                 {/* Origen y Destino */}
-                <h3 className="font-bold">Instituciones</h3>
-                <p><strong>Institución de Origen:</strong> {movility.origin}</p>
-                <p><strong>Institución de Destino:</strong> {movility.destination}</p>
+                <h3 className="text-center font-bold text-blue-900 text-base mb-2">Instituciones</h3>
+                <p><span className={labelClass}>Institución de Origen:</span> {movility.origin}</p>
+                <p><span className={labelClass}>Institución de Destino:</span> {movility.destination}</p>
 
                 {/* Evento */}
-                <h3 className="font-bold">Evento</h3>
-                <p><strong>Tipo de Evento:</strong> {eventTypeDict[movility.event.eventType.eventTypeId.toString()] || movility.event.eventType.eventTypeId}</p>
-                <p><strong>Descripción del Evento:</strong> {movility.event.description}</p>
+                <h3 className="text-center font-bold text-blue-900 text-base mb-2">Evento</h3>
+                <p><span className={labelClass}>Tipo de Evento:</span> {eventTypeDict[movility.event.eventType.eventTypeId.toString()] || movility.event.eventType.eventTypeId}</p>
+                <p><span className={labelClass}>Descripción del Evento:</span> {movility.event.description}</p>
 
                 {/* Información Personal */}
-                <h3 className="font-bold">Información Personal</h3>
-                <p><strong>Nombre completo:</strong> {movility.person.firstName} {movility.person.lastName}</p>
-                <p><strong>Tipo de Documento:</strong> {documentTypeDict[movility.person.identificationType] || movility.person.identificationType}</p>
-                <p><strong>Número de Documento:</strong> {movility.person.identification}</p>
-                <p><strong>Correo Electrónico:</strong> {movility.person.email}</p>
-                <p><strong>Rol:</strong> {roleDict[movility.person.personType] || movility.person.personType}</p>
+                <h3 className="text-center font-bold text-blue-900 text-base mb-2">Información Personal</h3>
+                <p><span className={labelClass}>Nombre completo:</span> {movility.person.firstName} {movility.person.lastName}</p>
+                <p><span className={labelClass}>Tipo de Documento:</span> {documentTypeDict[movility.person.identificationType] || movility.person.identificationType}</p>
+                <p><span className={labelClass}>Número de Documento:</span> {movility.person.identification}</p>
+                <p><span className={labelClass}>Correo Electrónico:</span> {movility.person.email}</p>
+                <p><span className={labelClass}>Rol:</span> {roleDict[movility.person.personType] || movility.person.personType}</p>
 
               </div>
 

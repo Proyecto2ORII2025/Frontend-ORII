@@ -77,12 +77,37 @@ export function useMovilityFilters(originalMovilities: Movility[]) {
 
   const filterBySearchTerm = (mov: Movility, term: string): boolean => {
     const lowerTerm = term.toLowerCase();
-    return (
-      mov?.agreement?.institution?.toLowerCase().includes(lowerTerm) ||
-      mov.direction?.toLowerCase().includes(lowerTerm) ||
-      mov.destination?.toLowerCase().includes(lowerTerm)
-    );
+
+    return [
+      mov.direction,
+      mov.gender,
+      mov.cta?.toString(),
+      mov.entryDate,
+      mov.exitDate,
+      mov.originProgram,
+      mov.destinationProgram,
+      mov.city,
+      mov.country,
+      mov.teacher,
+      mov.faculty,
+      mov.funding?.toString(),
+      mov.fundingSource,
+      mov.destination,
+      mov.origin,
+      mov.agreement?.institution,
+      mov.event?.description,
+      mov.event?.eventType?.name,
+      mov.person?.identificationType,
+      mov.person?.personType,
+      mov.person?.firstName,
+      mov.person?.lastName,
+      mov.person?.identification,
+      mov.person?.email,
+    ]
+      .filter(Boolean)
+      .some((field) => field?.toLowerCase().includes(lowerTerm));
   };
+
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);

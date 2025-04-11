@@ -208,7 +208,6 @@ export const handleEntryDateChange = (
     setExitDate(""); 
     setStayDays(0);
 
-    // Configuración de validación (siempre fecha fin >= fecha inicio)
     const exitDateInput = document.getElementById("exitDate") as HTMLInputElement;
     if (exitDateInput) {
         exitDateInput.min = newEntryDateIso;
@@ -256,7 +255,7 @@ const calculateStayDays = (
     let diffDays = 0;
     if (end >= start) {
         const diffTime = end.getTime() - start.getTime();
-        diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 para incluir día inicial
+        diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; 
     }
 
     setStayDays(diffDays);
