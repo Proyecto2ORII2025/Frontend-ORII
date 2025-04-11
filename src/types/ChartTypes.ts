@@ -4,7 +4,10 @@ export interface StatisticsHeaderProps {
     title: string;
     description?: string;
     onFilter: (filterType: string, value?: string) => void;
+    onRemoveFilter: (filterType: string) => void;
     activeFilters?: FilterState;
+    fileBlob: Blob | null;
+    disableExport: boolean;
 }
 
 export interface ChartData {
@@ -59,5 +62,3 @@ export interface NationalAgreementData{
     region: string[];
     totalAgreementsByRegion: number[];
 }
-
-

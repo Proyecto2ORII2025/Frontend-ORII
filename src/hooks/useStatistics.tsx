@@ -1,9 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FilterState } from "@/types/filterChartType";
+import { exportStatisticsReport } from "@/actions/statisticsAction";
 
-export function useStatisticsFilters() {
+export function useStatistics() {
 
     const [activeFilters, setActiveFilters] = useState<FilterState>({});
+
+    const [fileBlob, setFileBlob] = useState<Blob | null>(null);
+    const [disableExport, setDisableExport] = useState(true);
+
+    useEffect(() => {
+        async function fetchData() {
+          try {
+            const expData = await exportStatisticsReport();
+            if (expData?.blob) { // && response.length > 0
+              setDisableExport(false); // Hay datos para descargar y se pudo cargar el blob
+              setFileBlob(expData.blob); // Guardar el blob
+            }
+          } catch (error) {
+            console.error("Error al obtener el reporte de estadísticas:", error);
+          }
+        }
+        fetchData();
+      }, []);
 
     const applyFilters = (filters: FilterState = activeFilters) => {
         /*
@@ -22,7 +41,13 @@ export function useStatisticsFilters() {
         }
     };
 
-    // Manejador de filtros
+    const removeFilter = (filterType: string) => {
+        const newFilters = { ...activeFilters };
+        delete newFilters[filterType as keyof FilterState];
+        setActiveFilters(newFilters);
+        applyFilters(newFilters);
+    }
+
     const handleFilter = (filterType: string, value?: string) => {
         let newFilters = { ...activeFilters };
 
@@ -40,6 +65,9 @@ export function useStatisticsFilters() {
 
     return {
         activeFilters,
-        handleFilter
+        handleFilter,
+        removeFilter,
+        fileBlob,
+        disableExport
     };
 }
