@@ -28,9 +28,9 @@ const PieChart: React.FC<ChartProps> = ({ title, data }) => {
                 position: "right" as const,
                 fullSize: false,
                 labels: {
-                    boxWidth: 14, 
+                    boxWidth: 18, 
                     font: {
-                        size: 8, 
+                        size: 12, 
                     }
                 }
             },

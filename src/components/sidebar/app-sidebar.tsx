@@ -66,7 +66,7 @@ const data = {
             url: "/dashboard/statistics",
             icon: ChartColumnIncreasing,
             items: [{ title: "Gráficos", url: "/dashboard/statistics" }],
-            roles: ['ADMIN']
+            roles: ['ADMIN', 'USER']
         },
         {
             title: "Registrar enlace",

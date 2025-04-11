@@ -3,6 +3,7 @@ import { FilterState } from './filterChartType';
 export interface StatisticsHeaderProps {
     title: string;
     description?: string;
+    role: string;
     onFilter: (filterType: string, value?: string) => void;
     onRemoveFilter: (filterType: string) => void;
     activeFilters?: FilterState;

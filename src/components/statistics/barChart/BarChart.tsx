@@ -62,6 +62,12 @@ const BarChart: React.FC<ChartProps> = ({ title, xLabel, yLabel, data }) => {
                     color: "#333",
                 },
                 beginAtZero: true,
+                ticks: {
+                    stepSize: 1, // Asegura que los valores sean incrementos de 1
+                    callback: function (value) {
+                        return Number(value).toFixed(0); 
+                    },
+                },
             },
         },
     };

@@ -1,6 +1,8 @@
 "use client";
 
 import { useStatistics } from "@/hooks/useStatistics";
+import { useAuthStore } from "@/store/auth";
+import { UserRole } from "@/types/userType";
 
 import StatisticsHeader from "@/components/statistics/statisticsHeader";
 import PieChartInternationalAgreement from "@/components/statistics/pieChart/PieChartInternationalAgreement";
@@ -12,6 +14,9 @@ import BarChartMobilitiesPerYear from "@/components/statistics/barChart/BarChart
 import BarChartMobilityByCountry from "@/components/statistics/barChart/BarChartMobilityByCountry";
 
 export default function StatisticsPage() {
+
+    const userSession = useAuthStore((state) => state.userSession);
+    const role: UserRole = (userSession?.role as UserRole) || 'USER';
 
     const {
         activeFilters,
@@ -28,6 +33,7 @@ export default function StatisticsPage() {
             <StatisticsHeader
                 title="Estadísticas"
                 description="Consulta estadísticas de convenios y movilidades. Filtra la información y exporta los datos para su uso."
+                role={role}
                 onFilter={handleFilter}
                 onRemoveFilter={removeFilter}
                 activeFilters={activeFilters}

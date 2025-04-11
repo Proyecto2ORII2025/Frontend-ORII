@@ -13,6 +13,7 @@ import ExportButton from "@/components/export/exportButton";
 export default function StatisticsHeader({
     title,
     description,
+    role,
     onFilter,
     onRemoveFilter,
     activeFilters,
@@ -90,13 +91,15 @@ export default function StatisticsHeader({
                             )}
                         </DropdownMenuContent>
                     </DropdownMenu>
-
-                    <ExportButton
-                        blob={fileBlob}
-                        filename="Reporte de Estadísticas"
-                        errorText="Error al exportar el reporte de estadísticas"
-                        disable={disableExport}>
-                    </ExportButton>
+                    
+                    {role === 'ADMIN' &&
+                        <ExportButton
+                            blob={fileBlob}
+                            filename="Reporte de Estadísticas"
+                            errorText="Error al exportar el reporte de estadísticas"
+                            disable={disableExport}>
+                        </ExportButton>
+                    }
 
                 </div>
             </div>
