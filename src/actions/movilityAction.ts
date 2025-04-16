@@ -24,7 +24,6 @@ export async function fetchMovilities(): Promise<Movility[]> {
 export async function createMovilityAction(data: MovilityCrear): Promise<PromiseSuccess<void>> {
     try {
         console.log("Datos recibidos en createMovilityAction:", data);
-
         await createMovility(data);
 
         return { success: true };
@@ -36,6 +35,7 @@ export async function createMovilityAction(data: MovilityCrear): Promise<Promise
 
 export async function editMovilityAction(data: MovilityCrear, movilityId: number): Promise<PromiseSuccess<Movility>> {
     try {
+        console.log("Editando movilidad con ID:", movilityId);
         await updateMovility(data, movilityId);
         const response = await getMovilityById(movilityId);
         return { success: true, data: response.data };

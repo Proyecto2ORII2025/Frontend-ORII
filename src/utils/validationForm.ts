@@ -52,7 +52,7 @@ const fieldValidations: Record<keyof MovilityFields, FieldValidation> = {
         pattern: /^[0-9]+$/,
     },
     email: {
-        required: false,
+        required: true,
         customValidator: (value: unknown) => {
             if (typeof value !== 'string') {
                 return "El correo debe ser una cadena de texto";

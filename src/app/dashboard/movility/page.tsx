@@ -22,7 +22,6 @@ export default function MovilityList() {
     const [filteredMovilities, setFilteredMovilities] = useState<Movility[]>([]);
 
     const handleFilterChange = (filtered: Movility[]) => {
-        console.log("Movilidades filtradas:", filtered);
         setFilteredMovilities(filtered);
     };
 

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { createMovilityAction, editMovilityAction } from "@/actions/movilityAction";
 import { toast } from "sonner";
-import { validateFields, handleExitDateChange, handleEntryDateChange, formatDateToInput } from "@/utils/movilityUtils";
+import { handleExitDateChange, handleEntryDateChange, formatDateToInput } from "@/utils/movilityUtils";
+import { validateFields } from "@/utils/validationForm"
 import { Movility, MovilityCrear } from "@/types/movilityType";
 
 export function useMovilityForm(initialValues?: Partial<MovilityCrear>) {
@@ -48,6 +49,7 @@ export function useMovilityForm(initialValues?: Partial<MovilityCrear>) {
   const [movilityYear, setMovilityYear] = useState(initialValues?.entryDate ? new Date(initialValues.entryDate).getFullYear().toString() : "");
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isDirty, setIsDirty] = useState(false);
 
   const initializeForm = (values: Partial<Movility>) => {
     setFirstName(values.person?.firstName || "");
@@ -77,6 +79,14 @@ export function useMovilityForm(initialValues?: Partial<MovilityCrear>) {
     setExitDate(values?.exitDate || "");
     setStayDays(Number(values.exitDate) - Number(values.entryDate) || 0);
     setMovilityYear(values.entryDate ? values.entryDate.split('-')[2] : "");
+    setIsDirty(false);
+  };
+
+  const createDirtySetter = <T,>(setter: React.Dispatch<React.SetStateAction<T>>) => {
+    return (value: T) => {
+      setter(value);
+      setIsDirty(true);
+    };
   };
 
   const handleSubmit = async (e: React.FormEvent, isEditing: boolean = false, movilityId?: number) => {
@@ -112,7 +122,6 @@ export function useMovilityForm(initialValues?: Partial<MovilityCrear>) {
     };
 
     const newErrors = validateFields(fields);
-    console.log("Convenio: ", agreement)
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       toast.error("Por favor complete todos los campos obligatorios");
@@ -165,8 +174,9 @@ export function useMovilityForm(initialValues?: Partial<MovilityCrear>) {
       if (result.success) {
         const successMessage = isEditing ? "Movilidad actualizada exitosamente" : "Movilidad creada exitosamente";
         toast.success(successMessage, { id: "movility-action" });
+
         if (!isEditing) resetForm();
-        return result;
+        return { success: true, data: result.data };
 
       } else {
         toast.error(result.error || `Error al ${isEditing ? 'actualizar' : 'crear'} la movilidad`, {
@@ -246,35 +256,37 @@ export function useMovilityForm(initialValues?: Partial<MovilityCrear>) {
     stayDays,
     movilityYear,
     errors,
+    isDirty,
+    //setIsDirty,
 
     // Setters
-    setFirstName,
-    setLastName,
-    setGender,
-    setRole,
-    setDocumentType,
-    setDocumentNumber,
-    setEmail,
-    setDirection,
-    setFaculty,
-    setEventType,
-    setEventDescription,
-    setCta,
-    setOriginUniversity,
-    setDestinationUniversity,
-    setCountry,
-    setCity,
-    setOriginProgram,
-    setDestinationProgram,
-    setTeacher,
-    setAgreement,
-    setAgreementId,
-    setfunding,
-    setFuenteFinanciacion,
-    setEntryDate,
-    setExitDate,
-    setStayDays,
-    setMovilityYear,
+    setFirstName: createDirtySetter(setFirstName),
+    setLastName: createDirtySetter(setLastName),
+    setGender: createDirtySetter(setGender),
+    setRole: createDirtySetter(setRole),
+    setDocumentType: createDirtySetter(setDocumentType),
+    setDocumentNumber: createDirtySetter(setDocumentNumber),
+    setEmail: createDirtySetter(setEmail),
+    setDirection: createDirtySetter(setDirection),
+    setFaculty: createDirtySetter(setFaculty),
+    setEventType: createDirtySetter(setEventType),
+    setEventDescription: createDirtySetter(setEventDescription),
+    setCta: createDirtySetter(setCta),
+    setOriginUniversity: createDirtySetter(setOriginUniversity),
+    setDestinationUniversity: createDirtySetter(setDestinationUniversity),
+    setCountry: createDirtySetter(setCountry),
+    setCity: createDirtySetter(setCity),
+    setOriginProgram: createDirtySetter(setOriginProgram),
+    setDestinationProgram: createDirtySetter(setDestinationProgram),
+    setTeacher: createDirtySetter(setTeacher),
+    setAgreement: createDirtySetter(setAgreement),
+    setAgreementId: createDirtySetter(setAgreementId),
+    setfunding: createDirtySetter(setfunding),
+    setFuenteFinanciacion: createDirtySetter(setFuenteFinanciacion),
+    setEntryDate: createDirtySetter(setEntryDate),
+    setExitDate: createDirtySetter(setExitDate),
+    setStayDays: createDirtySetter(setStayDays),
+    setMovilityYear: createDirtySetter(setMovilityYear),
 
     // Funciones
     initializeForm,

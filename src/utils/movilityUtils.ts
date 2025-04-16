@@ -73,7 +73,7 @@ export const eventDescriptions = {
 };
 
 export const documentTypeDict: Record<string, string> = {
-    "TI": "Tarjeta de identidad",
+    "TI": "Tarjeta de Identidad",
     "CC": "Cédula de Ciudadanía",
     "CE": "Cédula de Extranjería",
     "PS": "Pasaporte",
@@ -105,85 +105,11 @@ export interface MovilityProps {
     estado?: string;
 }
 
-
-
-
-
-interface MovilityFields {
-    firstName?: string;
-    lastName?: string;
-    gender?: string;
-    cta?: number;
-    personType?: string;
-    identificationType?: string;
-    identification?: string;
-    email?: string;
-    direction?: string;
-    faculty?: string;
-    eventTypeId?: number;
-    description?: string;
-    origin?: string;
-    destination?: string;
-    country?: string;
-    city?: string;
-    originProgram?: string;
-    destinationProgram?: string;
-    teacher?: string;
-    agreement?: string;
-    agreementId?: number;
-    funding?: string;
-    fundingSource?: string;
-    entryDate?: string;
-    exitDate?: string;
-    stayDays?: number;
-    movilityYear?: string;
-}
-
-export const validateFields = (fields: MovilityFields) => {
-    const newErrors: Record<string, string> = {};
-    if (!fields.firstName) newErrors.firstName = "El nombre es obligatorio.";
-    if (!fields.lastName) newErrors.lastName = "Los apellidos son obligatorios.";
-    if (!fields.gender) newErrors.gender = "El género es obligatorio.";
-    if (!fields.personType) newErrors.personType = "El rol es obligatorio.";
-    if (!fields.identificationType) newErrors.identificationType = "El tipo de documento es obligatorio.";
-    if (!fields.identification) newErrors.identification = "El número de documento es obligatorio.";
-    if (!fields.direction) newErrors.direction = "El tipo de movilidad es obligatorio.";
-    if (!fields.faculty) newErrors.faculty = "La facultad es obligatoria.";
-    if (!fields.eventTypeId) newErrors.eventTypeId = "El tipo de evento es obligatorio.";
-    if (!fields.description) newErrors.description = "La descripción del evento es obligatoria.";
-    if (!fields.cta) newErrors.cta = "El periodo es obligatorio.";
-    if (!fields.origin) newErrors.origin = "La universidad de origen es obligatoria.";
-    if (!fields.destination) newErrors.destination = "La universidad de destino es obligatoria.";
-    if (!fields.country) newErrors.country = "El país es obligatorio.";
-    if (!fields.city) newErrors.city = "La ciudad es obligatoria.";
-    if (!fields.originProgram) newErrors.originProgram = "El programa de origen es obligatorio.";
-    if (!fields.destinationProgram) newErrors.destinationProgram = "El programa de acogida es obligatorio.";
-    if (!fields.entryDate) newErrors.entryDate = "La fecha de entrada es obligatoria.";
-    if (!fields.exitDate) newErrors.exitDate = "La fecha de salida es obligatoria.";
-    if (!fields.agreement) newErrors.agreement = "Debe indicar si existe un convenio.";
-    if (fields.agreement === "Y" && !fields.agreementId) {
-        console.log("agreement:", fields.agreement);  // Verifica que es "Y"
-        console.log("agreementId:", fields.agreementId);  // Debería ser undefined o vacío
-        newErrors.agreementId = "El número de convenio es obligatorio.";
-    }
-    if (!fields.funding) newErrors.funding = "El valor de la financiación es obligatorio.";
-    if (!fields.fundingSource) newErrors.fundingSource = "La fuente de la financiación es obligatoria.";
-    const isIncomingMovility = fields.direction === "INCOMING_IN_PERSON" || fields.direction === "INCOMING_VIRTUAL";
-    const isStudent = fields.personType === "STUDENT";
-    if (isIncomingMovility && isStudent && !fields.teacher) {
-        newErrors.teacher = "El tutor académico es obligatorio para estudiantes en movilidad entrante";
-    }
-    console.log("Errores antes de retornar:", newErrors);
-
-    return newErrors;
-};
-
 export const formatDateToBackend = (isoDate: string): string => {
     if (!isoDate) return "";
     const [year, month, day] = isoDate.split("-");
     return `${day}-${month}-${year}`;
 };
-
 
 export const formatDateToInput = (backendDate: string): string => {
     if (!backendDate) return "";

@@ -21,7 +21,6 @@ export function AcademicDetailsSection({
     originProgram,
     destinationProgram,
     teacher,
-    //direction,
     personType,
     errors,
     setters
@@ -92,11 +91,18 @@ export function AcademicDetailsSection({
                     <Input
                         id="teacher"
                         type="text"
-                        value={teacher}
-                        onChange={(e) => setters.setTeacher(e.target.value)}
-                        disabled={!(personType === "STUDENT")}
+                        value={personType === "STUDENT" ? teacher : ""}
+                        onChange={(e) => {
+                            if (personType === "STUDENT") {
+                                setters.setTeacher(e.target.value);
+                            }
+                        }}
+                        disabled={personType !== "STUDENT"}
+                        className={personType !== "STUDENT" ? "opacity-50 bg-gray-100" : ""}
                     />
-                    {errors.teacher && <p className="text-sm text-red-500">{errors.teacher}</p>}
+                    {personType === "STUDENT" && errors.teacher && (
+                        <p className="text-sm text-red-500">{errors.teacher}</p>
+                    )}
                 </div>
             </div>
         </div>
