@@ -16,11 +16,13 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
+    SidebarMenuSkeleton,
     SidebarRail,
 } from "@/components/ui/navigation/sidebar";
 import Image from "next/image";
 import { useAuthStore } from "@/store/auth";
 import { UserRole } from "@/types/userType";
+import SkeletonLoader from "@/components/ui/skeletons/sidebar-skeleton";
 
 interface NavItem {
     title: string;
@@ -82,7 +84,8 @@ export const AppSidebar = React.memo(function AppSidebar({
 }: React.ComponentProps<typeof Sidebar>) {
 
     const userSession = useAuthStore((state) => state.userSession);
-    const role: UserRole = (userSession?.role as UserRole) || 'USER';
+
+    const role: UserRole = userSession?.role as UserRole;
 
     const filteredNavMain = data.navMain.filter((item) => {
         return !item.roles || item.roles.includes(role);
@@ -107,10 +110,18 @@ export const AppSidebar = React.memo(function AppSidebar({
                 />
             </SidebarHeader>
             <SidebarContent className="bg-blueDark text-white pt-8">
-                <NavMain items={filteredNavMain} />
+                {!userSession ? (
+                    <SkeletonLoader variant="main" count={4} />
+                ) : (
+                    <NavMain items={filteredNavMain} />
+                )}
             </SidebarContent>
             <SidebarFooter className="bg-blueDark text-white">
-                <NavUser user={user} />
+                {!userSession ? (
+                    <SkeletonLoader variant="user" count={1} />
+                ) : (
+                    <NavUser user={user} />
+                )}
             </SidebarFooter>
             <SidebarRail />
         </Sidebar>
