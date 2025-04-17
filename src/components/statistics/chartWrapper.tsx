@@ -45,12 +45,12 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({ state, chartType, children 
   }
 
   return (
-    <div className="border border-gray-100 bg-white rounded-2xl h-96 shadow hover:shadow-xl">
-      <div className="mt-5 h-full">
+    <div className="border border-gray-100 bg-white rounded-2xl min-h-[550px] shadow hover:shadow-xl flex flex-col justify-between">
+      <div className="m-5 flex-grow ">
         {content}
       </div>
     </div>
-  );
+  );  
 };
 
 export default ChartWrapper;

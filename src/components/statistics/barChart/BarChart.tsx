@@ -12,6 +12,7 @@ import {
 import { Bar } from "react-chartjs-2";
 import { ChartProps } from "@/types/ChartTypes";
 import { getDistinctColors } from "../chartColors";
+import CustomLegend from "../customLegend";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -36,6 +37,7 @@ const BarChart: React.FC<ChartProps> = ({ title, xLabel, yLabel, data }) => {
             },
             legend: {
                 display: data.datasets.length > 1, // Mostrar leyenda solo si hay varias series
+                //display: false
             },
         },
         scales: {
@@ -47,6 +49,7 @@ const BarChart: React.FC<ChartProps> = ({ title, xLabel, yLabel, data }) => {
                 },
                 type: "category",
                 ticks: {
+                    display: title === "Movilidad por facultad",
                     callback: function (value) {
                         const label = this.getLabelForValue(Number(value));
                         const chartWidth = this.chart.width;
@@ -62,6 +65,12 @@ const BarChart: React.FC<ChartProps> = ({ title, xLabel, yLabel, data }) => {
                     color: "#333",
                 },
                 beginAtZero: true,
+                ticks: {
+                    stepSize: 1, // Asegura que los valores sean incrementos de 1
+                    callback: function (value) {
+                        return Number(value).toFixed(0);
+                    },
+                },
             },
         },
     };
@@ -77,10 +86,18 @@ const BarChart: React.FC<ChartProps> = ({ title, xLabel, yLabel, data }) => {
     };
 
     return (
-        <div className="w mx-5 h-4/5">
-            <Bar data={chartData} options={options} />
-        </div>
+        options.scales?.x?.ticks?.display === false ? (
+            <div className="mx-5 h-5/6">
+                <Bar data={chartData} options={options} />
+                <CustomLegend labels={data.labels} backgroundColors={backgroundColors} />
+            </div>
+        ) : (
+            <div className="mx-5 h-full">
+                <Bar data={chartData} options={options} />
+            </div>
+        )
     );
+
 };
 
 export default BarChart;

@@ -9,7 +9,7 @@ import ChartWrapper from "../chartWrapper";
 export default function BarChartMobilityByEvent() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [state, setState] = useState<LoadingState>(LoadingState.LOADING);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {

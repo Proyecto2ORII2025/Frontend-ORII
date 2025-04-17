@@ -1,3 +1,16 @@
+import { FilterState } from './filterChartType';
+
+export interface StatisticsHeaderProps {
+    title: string;
+    description?: string;
+    role: string;
+    onFilter: (filterType: string, value?: string) => void;
+    onRemoveFilter: (filterType: string) => void;
+    activeFilters?: FilterState;
+    fileBlob: Blob | null;
+    disableExport: boolean;
+}
+
 export interface ChartData {
     labels: string[];
     datasets: {
@@ -39,4 +52,14 @@ export interface yearData{
 export interface eventData{
     agreementType: string[];
     totalMobilityByAgreementsType: number[];
+}
+
+export interface InternationalAgreementData{
+    countries: string[];
+    totalAgreementsByCountry: number[];
+}
+
+export interface NationalAgreementData{
+    region: string[];
+    totalAgreementsByRegion: number[];
 }

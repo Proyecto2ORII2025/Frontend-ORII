@@ -10,6 +10,7 @@ import {
 import { Pie } from "react-chartjs-2";
 import { ChartProps } from "@/types/ChartTypes";
 import { getDistinctColors } from "../chartColors";
+import CustomLegend from "../customLegend";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -25,12 +26,13 @@ const PieChart: React.FC<ChartProps> = ({ title, data }) => {
         maintainAspectRatio: false,
         plugins: {
             legend: {
+                display: false,
                 position: "right" as const,
                 fullSize: false,
                 labels: {
-                    boxWidth: 14, 
+                    boxWidth: 18, 
                     font: {
-                        size: 8, 
+                        size: 12, 
                     }
                 }
             },
@@ -62,8 +64,12 @@ const PieChart: React.FC<ChartProps> = ({ title, data }) => {
     };
 
     return (
-        <div className="h-full mx-5 -mt-4">
+        <div className="h-5/6 mx-5 mt-4">
             <Pie data={chartData} options={options} />
+            <CustomLegend
+                labels={data.labels}
+                backgroundColors={backgroundColors}
+            />
         </div>
     );
 }

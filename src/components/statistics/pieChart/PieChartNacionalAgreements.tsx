@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { fetchMobilityByEvent } from "@/actions/statisticsAction";
+import { fetchAgreementByRegion } from "@/actions/statisticsAction";
 import PieChart from "./PieChart";
 import { ChartData, LoadingState } from "@/types/ChartTypes";
 import ChartWrapper from "../chartWrapper";
 
-export default function PieChartMobilityByEvent() {
+export default function PieChartNationalAgreement() {
   const [chartData, setChartData] = useState<ChartData | null>(null);
   const [state, setState] = useState<LoadingState>(LoadingState.LOADING);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchMobilityByEvent();
-        if (response.agreementType.length === 0 || response.totalMobilityByAgreementsType.length === 0) {
+        const response = await fetchAgreementByRegion();
+        if (response.region.length === 0 || response.totalAgreementsByRegion.length === 0) {
           setState(LoadingState.NO_DATA);
         } else {
           setChartData({
-            labels: response.agreementType,
+            labels: response.region,
             datasets: [
               {
-                data: response.totalMobilityByAgreementsType,
+                data: response.totalAgreementsByRegion,
               },
             ],
           });
@@ -37,7 +37,7 @@ export default function PieChartMobilityByEvent() {
 
   return (
     <ChartWrapper state={state} chartType="pie">
-      {chartData && <PieChart title="Distribución por tipos de evento" data={chartData} />}
+      {chartData && <PieChart title="Convenios nacionales" data={chartData} />}
     </ChartWrapper>
   );
 }

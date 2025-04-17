@@ -40,7 +40,11 @@ export default function BarChartMobilityByFaculty() {
 
   return (
     <ChartWrapper state={state} chartType="bar">
-      {chartData && <BarChart title="Movilidad por facultad" xLabel="Facultades" yLabel="Número de estudiantes/docentes en movilidad" data={chartData} />}
+      {chartData && <BarChart 
+      title="Movilidad por facultad" 
+      xLabel="Facultades" 
+      yLabel="Número de estudiantes/docentes en movilidad" 
+      data={chartData} />}
     </ChartWrapper>
   );
 };

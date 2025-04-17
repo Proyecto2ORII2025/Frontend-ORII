@@ -26,7 +26,7 @@ const protectedRoutes: ProtectedRoute[] = [
     },
     {
         path: "/dashboard/statistics",
-        allowedRoles: ['ADMIN']
+        allowedRoles: ['ADMIN', 'USER']
     },
     {
         path: "/dashboard/user",
