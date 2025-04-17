@@ -41,7 +41,7 @@ export default function StatisticsPage() {
                 disableExport={disableExport}
             />
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mx-10 my-10">
+            <div className="grid grid-cols-1 lg:grid-cols-1 gap-10 mx-10 my-10">
                 <PieChartInternationalAgreement />
                 <PieChartNationalAgreement />
                 <BarChartMobilityByEvent />

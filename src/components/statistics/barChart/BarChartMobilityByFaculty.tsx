@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchMobilityByFaculty } from "@/actions/statisticsAction";
 import BarChart from "./BarChart";
-import { ChartData, LoadingState } from "@/types/chartTypes";
+import { ChartData, LoadingState } from "@/types/ChartTypes";
 import ChartWrapper from "../chartWrapper";
 
 export default function BarChartMobilityByFaculty() {
@@ -40,7 +40,11 @@ export default function BarChartMobilityByFaculty() {
 
   return (
     <ChartWrapper state={state} chartType="bar">
-      {chartData && <BarChart title="Movilidad por facultad" xLabel="Facultades" yLabel="Número de estudiantes/docentes en movilidad" data={chartData} />}
+      {chartData && <BarChart 
+      title="Movilidad por facultad" 
+      xLabel="Facultades" 
+      yLabel="Número de estudiantes/docentes en movilidad" 
+      data={chartData} />}
     </ChartWrapper>
   );
 };

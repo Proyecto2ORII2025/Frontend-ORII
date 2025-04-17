@@ -4,7 +4,7 @@ import SkeletonPieChart from "@/components/ui/charts/skeletonPieChart";
 import SkeletonLineChart from "@/components/ui/charts/skeletonLineChart";
 import ChartError from "@/components/ui/charts/chartError";
 import ChartNoFound from "@/components/ui/charts/chartNoFound";
-import { LoadingState } from "@/types/chartTypes";
+import { LoadingState } from "@/types/ChartTypes";
 
 interface ChartWrapperProps {
   state: LoadingState;
@@ -45,12 +45,12 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({ state, chartType, children 
   }
 
   return (
-    <div className="border border-gray-100 bg-white rounded-2xl h-96 shadow hover:shadow-xl">
-      <div className="mt-5 h-full">
+    <div className="border border-gray-100 bg-white rounded-2xl min-h-[550px] shadow hover:shadow-xl flex flex-col justify-between">
+      <div className="m-5 flex-grow ">
         {content}
       </div>
     </div>
-  );
+  );  
 };
 
 export default ChartWrapper;

@@ -1,6 +1,6 @@
 import authApi from "./axios.service";
 import { apiUrl } from "./env.service";
-import { eventData, yearData, facultyData, countryData, InternationalAgreementData, NationalAgreementData } from "@/types/chartTypes";
+import { eventData, yearData, facultyData, countryData, InternationalAgreementData, NationalAgreementData } from "@/types/ChartTypes";
 
 import * as XLSX from "xlsx"; //TEMPORAL
 

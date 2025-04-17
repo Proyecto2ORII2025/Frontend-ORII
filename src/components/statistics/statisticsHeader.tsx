@@ -3,7 +3,7 @@
 import { Filter, Check } from "lucide-react";
 import { Button } from "@/components/ui/buttons/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/navigation/dropdown-menu";
-import { StatisticsHeaderProps } from "@/types/chartTypes";
+import { StatisticsHeaderProps } from "@/types/ChartTypes";
 import { filterOptions, filterNames } from "@/types/filterChartType";
 
 import Title from "@/components/ui/typography/title";

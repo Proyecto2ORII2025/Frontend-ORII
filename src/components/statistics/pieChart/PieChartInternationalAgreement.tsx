@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchAgreementByCountry } from "@/actions/statisticsAction";
 import PieChart from "./PieChart";
-import { ChartData, LoadingState } from "@/types/chartTypes";
+import { ChartData, LoadingState } from "@/types/ChartTypes";
 import ChartWrapper from "../chartWrapper";
 
 export default function PieChartInternationalAgreement() {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchMobilityPerYear } from "@/actions/statisticsAction";
 import LineChart from "./LineChart";
-import { ChartData, LoadingState } from "@/types/chartTypes";
+import { ChartData, LoadingState } from "@/types/ChartTypes";
 import ChartWrapper from "../chartWrapper";
 
 export default function LineChartMobilityTrend() {
