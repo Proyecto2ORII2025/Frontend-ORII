@@ -15,7 +15,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
         <div className="flex w-full">
             <MemoizedLayoutSidebar>
                 <div className="flex flex-col flex-1 w-full">
-                    <div className="pt-4 px-4 w-full">
+                    <div className="px-4 w-full">
                         <MemoizedHeader />
                     </div>
                     <div className="flex-1 px-4 w-full">

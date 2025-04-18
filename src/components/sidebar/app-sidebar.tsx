@@ -10,13 +10,11 @@ import {
     LucideIcon,
 } from "lucide-react";
 import { NavMain } from "@/components/sidebar/nav-main";
-import { NavUser } from "@/components/sidebar/nav-user";
+import { SidebarTrigger } from "@/components/ui/navigation/sidebar";
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
     SidebarHeader,
-    SidebarMenuSkeleton,
     SidebarRail,
 } from "@/components/ui/navigation/sidebar";
 import Image from "next/image";
@@ -84,30 +82,26 @@ export const AppSidebar = React.memo(function AppSidebar({
 }: React.ComponentProps<typeof Sidebar>) {
 
     const userSession = useAuthStore((state) => state.userSession);
-
     const role: UserRole = userSession?.role as UserRole;
 
     const filteredNavMain = data.navMain.filter((item) => {
         return !item.roles || item.roles.includes(role);
     });
 
-    const user = {
-        name: `${userSession?.name || ""} ${userSession?.lastname || ""}`,
-        email: userSession?.sub || "",
-        avatar: "/img/user.webp"
-    };
-
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader className="bg-blueDark text-white p-4 items-start">
-                <Image
-                    src={"/logos/ORII.webp"}
-                    alt="Logo"
-                    width={150}
-                    height={150}
-                    className="group-data-[collapsible=icon]:w-0 orii-logo"
-                    priority
-                />
+                <div className="flex justify-between w-full">
+                    <Image
+                        src={"/logos/ORII.webp"}
+                        alt="Logo"
+                        width={150}
+                        height={150}
+                        className="group-data-[collapsible=icon]:w-0 orii-logo"
+                        priority
+                    />
+                    <SidebarTrigger className="text-white size-4 hover:bg-transparent hover:text-white" />
+                </div>
             </SidebarHeader>
             <SidebarContent className="bg-blueDark text-white pt-8">
                 {!userSession ? (
@@ -116,13 +110,6 @@ export const AppSidebar = React.memo(function AppSidebar({
                     <NavMain items={filteredNavMain} />
                 )}
             </SidebarContent>
-            <SidebarFooter className="bg-blueDark text-white">
-                {!userSession ? (
-                    <SkeletonLoader variant="user" count={1} />
-                ) : (
-                    <NavUser user={user} />
-                )}
-            </SidebarFooter>
             <SidebarRail />
         </Sidebar>
     );

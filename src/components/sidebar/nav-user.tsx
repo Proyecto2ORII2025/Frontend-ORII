@@ -1,7 +1,7 @@
 "use client"
 
 import {
-    ChevronsUpDown,
+    ChevronDown,
     LogOut,
 } from "lucide-react"
 
@@ -38,7 +38,6 @@ import { useRouter } from "next/navigation"
 import { useCallback, useState } from "react";
 import { useAuthStore } from "@/store/auth"
 import { UserRole } from "@/types/userType";
-import { Badge } from "../ui/typography/badge"
 
 export function NavUser({
     user,
@@ -55,7 +54,7 @@ export function NavUser({
     const [isLoading, setIsLoading] = useState(false);
     const logout = useAuthStore((state) => state.logout);
     const userSession = useAuthStore((state) => state.userSession);
-    const role: UserRole = (userSession?.role as UserRole) || 'USER';
+    const role: UserRole = (userSession?.role as UserRole);
 
     const handleLogout = useCallback(async () => {
         try {
@@ -90,54 +89,34 @@ export function NavUser({
                                     <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">{user.name}</span>
-                                    <span className="truncate text-xs">{user.email}</span>
+                                    <span className="truncate font-semibold text-blue">{user.name}</span>
+                                    <span className="truncate text-xs text-blue">
+                                        {role === "SU" ? "Super Usuario" : role === "ADMIN" ? "Administrador" : "Usuario"}
+                                    </span>
                                 </div>
-                                <ChevronsUpDown className="ml-auto size-4" />
+                                <ChevronDown className="ml-auto size-4" />
                             </SidebarMenuButton>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                             className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                            side={isMobile ? "bottom" : "right"}
+                            side="bottom"
                             align="end"
                             sideOffset={4}
                         >
-                            <DropdownMenuLabel className="p-0 font-normal">
-                                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                                    <Avatar className="h-8 w-8 rounded-lg">
-                                        <AvatarImage src={user.avatar} alt={user.name} />
-                                        <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                                    </Avatar>
-                                    <div className="grid flex-1 text-left text-sm leading-tight">
-                                        <span className="truncate font-semibold">{user.name}</span>
-                                        <span className="truncate text-xs">{user.email}</span>
-                                    </div>
-                                </div>
-                            </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
                             <DropdownMenuGroup>
-                                <span className="pl-2 font-bold text-blue">
-                                    Rol:
+                                <span className="mx-2 mb-2 mt-1 text-blue text-sm">
+                                    {user.email}
                                 </span>
-                                <Badge
-                                    className="mx-2 mb-2 mt-1"
-                                    variant={
-                                        role === "SU" ? "su" :
-                                            role === "ADMIN" ? "admin" :
-                                                "user"
-                                    }
-                                >
-                                    {role === "SU" ? "Super Usuario" : role === "ADMIN" ? "Administrador" : "Usuario"}
-                                </Badge>
-
                             </DropdownMenuGroup>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onSelect={(e) => {
                                 e.preventDefault();
                                 onOpen();
                             }}>
-                                <LogOut />
-                                Cerrar sesión
+                                <LogOut className="text-blue" />
+                                <span className="text-blue font-semibold">
+                                    Cerrar sesión
+                                </span>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

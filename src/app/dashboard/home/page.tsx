@@ -16,7 +16,7 @@ export default function Home() {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative mb-16 overflow-hidden rounded-xl bg-gradient-to-r from-blueDark to-[#0150C5] text-white">
+            <section className="relative mb-16 rounded-xl bg-gradient-to-r from-blueDark to-[#0150C5] text-white">
                 <div className="relative grid gap-8 p-8 md:grid-cols-2 md:p-16 lg:p-20">
                     <div className="flex flex-col gap-10">
                         <h1 className="text-3xl font-bold font-open-sans sm:text-4xl md:text-5xl">
