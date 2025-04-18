@@ -29,13 +29,13 @@ export default function Header() {
                         Oficina de Relaciones Interinstitucionales e Internacionales
                     </Label>
 
-                    {!userSession ? (
-                        <SkeletonLoader variant="user" count={1} />
-                    ) : (
-                        <div className="w-[25%] flex items-start">
+                    <div className="w-[25%] flex items-center">
+                        {!userSession ? (
+                            <SkeletonLoader variant="user" count={1} />
+                        ) : (
                             <NavUser user={user} />
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
                 <div className="flex items-center">
                     <Breadcrumb className="py-4">

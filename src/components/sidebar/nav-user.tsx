@@ -7,7 +7,6 @@ import {
 
 import {
     Avatar,
-    AvatarFallback,
     AvatarImage,
 } from "@/components/ui/avatar/avatar"
 import {
@@ -15,7 +14,6 @@ import {
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/navigation/dropdown-menu"
@@ -82,19 +80,22 @@ export function NavUser({
                         <DropdownMenuTrigger asChild>
                             <SidebarMenuButton
                                 size="lg"
-                                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                                className={`data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground ${
+                                    isMobile ? "flex items-center gap-2" : ""
+                                }`}
                             >
                                 <Avatar className="h-8 w-8 rounded-lg">
                                     <AvatarImage src={user.avatar} alt={user.name} />
-                                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                                 </Avatar>
-                                <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold text-blue">{user.name}</span>
-                                    <span className="truncate text-xs text-blue">
-                                        {role === "SU" ? "Super Usuario" : role === "ADMIN" ? "Administrador" : "Usuario"}
-                                    </span>
-                                </div>
-                                <ChevronDown className="ml-auto size-4" />
+                                {!isMobile && (
+                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                        <span className="truncate font-semibold text-blue">{user.name}</span>
+                                        <span className="truncate text-xs text-blue">
+                                            {role === "SU" ? "Super Usuario" : role === "ADMIN" ? "Administrador" : "Usuario"}
+                                        </span>
+                                    </div>
+                                )}
+                                <ChevronDown className="size-4" />
                             </SidebarMenuButton>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
@@ -103,8 +104,19 @@ export function NavUser({
                             align="end"
                             sideOffset={4}
                         >
+                            {isMobile && (
+                                <DropdownMenuGroup>
+                                    <div className="grid text-left text-sm leading-tight p-2">
+                                        <span className="truncate font-semibold text-blue">{user.name}</span>
+                                        <span className="truncate text-xs text-blue">
+                                            {role === "SU" ? "Super Usuario" : role === "ADMIN" ? "Administrador" : "Usuario"}
+                                        </span>
+                                    </div>
+                                    <DropdownMenuSeparator />
+                                </DropdownMenuGroup>
+                            )}
                             <DropdownMenuGroup>
-                                <span className="mx-2 mb-2 mt-1 text-blue text-sm">
+                                <span className="mx-2 mb-2 mt-1 text-blue text-xs md:text-sm">
                                     {user.email}
                                 </span>
                             </DropdownMenuGroup>
