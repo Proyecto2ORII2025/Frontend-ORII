@@ -8,9 +8,10 @@ import {
     PlaneTakeoff,
     UserRoundPlus,
     LucideIcon,
+    X,
 } from "lucide-react";
 import { NavMain } from "@/components/sidebar/nav-main";
-import { SidebarTrigger } from "@/components/ui/navigation/sidebar";
+import { SidebarTrigger, useSidebar } from "@/components/ui/navigation/sidebar";
 import {
     Sidebar,
     SidebarContent,
@@ -83,6 +84,8 @@ export const AppSidebar = React.memo(function AppSidebar({
 
     const userSession = useAuthStore((state) => state.userSession);
     const role: UserRole = userSession?.role as UserRole;
+    const { isMobile } = useSidebar();
+    const { toggleSidebar } = useSidebar()
 
     const filteredNavMain = data.navMain.filter((item) => {
         return !item.roles || item.roles.includes(role);
@@ -100,7 +103,13 @@ export const AppSidebar = React.memo(function AppSidebar({
                         className="group-data-[collapsible=icon]:w-0 orii-logo"
                         priority
                     />
-                    <SidebarTrigger className="text-white size-4 hover:bg-transparent hover:text-white" />
+                    {isMobile ? (
+                        <button onClick={toggleSidebar}>
+                            <X className="text-white size-4 hover:bg-transparent hover:text-white" />
+                        </button>
+                    ) :
+                        <SidebarTrigger className="text-white size-4 hover:bg-transparent hover:text-white" />
+                    }
                 </div>
             </SidebarHeader>
             <SidebarContent className="bg-blueDark text-white pt-8">

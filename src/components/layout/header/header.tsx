@@ -7,9 +7,12 @@ import {
 import { useAuthStore } from "@/store/auth";
 import SkeletonLoader from "@/components/ui/skeletons/sidebar-skeleton";
 import { NavUser } from "@/components/sidebar/nav-user";
+import { SidebarTrigger } from "@/components/ui/navigation/sidebar";
+import { useSidebar } from "@/components/ui/navigation/sidebar";
 
 export default function Header() {
     const userSession = useAuthStore((state) => state.userSession);
+    const { isMobile } = useSidebar()
 
     const user = userSession ? {
         name: `${userSession.name || ""} ${userSession.lastname || ""}`,
@@ -24,10 +27,14 @@ export default function Header() {
     return (
         <>
             <header className="flex flex-col pt-1">
-                <div className="flex justify-between border-b-2 border-black/20 w-full">
-                    <Label className="py-4">
-                        Oficina de Relaciones Interinstitucionales e Internacionales
-                    </Label>
+                <div className="flex items-center justify-between border-b-2 border-black/20 w-full">
+                    {isMobile ? (
+                        <SidebarTrigger className="text-blue size-4 hover:bg-transparent" />
+                    ) :
+                        <Label className="py-4">
+                            Oficina de Relaciones Interinstitucionales e Internacionales
+                        </Label>
+                    }
 
                     <div className="w-[25%] flex items-center">
                         {!userSession ? (
